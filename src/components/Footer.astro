@@ -2,10 +2,10 @@
 const today = new Date();
 ---
 
-<footer>
+<footer class="py-24 px-4 text-center text-gray-500 bg-gradient-to-b from-gray-50 to-white">
 	&copy; {today.getFullYear()} Your name here. All rights reserved.
-	<div class="social-links">
-		<a href="https://github.com/eeymoo" target="_blank">
+	<div class="social-links flex justify-center gap-4 mt-4">
+		<a href="https://github.com/eeymoo" target="_blank" class="no-underline text-gray-500 hover:bg-primary/10 p-2 rounded transition-colors">
 			<span class="sr-only">Go to Eeymoo's GitHub</span>
 			<svg viewBox="0 0 16 16" aria-hidden="true" width="32" height="32" astro-icon="social/github"
 				><path
@@ -16,24 +16,3 @@ const today = new Date();
 		</a>
 	</div>
 </footer>
-<style>
-	footer {
-		padding: 2em 1em 6em 1em;
-		background: linear-gradient(var(--gray-gradient)) no-repeat;
-		color: rgb(var(--gray));
-		text-align: center;
-	}
-	.social-links {
-		display: flex;
-		justify-content: center;
-		gap: 1em;
-		margin-top: 1em;
-	}
-	.social-links a {
-		text-decoration: none;
-		color: rgb(var(--gray));
-	}
-	.social-links a:hover {
-		color: rgb(var(--gray-dark));
-	}
-</style>
