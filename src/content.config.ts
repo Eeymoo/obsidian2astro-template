@@ -10,11 +10,11 @@ const blog = defineCollection({
 			title: z.string(),
 			// description: z.string().optional(),
 			// Transform string to Date object
-			// pubDate: z.coerce.date(),
 			date:  z.coerce.date(),
 			updated: z.coerce.date().optional(),
 			heroImage: image().optional(),
-			// uri: z.string() // 强制要求文章必须包含 uri 字段，否则校验失败
+			uri: z.string().optional(),
+			hidden: z.boolean().optional(),
 		}),
 });
 
