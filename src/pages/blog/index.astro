@@ -21,15 +21,15 @@ const posts = (await getCollection('blog')).sort(
 		<Header />
 		<main class="w-full max-w-[1140px] mx-auto px-4 py-12">
 			<section>
-				<ul class="flex flex-wrap gap-8 list-none m-0 p-0 sm:gap-2">
+				<ul class="grid grid-cols-2 gap-12 list-none m-0 p-0 sm:grid-cols-1 sm:gap-8">
 					{
 						posts.map((post) => (
-							<li class="w-[calc(50%-1rem)] first:w-full first:mb-4 first:text-center sm:w-full sm:text-center">
-								<a href={`/blog/${post.id}/`} class="block underline decoration-secondary hover:decoration-primary hover:bg-secondary/20 p-2 rounded transition-colors">
+							<li class="w-full first:mb-8">
+								<a href={`/blog/${post.id}/`} class="block hover:bg-secondary/20 p-4 rounded transition-colors">
 									{post.data.heroImage && (
-										<Image width={720} height={360} src={post.data.heroImage} alt="" class="mb-2 rounded-xl first:w-full" />
+										<Image width={720} height={360} src={post.data.heroImage} alt="" class="mb-3 rounded-xl" />
 									)}
-									<h4 class="title m-0 text-gray-900 leading-tight first:text-3xl">{post.data.title}</h4>
+										<h4 class="title m-0 text-gray-900 leading-tight underline decoration-secondary hover:decoration-primary transition-colors">{post.data.title}</h4>
 									<p class="date m-0 text-gray-400">
 										<FormattedDate date={post.data.date} />
 									</p>
