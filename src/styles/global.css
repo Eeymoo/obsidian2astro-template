@@ -92,8 +92,7 @@ p {
 
 /* Form elements */
 textarea {
-	@apply w-full
-		text-base;
+	@apply w-full text-base;
 }
 
 input {
@@ -127,9 +126,7 @@ pre>code {
 }
 
 blockquote {
-	@apply pl-5
-		my-0
-		text-lg;
+	@apply pl-5 my-0 text-lg;
 }
 
 hr {
@@ -143,15 +140,7 @@ hr {
 }
 
 .sr-only {
-	@apply border-0
-		p-0
-		m-0
-		absolute
-		!important
-		h-1
-		w-1
-		overflow-hidden
-		whitespace-nowrap;
+	@apply border-0 p-0 m-0 absolute h-1 w-1 overflow-hidden whitespace-nowrap;
 	/* IE6, IE7 - a 0 height clip, off to the bottom right of the visible 1px box */
 	clip: rect(1px 1px 1px 1px);
 	/* maybe deprecated but we need to support legacy browsers */
