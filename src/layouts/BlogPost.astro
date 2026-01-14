@@ -40,18 +40,24 @@ const { title, description, date, updated, heroImage, tags, categories } =
         </div>
         <div class="prose w-full max-w-[800px] mx-auto px-4 text-gray-700">
           <div class="title mb-4 py-4 text-center leading-tight">
+            <h1 class="mb-2 text-lg font-bold">{title}</h1>
+
             <div class="date mb-2 text-gray-400">
               <FormattedDate date={new Date(date)} />
               {
-                !dayjs(date).isSame(dayjs(updated), "day") && (
+                updated && !dayjs(date).isSame(dayjs(updated), "day") && (
                   <span class="ml-2">
                     Last updated on
                     <FormattedDate date={updated} />
                   </span>
                 )
               }
+              {
+                categories?.map((category) => (
+                  <span class="inline-block text-gray-400">{category}</span>
+                ))
+              }
             </div>
-            <h1 class="mb-2">{title}</h1>
             <ul class="flex gap-1">
               {
                 tags?.map((tag) => (
@@ -63,19 +69,34 @@ const { title, description, date, updated, heroImage, tags, categories } =
                 ))
               }
             </ul>
-            <ul class="flex gap-1">
-              {
-                categories?.map((category) => (
-                  <li>
-                    <span class="inline-block bg-secondary/20 text-primary text-sm px-2 py-1 rounded mr-2">
-                      {category}
-                    </span>
-                  </li>
-                ))
-              }
-            </ul>
             <hr />
           </div>
+
+		  {
+			import.meta.env.DEV && (
+			<div class="front-matter my-6">
+				<details class="border rounded-lg overflow-hidden">
+				<summary class="w-full px-2 cursor-pointer list-none [&::marker]:content-none 
+                  inline-flex items-center gap-2 [&::before]:content-['>'] 
+                  [&::before]:text-primary [&::before]:text-lg 
+                  [&::before]:transition-transform [&::before]:duration-300 
+                  [details[open]_&::before]:rotate-90">
+					Front-matter
+				</summary>
+				<ul class="px-4 py-3 bg-white space-y-2"> 
+					{
+					Object.entries(Astro.props).map(([key, value]) => (
+						<li class="flex items-start gap-2 text-sm">
+						<span class="font-semibold text-gray-700 min-w-[100px]">{key}:</span>
+						<span class="text-gray-600 break-all">{String(value)}</span>
+						</li>
+					))
+					}
+				</ul>
+				</details>
+			</div>
+			)
+		  }
           <slot />
         </div>
       </article>

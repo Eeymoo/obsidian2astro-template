@@ -63,30 +63,27 @@ const image = {
                     </h4>
                     <p class="date m-0 text-gray-400">
                       <FormattedDate date={post.data.date} />
-                      {!dayjs(post.data.date).isSame(
-                        dayjs(post.data.updated),
-                        "day"
-                      ) && (
-                        <span class="ml-2">
-                          Last updated on
-                          <FormattedDate date={post.data.updated} />
+                      {post.data.updated &&
+                        !dayjs(post.data.date).isSame(
+                          dayjs(post.data.updated),
+                          "day"
+                        ) && (
+                          <span class="ml-2">
+                            Last updated on
+                            <FormattedDate date={post.data.updated} />
+                          </span>
+                        )}
+                      {post.data.categories?.map((category) => (
+                        <span class="inline-block bg-secondary/20 text-primary text-sm px-2 py-1 rounded mr-2">
+                          {category}
                         </span>
-                      )}
+                      ))}
                     </p>
                     <ul class="flex gap-1">
                       {post.data.tags?.map((tag) => (
                         <li>
                           <span class="inline-block bg-secondary/20 text-primary text-sm px-2 py-1 rounded mr-2">
                             {tag}
-                          </span>
-                        </li>
-                      ))}
-                    </ul>
-                    <ul class="flex gap-1">
-                      {post.data.categories?.map((category) => (
-                        <li>
-                          <span class="inline-block bg-secondary/20 text-primary text-sm px-2 py-1 rounded mr-2">
-                            {category}
                           </span>
                         </li>
                       ))}
