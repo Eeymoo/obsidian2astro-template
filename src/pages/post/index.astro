@@ -49,18 +49,15 @@ const image = {
                     href={`/post/${uri || id}.html`}
                     class="block hover:bg-primary/20 p-4 rounded transition-colors"
                   >
-                    {
+                    {post.data.heroImage && (
                       <Image
                         width={image.width}
                         height={image.height}
-                        src={
-                          post.data.heroImage ||
-                          `https://picsum.photos/${image.width}/${image.height}/?beauty&random=${id}`
-                        }
+                        src={post.data.heroImage}
                         alt=""
                         class="mb-3 rounded-xl"
                       />
-                    }
+                    )}
                     <h4 class="title m-0 text-gray-900 leading-tight underline decoration-secondary hover:decoration-primary transition-colors">
                       {post.data.title}
                     </h4>
