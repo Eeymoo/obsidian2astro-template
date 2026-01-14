@@ -12,7 +12,8 @@ type Props = CollectionEntry<"blog">["data"] & {
   date: string;
 };
 
-const { title, description, date, updated, heroImage } = Astro.props;
+const { title, description, date, updated, heroImage, tags, categories } =
+  Astro.props;
 ---
 
 <html lang="en">
@@ -42,10 +43,7 @@ const { title, description, date, updated, heroImage } = Astro.props;
             <div class="date mb-2 text-gray-400">
               <FormattedDate date={new Date(date)} />
               {
-                !dayjs(date).isSame(
-                  dayjs(updated),
-                  "day"
-                ) && (
+                !dayjs(date).isSame(dayjs(updated), "day") && (
                   <span class="ml-2">
                     Last updated on
                     <FormattedDate date={updated} />
@@ -54,6 +52,28 @@ const { title, description, date, updated, heroImage } = Astro.props;
               }
             </div>
             <h1 class="mb-2">{title}</h1>
+            <ul class="flex gap-1">
+              {
+                tags?.map((tag) => (
+                  <li>
+                    <span class="inline-block bg-secondary/20 text-primary text-sm px-2 py-1 rounded mr-2">
+                      {tag}
+                    </span>
+                  </li>
+                ))
+              }
+            </ul>
+            <ul class="flex gap-1">
+              {
+                categories?.map((category) => (
+                  <li>
+                    <span class="inline-block bg-secondary/20 text-primary text-sm px-2 py-1 rounded mr-2">
+                      {category}
+                    </span>
+                  </li>
+                ))
+              }
+            </ul>
             <hr />
           </div>
           <slot />

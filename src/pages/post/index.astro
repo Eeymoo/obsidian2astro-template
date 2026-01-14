@@ -9,13 +9,13 @@ import { SITE_DESCRIPTION, SITE_TITLE } from "../../consts";
 import crypto from "crypto";
 import dayjs from "dayjs";
 
-const posts = (await getCollection("blog")).sort(
-  (a, b) => b.data.date?.valueOf() - a.data.date?.valueOf()
-).filter(post => !post.data.hidden);
+const posts = (await getCollection("blog"))
+  .sort((a, b) => b.data.date?.valueOf() - a.data.date?.valueOf())
+  .filter((post) => !post.data.hidden);
 const image = {
   width: 1140,
   height: 360,
-}
+};
 ---
 
 <!doctype html>
@@ -49,27 +49,51 @@ const image = {
                     href={`/post/${uri || id}.html`}
                     class="block hover:bg-primary/20 p-4 rounded transition-colors"
                   >
-                    {(
+                    {
                       <Image
                         width={image.width}
                         height={image.height}
-                        src={post.data.heroImage || `https://picsum.photos/${image.width}/${image.height}/?beauty&random=${id}`}
+                        src={
+                          post.data.heroImage ||
+                          `https://picsum.photos/${image.width}/${image.height}/?beauty&random=${id}`
+                        }
                         alt=""
                         class="mb-3 rounded-xl"
                       />
-                    )}
+                    }
                     <h4 class="title m-0 text-gray-900 leading-tight underline decoration-secondary hover:decoration-primary transition-colors">
                       {post.data.title}
                     </h4>
                     <p class="date m-0 text-gray-400">
                       <FormattedDate date={post.data.date} />
-                      {!dayjs(post.data.date).isSame(dayjs(post.data.updated), 'day') && (
+                      {!dayjs(post.data.date).isSame(
+                        dayjs(post.data.updated),
+                        "day"
+                      ) && (
                         <span class="ml-2">
                           Last updated on
                           <FormattedDate date={post.data.updated} />
                         </span>
                       )}
                     </p>
+                    <ul class="flex gap-1">
+                      {post.data.tags?.map((tag) => (
+                        <li>
+                          <span class="inline-block bg-secondary/20 text-primary text-sm px-2 py-1 rounded mr-2">
+                            {tag}
+                          </span>
+                        </li>
+                      ))}
+                    </ul>
+                    <ul class="flex gap-1">
+                      {post.data.categories?.map((category) => (
+                        <li>
+                          <span class="inline-block bg-secondary/20 text-primary text-sm px-2 py-1 rounded mr-2">
+                            {category}
+                          </span>
+                        </li>
+                      ))}
+                    </ul>
                   </a>
                 </li>
               );
