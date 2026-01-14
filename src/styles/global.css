@@ -19,6 +19,7 @@
 	font-style: normal;
 	font-display: swap;
 }
+
 @font-face {
 	font-family: "Atkinson";
 	src: url("/fonts/atkinson-bold.woff") format("woff");
@@ -26,116 +27,135 @@
 	font-style: normal;
 	font-display: swap;
 }
+
+/* Base styles */
 body {
+	@apply font-sans break-words text-xl leading-loose text-gray-800 bg-white transition-colors duration-300;
 	font-family: "Atkinson", sans-serif;
-	word-wrap: break-word;
-	overflow-wrap: break-word;
-	font-size: 20px;
-	line-height: 1.7;
-	background-color: #fff;
-	color: #333;
-	transition: background-color 0.3s, color 0.3s;
 }
+
 html.dark body {
-	background-color: #1a1a1a;
-	color: #e5e5e5;
+	@apply bg-gray-950 text-gray-200;
 }
+
+/* Headings */
 h1,
 h2,
 h3,
 h4,
 h5,
 h6 {
-	margin: 0 0 0.5rem 0;
-	line-height: 1.2;
+	@apply my-0 mb-2 leading-tight;
 }
+
 h1 {
-	font-size: 3.052em;
+	@apply text-5xl;
 }
+
 h2 {
-	font-size: 2.441em;
+	@apply text-4xl;
 }
+
 h3 {
-	font-size: 1.953em;
+	@apply text-3xl;
 }
+
 h4 {
-	font-size: 1.563em;
+	@apply text-2xl;
 }
+
 h5 {
-	font-size: 1.25em;
+	@apply text-xl;
 }
+
+/* Text formatting */
 strong,
 b {
-	font-weight: 700;
+	@apply font-bold;
 }
+
 a {
+	@apply transition-colors duration-200;
 }
+
 a:hover {
+	@apply opacity-80;
 }
+
 p {
-	margin-bottom: 1em;
+	@apply mb-4;
 }
+
 .prose p {
-	margin-bottom: 2em;
+	@apply mb-8;
 }
+
+/* Form elements */
 textarea {
-	width: 100%;
-	font-size: 16px;
+	@apply w-full
+		text-base;
 }
+
 input {
-	font-size: 16px;
+	@apply text-base;
 }
+
+/* Table and media */
 table {
-	width: 100%;
+	@apply w-full;
 }
+
 img {
-	max-width: 100%;
-	height: auto;
-	border-radius: 8px;
+	@apply max-w-full h-auto rounded-lg;
 }
+
+/* Code blocks */
 code {
-	padding: 2px 5px;
-	border-radius: 2px;
+	@apply px-1 py-0.5 rounded;
 }
+
 pre {
-	padding: 1.5em;
-	border-radius: 8px;
-	background-color: #f5f5f5;
+	@apply p-6 rounded-lg bg-gray-100;
 }
+
 html.dark pre {
-	background-color: #2d2d2d;
+	@apply bg-gray-800;
 }
-pre > code {
+
+pre>code {
 	all: unset;
 }
+
 blockquote {
-	padding: 0 0 0 20px;
-	margin: 0;
-	font-size: 1.333em;
+	@apply pl-5
+		my-0
+		text-lg;
 }
+
 hr {
-	border: none;
+	@apply border-none;
 }
+
 @media (max-width: 720px) {
 	body {
-		font-size: 18px;
+		@apply text-lg;
 	}
 }
 
 .sr-only {
-	border: 0;
-	padding: 0;
-	margin: 0;
-	position: absolute !important;
-	height: 1px;
-	width: 1px;
-	overflow: hidden;
+	@apply border-0
+		p-0
+		m-0
+		absolute
+		!important
+		h-1
+		w-1
+		overflow-hidden
+		whitespace-nowrap;
 	/* IE6, IE7 - a 0 height clip, off to the bottom right of the visible 1px box */
 	clip: rect(1px 1px 1px 1px);
 	/* maybe deprecated but we need to support legacy browsers */
 	clip: rect(1px, 1px, 1px, 1px);
 	/* modern browsers, clip-path works inwards from each corner */
 	clip-path: inset(50%);
-	/* added line to stop words getting smushed together (as they go onto separate lines and some screen readers do not understand line feeds as a space */
-	white-space: nowrap;
 }
