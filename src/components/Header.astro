@@ -1,104 +1,171 @@
 ---
-import { SITE_TITLE } from '../consts';
-import HeaderLink from './HeaderLink.astro';
+import { SITE_TITLE } from "../consts";
+import HeaderLink from "./HeaderLink.astro";
 ---
 
 <header class="bg-white dark:bg-gray-900 px-4 py-0 transition-colors">
-	<nav class="flex items-center justify-between">
-		<h2 class="text-base m-0"><a href="/" class="underline decoration-secondary hover:decoration-primary text-gray-900 dark:text-white transition-colors">{SITE_TITLE}</a></h2>
-		<div class="internal-links">
-			<HeaderLink href="/">Home</HeaderLink>
-			<HeaderLink href="/post">Blog</HeaderLink>
-			<HeaderLink href="/about">About</HeaderLink>
-		</div>
-		<div class="social-links hidden md:flex gap-4">
-			<a href="https://github.com/eeymoo" target="_blank" class="text-gray-700 hover:bg-primary/10 p-2 rounded transition-colors dark:text-gray-300 dark:hover:bg-primary/20">
-				<span class="sr-only">Go to Eeymoo's GitHub</span>
-				<svg viewBox="0 0 16 16" aria-hidden="true" width="32" height="32"
-					><path
-						fill="currentColor"
-						d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"
-					></path></svg
-				>
-			</a>
-		</div>
-		<button id="theme-toggle" class="text-gray-700 hover:bg-primary/10 p-2 rounded transition-colors dark:text-gray-300 dark:hover:bg-primary/20" aria-label="Toggle dark mode">
-			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="auto-icon" viewBox="0 0 24 24" width="24" height="24"><!--!Font Awesome Free v5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2026 Fonticons, Inc.--><path d="M8 256c0 136.966 111.033 248 248 248s248-111.034 248-248S392.966 8 256 8 8 119.033 8 256zm248 184V72c101.705 0 184 82.311 184 184 0 101.705-82.311 184-184 184z"/></svg>
-			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="sun-icon hidden" viewBox="0 0 24 24" width="24" height="24"><!--!Font Awesome Free v5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2026 Fonticons, Inc.--><path d="M256 160c-52.9 0-96 43.1-96 96s43.1 96 96 96 96-43.1 96-96-43.1-96-96-96zm246.4 80.5l-94.7-47.3 33.5-100.4c4.5-13.6-8.4-26.5-21.9-21.9l-100.4 33.5-47.4-94.8c-6.4-12.8-24.6-12.8-31 0l-47.3 94.7L92.7 70.8c-13.6-4.5-26.5 8.4-21.9 21.9l33.5 100.4-94.7 47.4c-12.8 6.4-12.8 24.6 0 31l94.7 47.3-33.5 100.5c-4.5 13.6 8.4 26.5 21.9 21.9l100.4-33.5 47.3 94.7c6.4 12.8 24.6 12.8 31 0l47.3-94.7 100.4 33.5c13.6 4.5 26.5-8.4 21.9-21.9l-33.5-100.4 94.7-47.3c13-6.5 13-24.7.2-31.1zm-155.9 106c-49.9 49.9-131.1 49.9-181 0-49.9-49.9-49.9-131.1 0-181 49.9-49.9 131.1-49.9 181 0 49.9 49.9 49.9 131.1 0 181z"/></svg>
-			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="moon-icon hidden" viewBox="0 0 24 24" width="24" height="24"><!--!Font Awesome Free v5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2026 Fonticons, Inc.--><path d="M283.211 512c78.962 0 151.079-35.925 198.857-94.792 7.068-8.708-.639-21.43-11.562-19.35-124.203 23.654-238.262-71.576-238.262-196.954 0-72.222 38.662-138.635 101.498-174.394 9.686-5.512 7.25-20.197-3.756-22.23A258.156 258.156 0 0 0 283.211 0c-141.309 0-256 114.511-256 256 0 141.309 114.511 256 256 256z"/></svg>
-		</button>
-	</nav>
+  <nav class="flex items-center justify-between">
+    <h2 class="text-base m-0">
+      <a
+        href="/"
+        class="underline decoration-secondary hover:decoration-primary text-gray-900 dark:text-white transition-colors"
+        >{SITE_TITLE}</a
+      >
+    </h2>
+    <div class="internal-links">
+      <HeaderLink href="/">Home</HeaderLink>
+      <HeaderLink href="/post">Blog</HeaderLink>
+      <HeaderLink href="/about">About</HeaderLink>
+    </div>
+    <div class="social-links hidden md:flex gap-4">
+      <a
+        href="https://github.com/eeymoo"
+        target="_blank"
+        class="text-gray-700 hover:bg-primary/10 p-2 rounded transition-colors dark:text-gray-300 dark:hover:bg-primary/20"
+      >
+        <span class="sr-only">Go to Eeymoo's GitHub</span>
+        <svg viewBox="0 0 16 16" aria-hidden="true" width="32" height="32"
+          ><path
+            fill="currentColor"
+            d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"
+          ></path></svg
+        >
+      </a>
+    </div>
+    <button
+      id="theme-toggle"
+      class="text-gray-700 hover:bg-primary/10 p-2 rounded transition-colors dark:text-gray-300 dark:hover:bg-primary/20"
+      aria-label="Toggle dark mode"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="auto-icon"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke-width="1.5"
+        stroke="currentColor"
+        class="size-6"
+		width="24"
+        height="24"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"></path>
+      </svg>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="sun-icon hidden"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke-width="1.5"
+        stroke="currentColor"
+        class="size-6"
+		width="24"
+        height="24"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-4.773-4.227-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z"
+        ></path>
+      </svg>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="moon-icon hidden"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke-width="1.5"
+        stroke="currentColor"
+        class="size-6"
+		width="24"
+        height="24"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="M21.752 15.002A9.72 9.72 0 0 1 18 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 0 0 3 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 0 0 9.002-5.998Z"
+        ></path>
+      </svg>
+    </button>
+  </nav>
 </header>
 
 <script>
-	const themeToggle = document.getElementById('theme-toggle');
-	const html = document.documentElement;
-	const autoIcon = document.querySelector('.auto-icon');
-	const sunIcon = document.querySelector('.sun-icon');
-	const moonIcon = document.querySelector('.moon-icon');
+  const themeToggle = document.getElementById("theme-toggle");
+  const html = document.documentElement;
+  const autoIcon = document.querySelector(".auto-icon");
+  const sunIcon = document.querySelector(".sun-icon");
+  const moonIcon = document.querySelector(".moon-icon");
 
-	// 更新icon显示
-	function updateIcon(theme) {
-		const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-		
-		autoIcon?.classList.add('hidden');
-		sunIcon?.classList.add('hidden');
-		moonIcon?.classList.add('hidden');
-		
-		if (theme === 'auto') {
-			autoIcon?.classList.remove('hidden');
-		} else if (theme === 'light') {
-			sunIcon?.classList.remove('hidden');
-		} else {
-			moonIcon?.classList.remove('hidden');
-		}
-	}
+  // 更新icon显示
+  function updateIcon(theme) {
+    const prefersDark = window.matchMedia(
+      "(prefers-color-scheme: dark)"
+    ).matches;
 
-	// 应用主题
-	function applyTheme(theme) {
-		const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-		const isDark = theme === 'dark' || (theme === 'auto' && prefersDark);
+    autoIcon?.classList.add("hidden");
+    sunIcon?.classList.add("hidden");
+    moonIcon?.classList.add("hidden");
 
-		if (isDark) {
-			html.classList.add('dark');
-		} else {
-			html.classList.remove('dark');
-		}
-		
-		updateIcon(theme);
-	}
+    if (theme === "auto") {
+      autoIcon?.classList.remove("hidden");
+    } else if (theme === "light") {
+      sunIcon?.classList.remove("hidden");
+    } else {
+      moonIcon?.classList.remove("hidden");
+    }
+  }
 
-	// 初始化主题
-	function initTheme() {
-		const savedTheme = localStorage.getItem('theme') || 'auto';
-		applyTheme(savedTheme);
-	}
+  // 应用主题
+  function applyTheme(theme) {
+    const prefersDark = window.matchMedia(
+      "(prefers-color-scheme: dark)"
+    ).matches;
+    const isDark = theme === "dark" || (theme === "auto" && prefersDark);
 
-	// 页面加载时初始化
-	initTheme();
+    if (isDark) {
+      html.classList.add("dark");
+    } else {
+      html.classList.remove("dark");
+    }
 
-	// 监听系统主题变化
-	window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
-		const savedTheme = localStorage.getItem('theme') || 'auto';
-		if (savedTheme === 'auto') {
-			applyTheme('auto');
-		}
-	});
+    updateIcon(theme);
+  }
 
-	// 点击按钮循环切换主题
-	themeToggle?.addEventListener('click', () => {
-		const currentTheme = localStorage.getItem('theme') || 'auto';
-		let nextTheme;
-		
-		if (currentTheme === 'auto') {
-			nextTheme = 'light';
-		} else if (currentTheme === 'light') {
-			nextTheme = 'dark';
-		} else {
-			nextTheme = 'auto';
-		}
-		
-		localStorage.setItem('theme', nextTheme);
-		applyTheme(nextTheme);
-	});
+  // 初始化主题
+  function initTheme() {
+    const savedTheme = localStorage.getItem("theme") || "auto";
+    applyTheme(savedTheme);
+  }
+
+  // 页面加载时初始化
+  initTheme();
+
+  // 监听系统主题变化
+  window
+    .matchMedia("(prefers-color-scheme: dark)")
+    .addEventListener("change", () => {
+      const savedTheme = localStorage.getItem("theme") || "auto";
+      if (savedTheme === "auto") {
+        applyTheme("auto");
+      }
+    });
+
+  // 点击按钮循环切换主题
+  themeToggle?.addEventListener("click", () => {
+    const currentTheme = localStorage.getItem("theme") || "auto";
+    let nextTheme;
+
+    if (currentTheme === "auto") {
+      nextTheme = "light";
+    } else if (currentTheme === "light") {
+      nextTheme = "dark";
+    } else {
+      nextTheme = "auto";
+    }
+
+    localStorage.setItem("theme", nextTheme);
+    applyTheme(nextTheme);
+  });
 </script>
