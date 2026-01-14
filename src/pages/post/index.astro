@@ -24,11 +24,13 @@ const image = {
     <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
     <script>
       // 防止闪烁：在页面加载前设置主题
-      const savedTheme = localStorage.getItem('theme');
-      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      const isDark = savedTheme === 'dark' || (!savedTheme && prefersDark);
+      const savedTheme = localStorage.getItem("theme");
+      const prefersDark = window.matchMedia(
+        "(prefers-color-scheme: dark)"
+      ).matches;
+      const isDark = savedTheme === "dark" || (!savedTheme && prefersDark);
       if (isDark) {
-        document.documentElement.classList.add('dark');
+        document.documentElement.classList.add("dark");
       }
     </script>
   </head>
@@ -70,7 +72,7 @@ const image = {
                     <h4 class="title m-0 text-gray-900 leading-tight underline decoration-secondary hover:decoration-primary transition-colors dark:text-gray-100">
                       {post.data.title}
                     </h4>
-                    <p class="date m-0 text-gray-400 dark:text-gray-500 text-sm mb-2">
+                    <p class="flex m-0 text-gray-400 dark:text-gray-500 text-sm mb-2 gap-1">
                       <FormattedDate date={post.data.date} />
                       {post.data.updated &&
                         !dayjs(post.data.date).isSame(
@@ -83,7 +85,29 @@ const image = {
                           </span>
                         )}
                       {post.data.categories?.map((category) => (
-                        <span class="inline-block bg-secondary/20 text-primary text-sm px-2 py-1 rounded mr-2 dark:bg-secondary/30 dark:text-primary/80 ml-2">
+                        <span class="category flex hover:text-primary items-center ml-2 cursor-pointer">
+                          <svg
+                            class="mr-1"
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke-width="1.5"
+                            stroke="currentColor"
+                            width="20"
+                            height="20"
+                          >
+                            <path
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              d="M9.568 3H5.25A2.25 2.25 0 0 0 3 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 0 0 5.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 0 0 9.568 3Z"
+                            />
+                            <path
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              d="M6 6h.008v.008H6V6Z"
+                            />
+                          </svg>
+
                           {category}
                         </span>
                       ))}
