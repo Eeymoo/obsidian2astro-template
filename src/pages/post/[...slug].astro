@@ -1,5 +1,4 @@
 ---
-import { Image } from "astro:assets";
 import { type CollectionEntry, getCollection, render } from "astro:content";
 import BlogPost from "../../layouts/BlogPost.astro";
 import crypto from "crypto";
@@ -27,16 +26,6 @@ type Props = CollectionEntry<"blog">;
 
 const post = Astro.props;
 const { Content } = await render(post);
-const algorithm = "sha256";
-const id = crypto
-  .createHash(algorithm)
-  .update(post.id, "utf8")
-  .digest("hex")
-  .slice(0, 32);
-const image = {
-  width: 1140,
-  height: 360,
-};
 ---
 
 <BlogPost {...post.data}>
