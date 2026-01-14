@@ -1,4 +1,5 @@
 ---
+import { Image } from "astro:assets";
 import { type CollectionEntry, getCollection, render } from "astro:content";
 import BlogPost from "../../layouts/BlogPost.astro";
 import crypto from "crypto";
@@ -6,26 +7,52 @@ import crypto from "crypto";
 export async function getStaticPaths() {
   const posts = await getCollection("blog");
   const algorithm = "sha256";
-  
-  return posts.filter(post => !post.data.hidden).map((post) => ({
-    params: {
-      slug: post.data.uri
-        ? post.data.uri
-        : crypto
-            .createHash(algorithm)
-            .update(post.id, "utf8")
-            .digest("hex")
-            .slice(0, 32),
-    },
-    props: post,
-  }));
+
+  return posts
+    .filter((post) => !post.data.hidden)
+    .map((post) => ({
+      params: {
+        slug: post.data.uri
+          ? post.data.uri
+          : crypto
+              .createHash(algorithm)
+              .update(post.id, "utf8")
+              .digest("hex")
+              .slice(0, 32),
+      },
+      props: post,
+    }));
 }
 type Props = CollectionEntry<"blog">;
 
 const post = Astro.props;
 const { Content } = await render(post);
+const algorithm = "sha256";
+const id = crypto
+  .createHash(algorithm)
+  .update(post.id, "utf8")
+  .digest("hex")
+  .slice(0, 32);
+const image = {
+  width: 1140,
+  height: 360,
+};
 ---
 
 <BlogPost {...post.data}>
+  {
+    (
+      <Image
+        width={image.width}
+        height={image.height}
+        src={
+          post.data.heroImage ||
+          `https://picsum.photos/${image.width}/${image.height}/?beauty&random=${id}`
+        }
+        alt=""
+        class="mb-3 rounded-xl"
+      />
+    )
+  }
   <Content />
 </BlogPost>

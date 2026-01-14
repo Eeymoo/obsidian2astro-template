@@ -1,45 +1,58 @@
 ---
-import { Image } from 'astro:assets';
-import { getCollection } from 'astro:content';
-import BaseHead from '../../components/BaseHead.astro';
-import Footer from '../../components/Footer.astro';
-import FormattedDate from '../../components/FormattedDate.astro';
-import Header from '../../components/Header.astro';
-import { SITE_DESCRIPTION, SITE_TITLE } from '../../consts';
+import { Image } from "astro:assets";
+import { getCollection } from "astro:content";
+import BaseHead from "../../components/BaseHead.astro";
+import Footer from "../../components/Footer.astro";
+import FormattedDate from "../../components/FormattedDate.astro";
+import Header from "../../components/Header.astro";
+import { SITE_DESCRIPTION, SITE_TITLE } from "../../consts";
 
-const posts = (await getCollection('blog')).sort(
-	(a, b) => b.data.date?.valueOf() - a.data.date?.valueOf(),
+const posts = (await getCollection("blog")).sort(
+  (a, b) => b.data.date?.valueOf() - a.data.date?.valueOf()
 );
 ---
 
 <!doctype html>
 <html lang="en">
-	<head>
-		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-	</head>
-	<body>
-		<Header />
-		<main class="w-full max-w-[1140px] mx-auto px-4 py-12">
-			<section>
-				<ul class="grid grid-cols-2 gap-12 list-none m-0 p-0 sm:grid-cols-1 sm:gap-8">
-					{
-						posts.map((post) => (
-							<li class="w-full first:mb-8">
-								<a href={`/blog/${post.id}/`} class="block hover:bg-secondary/20 p-4 rounded transition-colors">
-									{post.data.heroImage && (
-										<Image width={720} height={360} src={post.data.heroImage} alt="" class="mb-3 rounded-xl" />
-									)}
-										<h4 class="title m-0 text-gray-900 leading-tight underline decoration-secondary hover:decoration-primary transition-colors">{post.data.title}</h4>
-									<p class="date m-0 text-gray-400">
-										<FormattedDate date={post.data.date} />
-									</p>
-								</a>
-							</li>
-						))
-					}
-				</ul>
-			</section>
-		</main>
-		<Footer />
-	</body>
+  <head>
+    <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+  </head>
+  <body>
+    <Header />
+    <main class="w-full max-w-[1140px] mx-auto px-4 py-12">
+      <section>
+        <ul
+          class="grid grid-cols-2 gap-12 list-none m-0 p-0 sm:grid-cols-1 sm:gap-8"
+        >
+          {
+            posts.map((post) => (
+              <li class="w-full first:mb-8">
+                <a
+                  href={`/blog/${post.id}/`}
+                  class="block hover:bg-secondary/20 p-4 rounded transition-colors"
+                >
+                  {post.data.heroImage && (
+                    <Image
+                      width={720}
+                      height={360}
+                      src={post.data.heroImage}
+                      alt=""
+                      class="mb-3 rounded-xl"
+                    />
+                  )}
+                  <h4 class="title m-0 text-gray-900 leading-tight underline decoration-secondary hover:decoration-primary transition-colors">
+                    {post.data.title}
+                  </h4>
+                  <p class="date m-0 text-gray-400">
+                    <FormattedDate date={post.data.date} />
+                  </p>
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </section>
+    </main>
+    <Footer />
+  </body>
 </html>

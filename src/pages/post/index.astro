@@ -7,10 +7,15 @@ import FormattedDate from "../../components/FormattedDate.astro";
 import Header from "../../components/Header.astro";
 import { SITE_DESCRIPTION, SITE_TITLE } from "../../consts";
 import crypto from "crypto";
+import dayjs from "dayjs";
 
 const posts = (await getCollection("blog")).sort(
   (a, b) => b.data.date?.valueOf() - a.data.date?.valueOf()
 ).filter(post => !post.data.hidden);
+const image = {
+  width: 1140,
+  height: 360,
+}
 ---
 
 <!doctype html>
@@ -44,11 +49,11 @@ const posts = (await getCollection("blog")).sort(
                     href={`/post/${uri || id}.html`}
                     class="block hover:bg-primary/20 p-4 rounded transition-colors"
                   >
-                    {post.data.heroImage && (
+                    {(
                       <Image
-                        width={720}
-                        height={360}
-                        src={post.data.heroImage}
+                        width={image.width}
+                        height={image.height}
+                        src={post.data.heroImage || `https://picsum.photos/${image.width}/${image.height}/?beauty&random=${id}`}
                         alt=""
                         class="mb-3 rounded-xl"
                       />
@@ -58,7 +63,7 @@ const posts = (await getCollection("blog")).sort(
                     </h4>
                     <p class="date m-0 text-gray-400">
                       <FormattedDate date={post.data.date} />
-                      {post.data.updated && (
+                      {!dayjs(post.data.date).isSame(dayjs(post.data.updated), 'day') && (
                         <span class="ml-2">
                           Last updated on
                           <FormattedDate date={post.data.updated} />
