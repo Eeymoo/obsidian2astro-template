@@ -7,9 +7,18 @@ import '../styles/global.css';
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
   <head>
     <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+    <script>
+      // 防止闪烁：在页面加载前设置主题
+      const savedTheme = localStorage.getItem('theme');
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const isDark = savedTheme === 'dark' || (!savedTheme && prefersDark);
+      if (isDark) {
+        document.documentElement.classList.add('dark');
+      }
+    </script>
   </head>
   <body>
     <Header />
