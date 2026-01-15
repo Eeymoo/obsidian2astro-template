@@ -21,11 +21,13 @@ const { title, description, date, updated, heroImage, tags, categories } =
     <BaseHead title={title} description={description || ""} />
     <script>
       // 防止闪烁：在页面加载前设置主题
-      const savedTheme = localStorage.getItem('theme');
-      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      const isDark = savedTheme === 'dark' || (!savedTheme && prefersDark);
+      const savedTheme = localStorage.getItem("theme");
+      const prefersDark = window.matchMedia(
+        "(prefers-color-scheme: dark)"
+      ).matches;
+      const isDark = savedTheme === "dark" || (!savedTheme && prefersDark);
       if (isDark) {
-        document.documentElement.classList.add('dark');
+        document.documentElement.classList.add("dark");
       }
     </script>
   </head>
@@ -62,9 +64,9 @@ const { title, description, date, updated, heroImage, tags, categories } =
                 )
               }
               {
-                categories?.map((category) => (
-                  <span class="inline-block text-gray-400">{category}</span>
-                ))
+                categories && (
+                  <span class="inline-block text-gray-400">{categories}</span>
+                )
               }
             </div>
             <ul class="flex gap-1">
