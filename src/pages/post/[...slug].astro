@@ -1,5 +1,6 @@
 ---
 import { type CollectionEntry, getCollection, render } from "astro:content";
+import Tips from "../../components/Tips.astro";
 import BlogPost from "../../layouts/BlogPost.astro";
 import { convertMdALinksToGoto, generatePostSlug } from "../../utils";
 
@@ -10,7 +11,7 @@ export async function getStaticPaths() {
     .filter((post) => !post.data.hidden)
     .map((post) => ({
       params: {
-        slug: generatePostSlug(post),
+        slug: generatePostSlug(post) + ".html",
       },
       props: post,
     }));
@@ -25,8 +26,14 @@ post = {
 };
 // console.log('Converted Content:', post);
 const { Content } = await render(post);
+const isTempUrl = !post.data?.uri;
 ---
 
 <BlogPost {...post.data}>
+  {
+    isTempUrl && (
+      <Tips type="warning">这是一个临时URL，可能在后续被移除或更改。</Tips>
+    )
+  }
   <Content />
 </BlogPost>

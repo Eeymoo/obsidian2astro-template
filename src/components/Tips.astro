@@ -1,0 +1,20 @@
+---
+interface Props {
+  type?: "info" | "warning" | "success" | "error";
+}
+
+const { type = "info" } = Astro.props;
+
+const styleMap = {
+  info: "bg-blue-50 border-blue-500 text-blue-700",
+  warning: "bg-amber-50 border-amber-500 text-amber-700",
+  success: "bg-green-50 border-green-500 text-green-700",
+  error: "bg-red-50 border-red-500 text-red-700",
+};
+---
+
+<div
+  class={`px-4 py-3 rounded border-l-4 text-sm leading-relaxed ${styleMap[type]}`}
+>
+  <slot />
+</div>

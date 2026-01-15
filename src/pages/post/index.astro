@@ -6,7 +6,7 @@ import Footer from "../../components/Footer.astro";
 import FormattedDate from "../../components/FormattedDate.astro";
 import Header from "../../components/Header.astro";
 import { SITE_DESCRIPTION, SITE_TITLE } from "../../consts";
-import crypto from "crypto";
+import { generatePostSlug } from "../../utils";
 import dayjs from "dayjs";
 
 const posts = (await getCollection("blog"))
@@ -44,12 +44,7 @@ const image = {
           {
             posts.map((post) => {
               const uri = post.data.uri;
-              const algorithm = "sha256";
-              const id = crypto
-                .createHash(algorithm)
-                .update(post.id, "utf8")
-                .digest("hex")
-                .slice(0, 32);
+              const slug = generatePostSlug(post);
               if (!uri) {
                 console.warn(`Post with id ${post.id} is missing 'uri' field.`);
               }
@@ -57,7 +52,7 @@ const image = {
                 <li class="w-full first:mb-4">
                   <a
                     data-uri={uri}
-                    href={`/post/${uri || id}.html`}
+                    href={`/post/${slug}.html`}
                     class="block hover:bg-primary/20 p-4! rounded transition-colors"
                   >
                     {post.data.heroImage && (
