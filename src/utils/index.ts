@@ -11,7 +11,7 @@ export function generatePostSlug(post: { id: string; data: { uri?: string } }): 
     return post.data.uri;
   }
   const algorithm = 'sha256';
-  return crypto
+  return 'temporary-url/' + crypto
     .createHash(algorithm)
     .update(post.id, 'utf8')
     .digest('hex')
@@ -24,7 +24,7 @@ export function generatePostSlug(post: { id: string; data: { uri?: string } }): 
  * @param {Array<string>} whiteList - 链接白名单列表（匹配原始链接，精准匹配）
  * @returns {string} 处理后的 Markdown 内容
  */
-export function convertMdALinksToGoto(mdContent:string, whiteList: string[] = config.friendlyLink.map(link => link.link)): string {
+export function convertMdALinksToGoto(mdContent: string, whiteList: string[] = config.friendlyLink.map(link => link.link)): string {
   // 校验参数类型，避免异常
   if (typeof mdContent !== 'string') {
     throw new TypeError('第一个参数 mdContent 必须是字符串类型');
