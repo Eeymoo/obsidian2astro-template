@@ -38,7 +38,7 @@ const posts = (await getCollection("blog")).sort(
               <li class="w-full first:mb-8">
                 <a
                   href={`/blog/${post.id}/`}
-                  class="block hover:bg-secondary/20 p-4 rounded transition-colors"
+                  class="block hover:bg-primary/10 p-4 rounded transition-colors"
                 >
                   {post.data.heroImage && (
                     <Image
@@ -49,7 +49,7 @@ const posts = (await getCollection("blog")).sort(
                       class="mb-3 rounded-xl"
                     />
                   )}
-                  <h4 class="title m-0 text-gray-900 leading-tight underline decoration-secondary hover:decoration-primary transition-colors">
+                  <h4 class="title m-0 text-gray-900 leading-tight underline decoration-primary hover:decoration-primary transition-colors">
                     {post.data.title}
                   </h4>
                   <p class="date m-0 text-gray-400">
