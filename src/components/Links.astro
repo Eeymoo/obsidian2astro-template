@@ -1,0 +1,27 @@
+---
+type Props = {
+  links: {
+    name: string;
+    link: string;
+    desc: string;
+    img: string;
+  }[];
+};
+const { links } = Astro.props;
+---
+
+<ul>
+  {
+    links
+      .filter((link) => link.link)
+      .map((link) => (
+        <li class="border-b border-slate-200 py-2">  <!-- 添加边框和间距 -->
+          <a href={link.link} target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:text-blue-700 hover:underline">  <!-- 添加颜色和下划线效果 -->
+            <img src={link.img} alt={link.name} class="w-10 h-10 inline-block mr-2 rounded-full" /> <!-- 添加头像图片 -->
+            {link.name}
+          </a>
+          <p class="text-slate-500 text-sm">{link.desc}</p>  <!-- 添加描述文本 -->
+        </li>
+      ))
+  }
+</ul>
