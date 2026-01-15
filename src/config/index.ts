@@ -21,7 +21,7 @@ const config: Config = {
       name: "DreamyTZK",
       link: "https://www.antmoe.com/",
       desc: "",
-      img: "https://www.antmoe.com/favicon.ico",
+      img: "https://avatars.githubusercontent.com/u/82026204?v=4",
     },
   ],
 };
