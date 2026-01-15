@@ -9,7 +9,18 @@ const today = new Date();
   class="py-24 px-4 text-center text-gray-500 dark:text-gray-400 bg-linear-to-b from-gray-50 to-white dark:from-gray-800 dark:to-gray-900 transition-colors"
 >
   <div>
-    &copy; {today.getFullYear()} Your name here. All rights reserved.
+    <div>
+      &copy; {today.getFullYear()} Eeymoo All rights reserved.
+    </div>
+    <div>
+      <a
+        class="no-underline!"
+        href="https://github.com/Eeymoo/obsidian2astro-template"
+        target="_blank">Eeymoo 2026</a
+      > · <a class="no-underline!" href="https://astro.build/" target="_blank"
+        >Astro</a
+      >
+    </div>
     <div class="social-links flex justify-center gap-4 mt-4">
       <a
         href="https://github.com/eeymoo"
@@ -32,6 +43,6 @@ const today = new Date();
     </div>
   </div>
   <div>
-	<FooterLinks links={config.friendlyLink} />
+    <FooterLinks links={config.friendlyLink} />
   </div>
 </footer>

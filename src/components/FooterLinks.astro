@@ -5,7 +5,7 @@ type Props = {
     link: string;
     desc: string;
     img: string;
-  }[]
+  }[];
 };
 const { links } = Astro.props;
 ---
@@ -16,8 +16,17 @@ const { links } = Astro.props;
       .filter((link) => link.link)
       .map((link) => (
         <li>
-          <a href={link.link} target="_blank" rel="noopener noreferrer" class="group no-underline! text-gray-500 dark:text-gray-400 hover:bg-primary/10 dark:hover:bg-primary/20 py-2 px-6 rounded transition-all duration-300 ease-in-out text-xs">
-            <img src={link.img} alt={link.name} class="w-4 h-4 inline-block mr-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-in-out" />
+          <a
+            href={link.link}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="group no-underline! text-gray-500 dark:text-gray-400 hover:bg-primary/10 dark:hover:bg-primary/20 p-2! rounded transition-all duration-300 ease-in-out text-xs"
+          >
+            <img
+              src={link.img}
+              alt={link.name}
+              class="w-4 h-4 inline-block mr-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-in-out"
+            />
             {link.name}
           </a>
         </li>
