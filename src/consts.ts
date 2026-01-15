@@ -3,3 +3,4 @@
 
 export const SITE_TITLE = 'Eeymoo\' Blog';
 export const SITE_DESCRIPTION = 'Eeymoo\' BLOG 记录 Eeymoo 的 BLOG';
+export const SITE_URL = 'https://blog.eeymoo.com';
