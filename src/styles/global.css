@@ -76,11 +76,23 @@ b {
 }
 
 a {
-	@apply transition-colors duration-200;
+	@apply text-slate-800 underline decoration-slate-300 transition-colors rounded px-1;
+}
+
+html.dark a {
+	@apply text-slate-200 decoration-slate-700;
+}
+
+a:visited {
+	@apply text-slate-600 decoration-slate-400 bg-primary/10;
+}
+
+html.dark a:visited {
+	@apply text-slate-400 decoration-slate-600;
 }
 
 a:hover {
-	@apply opacity-80;
+	@apply opacity-100 decoration-primary bg-primary/5;
 }
 
 p {
@@ -191,7 +203,7 @@ html.dark .prose h2 {
 }
 
 .prose a {
-	@apply text-slate-800 underline decoration-slate-300 hover:decoration-primary hover:bg-primary/10 transition-colors rounded px-1;
+	@apply text-slate-800 underline decoration-slate-300 transition-colors rounded px-1;
 }
 
 html.dark .prose a {
@@ -199,7 +211,7 @@ html.dark .prose a {
 }
 
 .prose a:visited {
-	@apply text-slate-600 decoration-slate-400;
+	@apply text-slate-600 decoration-slate-400 bg-primary/10;
 }
 
 html.dark .prose a:visited {
@@ -207,7 +219,7 @@ html.dark .prose a:visited {
 }
 
 .prose a:hover {
-	@apply opacity-100;
+	@apply opacity-100 decoration-primary bg-primary/5;
 }
 
 .prose ul,
