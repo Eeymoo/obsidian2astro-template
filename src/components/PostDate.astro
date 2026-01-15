@@ -1,0 +1,32 @@
+---
+import FormattedDate from "./FormattedDate.astro";
+import dayjs from "dayjs";
+
+interface Props {
+  date?: Date;
+  updated?: Date;
+  class?: string;
+}
+
+const { date, updated, class: className } = Astro.props;
+---
+
+{
+  date && (
+    <p
+      class:list={[
+        "flex m-0 text-gray-400 dark:text-gray-500 text-sm gap-1",
+        className,
+      ]}
+    >
+      <FormattedDate date={date} />
+      {updated && !dayjs(date).isSame(dayjs(updated), "day") && (
+        <span class="ml-2">
+          Last updated on
+          <FormattedDate date={updated} />
+        </span>
+      )}
+      <slot />
+    </p>
+  )
+}

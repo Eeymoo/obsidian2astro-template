@@ -3,9 +3,10 @@ import { Image } from "astro:assets";
 import type { CollectionEntry } from "astro:content";
 import BaseHead from "../components/BaseHead.astro";
 import Footer from "../components/Footer.astro";
-import FormattedDate from "../components/FormattedDate.astro";
 import Header from "../components/Header.astro";
-import dayjs from "dayjs";
+import PostDate from "../components/PostDate.astro";
+import Tags from "../components/Tags.astro";
+import Categories from "../components/Categories.astro";
 import "../styles/global.css";
 
 type Props = CollectionEntry<"blog">["data"] & {
@@ -53,33 +54,12 @@ const { title, description, date, updated, heroImage, tags, categories } =
           <div class="title mb-4 py-4 text-center leading-tight">
             <h1 class="mb-2 text-lg font-bold">{title}</h1>
 
-            <div class="date mb-2 text-gray-400">
-              <FormattedDate date={new Date(date)} />
-              {
-                updated && !dayjs(date).isSame(dayjs(updated), "day") && (
-                  <span class="ml-2">
-                    Last updated on
-                    <FormattedDate date={updated} />
-                  </span>
-                )
-              }
-              {
-                categories && (
-                  <span class="inline-block text-gray-400">{categories}</span>
-                )
-              }
+            <div class="date mb-2">
+              <PostDate date={new Date(date)} updated={updated}>
+                <Categories categories={categories} />
+              </PostDate>
             </div>
-            <ul class="flex gap-1">
-              {
-                tags?.map((tag) => (
-                  <li>
-                    <span class="inline-block bg-primary/10 text-primary text-sm px-2 py-1 rounded mr-2">
-                      {tag}
-                    </span>
-                  </li>
-                ))
-              }
-            </ul>
+            <Tags tags={tags} />
             <hr />
           </div>
 
