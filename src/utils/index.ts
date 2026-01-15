@@ -1,4 +1,23 @@
 import config from '../config/index.ts';
+import crypto from 'crypto';
+
+/**
+ * 生成文章的固定链接 slug
+ * @param post - 文章对象，包含 id 和 data.uri
+ * @returns 文章的 slug
+ */
+export function generatePostSlug(post: { id: string; data: { uri?: string } }): string {
+  if (post.data.uri) {
+    return post.data.uri;
+  }
+  const algorithm = 'sha256';
+  return crypto
+    .createHash(algorithm)
+    .update(post.id, 'utf8')
+    .digest('hex')
+    .slice(0, 32);
+}
+
 /**
  * 转换 Markdown 中的所有行内链接，非白名单链接转为 /goto.html?url=原始链接 格式
  * @param {string} mdContent - 原始 Markdown 内容字符串

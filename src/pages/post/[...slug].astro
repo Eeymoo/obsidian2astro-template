@@ -1,24 +1,16 @@
 ---
 import { type CollectionEntry, getCollection, render } from "astro:content";
 import BlogPost from "../../layouts/BlogPost.astro";
-import crypto from "crypto";
-import { convertHtmlALinksToGoto, convertMdALinksToGoto } from "../../utils";
+import { convertMdALinksToGoto, generatePostSlug } from "../../utils";
 
 export async function getStaticPaths() {
   const posts = await getCollection("blog");
-  const algorithm = "sha256";
 
   return posts
     .filter((post) => !post.data.hidden)
     .map((post) => ({
       params: {
-        slug: post.data.uri
-          ? post.data.uri
-          : crypto
-              .createHash(algorithm)
-              .update(post.id, "utf8")
-              .digest("hex")
-              .slice(0, 32),
+        slug: generatePostSlug(post),
       },
       props: post,
     }));
@@ -29,7 +21,7 @@ let post = Astro.props;
 // console.log('Original Content:', post);
 post = {
   ...post,
-  body: convertMdALinksToGoto(post.body || '')
+  body: convertMdALinksToGoto(post.body || ""),
 };
 // console.log('Converted Content:', post);
 const { Content } = await render(post);
