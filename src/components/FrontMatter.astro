@@ -18,21 +18,27 @@ if (!isDev) {
   isDev && (
     <div class="front-matter my-6">
       <details class="border rounded-lg overflow-hidden">
-        <summary
-          class="w-full px-2 cursor-pointer list-none [&::marker]:content-none 
-          inline-flex items-center gap-2 [&::before]:content-['>'] 
-          [&::before]:text-primary [&::before]:text-lg 
-          [&::before]:transition-transform [&::before]:duration-300 
-          [details[open]_&::before]:rotate-90"
-        >
+        <summary class="w-full px-2 cursor-pointer list-none [&::marker]:content-none inline-flex items-center gap-2">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="w-4 h-4 text-primary transition-transform duration-300 [details[open]_&]:rotate-90"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="m8.25 4.5 7.5 7.5-7.5 7.5"
+            />
+          </svg>
           Front-matter
         </summary>
-        <ul class="px-4 py-3 bg-white space-y-2">
+        <ul class="px-4 py-3 bg-white space-y-2 dark:bg-gray-800">
           {Object.entries(data).map(([key, value]) => (
             <li class="flex items-start gap-2 text-sm">
-              <span class="font-semibold text-gray-700 min-w-25">
-                {key}:
-              </span>
+              <span class="font-semibold text-gray-700 min-w-25">{key}:</span>
               <span class="text-gray-600 break-all">{String(value)}</span>
             </li>
           ))}
