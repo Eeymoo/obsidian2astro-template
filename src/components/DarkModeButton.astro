@@ -277,7 +277,7 @@
     const init = () => {
       applyTheme(loadTheme(), false);
       system.addEventListener("change", () => {
-        if (loadTheme() === "auto") applyTheme("auto", false);
+        if (loadTheme() === "auto") applyTheme("auto", true);
       });
       toggle?.addEventListener("click", () => {
         if (isAnimating) return;
