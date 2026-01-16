@@ -155,19 +155,22 @@
       moonIcon?.classList.toggle("hidden", theme !== "dark");
     };
 
-    // 方案1: View Transition API
-    const applyWithViewTransition = (nextIsDark, theme) => {
+    const applyWithTransition = (nextIsDark, theme) => {
       if (!document.startViewTransition) {
         applyWithCircleAnimation(nextIsDark, theme);
-        applyWithViewTransition = applyWithCircleAnimation;
+        applyWithTransition = applyWithCircleAnimation;
         return;
       }
+      applyWithTransition = applyWithViewTransition;
+      applyWithViewTransition(nextIsDark, theme);
+    };
 
+    // 方案1: View Transition API
+    const applyWithViewTransition = (nextIsDark, theme) => {
       // 获取按钮位置，计算像素位置
       const rect = toggle.getBoundingClientRect();
       const x = rect.left + rect.width / 2;
       const y = rect.top + rect.height / 2;
-
 
       // 设置 CSS 变量用于动画（必须在 startViewTransition 之前设置）
       document.documentElement.style.setProperty("--x", `${x}px`);
@@ -203,7 +206,6 @@
 
     // 方案2: 传统圆形展开动画
     const applyWithCircleAnimation = (nextIsDark, theme) => {
-
       const rect = toggle.getBoundingClientRect();
       const x = rect.left + rect.width / 2;
       const y = rect.top + rect.height / 2;
@@ -258,9 +260,7 @@
         isAnimating = false;
         return;
       }
-
-      // 检测是否支持 View Transition API
-      applyWithViewTransition(nextIsDark, theme);
+      applyWithTransition(nextIsDark, theme);
     };
 
     const loadTheme = () => {
