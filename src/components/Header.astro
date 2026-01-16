@@ -2,6 +2,7 @@
 import { SITE_TITLE } from "../consts";
 import DarkModeButton from "./DarkModeButton.astro";
 import HeaderLink from "./HeaderLink.astro";
+import config from "../config";
 ---
 
 <header class="bg-white dark:bg-gray-900 px-4 py-0 transition-colors">
@@ -14,11 +15,9 @@ import HeaderLink from "./HeaderLink.astro";
       >
     </h2>
     <div class="internal-links">
-      <HeaderLink href="/">Home</HeaderLink>
-      <HeaderLink href="/post.html">Blog</HeaderLink>
-      <HeaderLink href="/tags.html">Tags</HeaderLink>
-      <HeaderLink href="/archives.html">Archives</HeaderLink>
-      <HeaderLink href="/friends.html">Friends</HeaderLink>
+      {config.navLinks.map((link) => (
+        <HeaderLink href={link.href}>{link.name}</HeaderLink>
+      ))}
     </div>
     <div class="social-links hidden md:flex gap-4">
       <a

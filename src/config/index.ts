@@ -4,6 +4,32 @@ const config: Config = {
   siteTitle: "My Astro Site",
   siteDescription: "A description of my Astro site.",
   siteUrl: "https://www.example.com",
+  navLinks: [
+    {
+      name: "Home",
+      href: "/",
+    },
+    {
+      name: "Blog",
+      href: "/post.html",
+    },
+    {
+      name: "Categories",
+      href: "/categories.html",
+    },
+    {
+      name: "Tags",
+      href: "/tags.html",
+    },
+    {
+      name: "Archives",
+      href: "/archives.html",
+    },
+    {
+      name: "Friends",
+      href: "/friends.html",
+    },
+  ],
   friendlyLink: [
     {
       name: "Jellyfin",
