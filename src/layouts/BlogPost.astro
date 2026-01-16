@@ -7,6 +7,7 @@ import Header from "../components/Header.astro";
 import PostDate from "../components/PostDate.astro";
 import Tags from "../components/Tags.astro";
 import Categories from "../components/Categories.astro";
+import FrontMatter from "../components/FrontMatter.astro";
 import "../styles/global.css";
 
 type Props = CollectionEntry<"blog">["data"] & {
@@ -63,35 +64,8 @@ const { title, description, date, updated, heroImage, tags, categories } =
             <hr />
           </div>
 
-          {
-            import.meta.env.DEV && (
-              <div class="front-matter my-6">
-                <details class="border rounded-lg overflow-hidden">
-                  <summary
-                    class="w-full px-2 cursor-pointer list-none [&::marker]:content-none 
-                  inline-flex items-center gap-2 [&::before]:content-['>'] 
-                  [&::before]:text-primary [&::before]:text-lg 
-                  [&::before]:transition-transform [&::before]:duration-300 
-                  [details[open]_&::before]:rotate-90"
-                  >
-                    Front-matter
-                  </summary>
-                  <ul class="px-4 py-3 bg-white space-y-2">
-                    {Object.entries(Astro.props).map(([key, value]) => (
-                      <li class="flex items-start gap-2 text-sm">
-                        <span class="font-semibold text-gray-700 min-w-[100px]">
-                          {key}:
-                        </span>
-                        <span class="text-gray-600 break-all">
-                          {String(value)}
-                        </span>
-                      </li>
-                    ))}
-                  </ul>
-                </details>
-              </div>
-            )
-          }
+          <FrontMatter data={Astro.props} />
+          
           <div class="prose">
             <slot />
           </div>
