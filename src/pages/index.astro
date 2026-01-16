@@ -26,8 +26,47 @@ import "../styles/global.css";
     <Header />
     <main class="w-full max-w-4xl mx-auto p-8">
       <h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-4">
-        Hi Everyone 👋 I'm Eeymoo(`/ˈiːmuː/`).
+        Hi Everyone <span class="text-5xl inline-block animate-wave">👋</span
+        ><br /> I'm
+        <span class="text-primary bg-clip-text font-extrabold">Eeymoo</span
+        >(<span class="text-2xl text-slate-800 dark:text-slate-200"
+          >/ˈiːmuː/</span
+        >).
       </h1>
+      <br />
+      <style>
+        @keyframes wave {
+          0% {
+            transform: rotate(0deg);
+          }
+          10% {
+            transform: rotate(14deg);
+          }
+          20% {
+            transform: rotate(-8deg);
+          }
+          30% {
+            transform: rotate(14deg);
+          }
+          40% {
+            transform: rotate(-4deg);
+          }
+          50% {
+            transform: rotate(10deg);
+          }
+          60% {
+            transform: rotate(0deg);
+          }
+          100% {
+            transform: rotate(0deg);
+          }
+        }
+        .animate-wave {
+          animation: wave 2.5s ease-in-out infinite;
+          transform-origin: 70% 70%;
+          display: inline-block;
+        }
+      </style>
       <p class="text-lg text-gray-700 dark:text-gray-300 mb-6">
         I like Markdown and JavaScript.
       </p>
