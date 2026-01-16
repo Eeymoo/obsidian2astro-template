@@ -56,7 +56,54 @@
 
 <div id="theme-transition-circle" class="theme-transition-circle"></div>
 
+<style is:global>
+  /* View Transition API 样式 - 必须是全局样式 */
+  ::view-transition {
+    pointer-events: none;
+    z-index: 9999;
+  }
+
+  ::view-transition-group(root) {
+    animation-duration: 0.7s;
+    animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  ::view-transition-image-pair(root) {
+    isolation: auto;
+  }
+
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation-duration: 0.7s;
+    animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    animation-fill-mode: both;
+    mix-blend-mode: normal;
+    height: 100%;
+    width: 100%;
+  }
+
+  ::view-transition-old(root) {
+    animation: none;
+    z-index: 1;
+  }
+
+  ::view-transition-new(root) {
+    animation-name: revealCircle;
+    z-index: 2;
+  }
+
+  @keyframes revealCircle {
+    0% {
+      clip-path: circle(40px at var(--x, 50%) var(--y, 50%));
+    }
+    100% {
+      clip-path: circle(200vmax at var(--x, 50%) var(--y, 50%));
+    }
+  }
+</style>
+
 <style>
+  /* 备用方案：圆形展开动画 */
   .theme-transition-circle {
     position: fixed;
     border-radius: 50%;
@@ -108,6 +155,96 @@
       moonIcon?.classList.toggle("hidden", theme !== "dark");
     };
 
+    // 方案1: View Transition API
+    const applyWithViewTransition = (nextIsDark, theme) => {
+      console.log("🎬 使用 View Transition API");
+      
+      // 获取按钮位置，计算像素位置
+      const rect = toggle.getBoundingClientRect();
+      const x = rect.left + rect.width / 2;
+      const y = rect.top + rect.height / 2;
+
+      console.log(`📍 圆心位置: ${x.toFixed(2)}px, ${y.toFixed(2)}px`);
+
+      // 设置 CSS 变量用于动画（必须在 startViewTransition 之前设置）
+      document.documentElement.style.setProperty("--x", `${x}px`);
+      document.documentElement.style.setProperty("--y", `${y}px`);
+
+      console.log("🔍 CSS 变量:", {
+        x: document.documentElement.style.getPropertyValue("--x"),
+        y: document.documentElement.style.getPropertyValue("--y")
+      });
+
+      // 使用 View Transition API
+      const transition = document.startViewTransition(() => {
+        if (nextIsDark) {
+          root.classList.add("dark");
+        } else {
+          root.classList.remove("dark");
+        }
+        toggle?.setAttribute("data-theme", theme);
+        setIcons(theme);
+      });
+
+      transition.ready.then(() => {
+        console.log("✅ View Transition 已准备");
+        // 检查伪元素是否存在
+        const styles = window.getComputedStyle(document.documentElement, '::view-transition-new(root)');
+        console.log("🔍 检查动画:", styles.animationName);
+        console.log("🔍 检查 clip-path:", styles.clipPath);
+      });
+
+      transition.finished.then(() => {
+        console.log("✅ View Transition 已完成");
+        isAnimating = false;
+      }).catch((err) => {
+        console.error("❌ View Transition 错误:", err);
+        isAnimating = false;
+      });
+    };
+
+    // 方案2: 传统圆形展开动画
+    const applyWithCircleAnimation = (nextIsDark, theme) => {
+      console.log("⭕ 使用圆形展开动画（备用方案）");
+      
+      const rect = toggle.getBoundingClientRect();
+      const x = rect.left + rect.width / 2;
+      const y = rect.top + rect.height / 2;
+
+      console.log(`📍 圆心位置: ${x.toFixed(2)}px, ${y.toFixed(2)}px`);
+
+      let bgColor;
+      if (nextIsDark) {
+        bgColor = "rgba(26, 26, 26, 1)";
+      } else {
+        bgColor = "rgba(255, 255, 255, 1)";
+      }
+
+      transitionCircle.style.left = x + "px";
+      transitionCircle.style.top = y + "px";
+      transitionCircle.style.backgroundColor = bgColor;
+      transitionCircle.classList.add("animate");
+
+      setTimeout(() => {
+        if (nextIsDark) {
+          root.classList.add("dark");
+        } else {
+          root.classList.remove("dark");
+        }
+        toggle?.setAttribute("data-theme", theme);
+        setIcons(theme);
+        console.log("✅ 主题已切换");
+      }, 500);
+
+      setTimeout(() => {
+        transitionCircle.classList.remove("animate");
+        transitionCircle.style.width = "0";
+        transitionCircle.style.height = "0";
+        isAnimating = false;
+        console.log("✅ 圆形动画已完成");
+      }, 1000);
+    };
+
     const applyTheme = (theme, animated = false) => {
       const resolved =
         theme === "auto" ? (system.matches ? "dark" : "light") : theme;
@@ -115,6 +252,8 @@
       // 获取当前是否为暗色模式
       const currentIsDark = root.classList.contains("dark");
       const nextIsDark = resolved === "dark";
+
+      console.log(`🔄 切换主题: ${theme} (resolved: ${resolved}), 动画: ${animated}`);
 
       // 如果颜色没有变化，或者不需要动画，直接切换
       if (!animated || currentIsDark === nextIsDark) {
@@ -126,48 +265,17 @@
         toggle?.setAttribute("data-theme", theme);
         setIcons(theme);
         isAnimating = false;
+        console.log("⚡ 直接切换（无动画）");
         return;
       }
 
-      // 获取按钮位置
-      const rect = toggle.getBoundingClientRect();
-      const x = rect.left + rect.width / 2;
-      const y = rect.top + rect.height / 2;
-
-      // 根据即将切换到的主题设置圆形背景色
-      let bgColor;
-      if (nextIsDark) {
-        // 切换到暗色模式，使用半透明深色
-        bgColor = "rgba(26, 26, 26, 1)";
+      // 检测是否支持 View Transition API
+      if (document.startViewTransition) {
+        applyWithViewTransition(nextIsDark, theme);
       } else {
-        // 切换到亮色模式，使用半透明亮色
-        bgColor = "rgba(255, 255, 255, 1)";
+        console.log("⚠️ 浏览器不支持 View Transition API");
+        applyWithCircleAnimation(nextIsDark, theme);
       }
-
-      // 设置圆形的位置和颜色
-      transitionCircle.style.left = x + "px";
-      transitionCircle.style.top = y + "px";
-      transitionCircle.style.backgroundColor = bgColor;
-      transitionCircle.classList.add("animate");
-
-      // 展开完全后切换主题
-      setTimeout(() => {
-        if (nextIsDark) {
-          root.classList.add("dark");
-        } else {
-          root.classList.remove("dark");
-        }
-        toggle?.setAttribute("data-theme", theme);
-        setIcons(theme);
-      }, 500);
-
-      // 动画结束后清理
-      setTimeout(() => {
-        transitionCircle.classList.remove("animate");
-        transitionCircle.style.width = "0";
-        transitionCircle.style.height = "0";
-        isAnimating = false;
-      }, 1000);
     };
 
     const loadTheme = () => {
