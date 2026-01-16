@@ -2,6 +2,7 @@
 import { SITE_TITLE } from "../consts";
 import DarkModeButton from "./DarkModeButton.astro";
 import HeaderLink from "./HeaderLink.astro";
+import SearchBox from "./SearchBox.astro";
 import config from "../config";
 
 interface Props {
@@ -11,7 +12,9 @@ interface Props {
 const { sticky = true } = Astro.props;
 ---
 
-<header class={`bg-white dark:bg-gray-900 px-4 py-0 transition-colors ${sticky ? 'sticky top-0 z-50' : ''}`}>
+<header
+  class={`bg-white dark:bg-gray-900 px-4 py-0 transition-colors ${sticky ? "sticky top-0 z-50" : ""}`}
+>
   <nav class="flex items-center justify-between">
     <h2 class="text-base m-0 logo">
       <a
@@ -21,10 +24,13 @@ const { sticky = true } = Astro.props;
       >
     </h2>
     <div class="internal-links">
-      {config.navLinks.map((link) => (
-        <HeaderLink href={link.href}>{link.name}</HeaderLink>
-      ))}
+      {
+        config.navLinks.map((link) => (
+          <HeaderLink href={link.href}>{link.name}</HeaderLink>
+        ))
+      }
     </div>
+    <SearchBox />
     <div class="social-links hidden md:flex gap-4">
       <a
         href="https://github.com/eeymoo"

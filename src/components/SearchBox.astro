@@ -1,0 +1,46 @@
+---
+
+---
+
+<div>
+  <input
+    id="search-input"
+    type="text"
+    placeholder="搜索... (Ctrl + K)"
+    class="w-48 px-3 py-2 text-sm border-2 border-gray-300 rounded-md bg-white text-gray-900 placeholder-gray-500 transition-all duration-200 hover:border-gray-400 hover:bg-gray-50 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 focus:bg-white dark:bg-gray-700 dark:text-gray-100 dark:border-gray-600 dark:placeholder-gray-400 dark:hover:border-gray-500 dark:hover:bg-gray-600 dark:focus:border-primary dark:focus:ring-2 dark:focus:ring-primary/10 dark:focus:bg-gray-600"
+    aria-label="搜索博客"
+  />
+</div>
+
+<script>
+  const searchInput = document.getElementById(
+    "search-input"
+  ) as HTMLInputElement;
+
+  // Ctrl + K 快捷键
+  document.addEventListener("keydown", (e) => {
+    if ((e.ctrlKey || e.metaKey) && e.key === "k") {
+      e.preventDefault();
+      searchInput?.focus();
+    }
+  });
+
+  // 回车搜索
+  searchInput?.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+      const query = searchInput.value.trim();
+      if (query) {
+        const searchUrl = `https://www.google.com/search?q=${encodeURIComponent(query)}+site:blog.eeymoo.com`;
+        window.location.href = searchUrl;
+      }
+    }
+  });
+
+  // Esc 清空
+  searchInput?.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") {
+      searchInput.value = "";
+      searchInput.blur();
+    }
+  });
+</script>
