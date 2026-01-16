@@ -3,11 +3,17 @@ import { SITE_TITLE } from "../consts";
 import DarkModeButton from "./DarkModeButton.astro";
 import HeaderLink from "./HeaderLink.astro";
 import config from "../config";
+
+interface Props {
+  sticky?: boolean;
+}
+
+const { sticky = true } = Astro.props;
 ---
 
-<header class="bg-white dark:bg-gray-900 px-4 py-0 transition-colors">
+<header class={`bg-white dark:bg-gray-900 px-4 py-0 transition-colors ${sticky ? 'sticky top-0 z-50' : ''}`}>
   <nav class="flex items-center justify-between">
-    <h2 class="text-base m-0">
+    <h2 class="text-base m-0 logo">
       <a
         href="/"
         class="underline decoration-primary hover:decoration-primary text-gray-900 dark:text-white transition-colors"

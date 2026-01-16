@@ -330,3 +330,8 @@ html.dark .prose em:not(.no-style) {
 	/* modern browsers, clip-path works inwards from each corner */
 	clip-path: inset(50%);
 }
+
+/* Logo styles */
+.logo {
+	@apply sticky top-0 z-50 bg-white dark:bg-gray-900 px-0 py-0;
+}
