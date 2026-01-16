@@ -11,6 +11,13 @@ export default defineConfig({
   site: 'https://blog.eeymoo.com',
   integrations: [mdx(), sitemap()],
 
+  markdown: {
+    shikiConfig: {
+      theme: 'monokai',
+      wrap: true,
+    },
+  },
+
   vite: {
     plugins: [tailwindcss()],
   },
