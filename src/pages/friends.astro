@@ -1,0 +1,76 @@
+---
+import BaseHead from "../components/BaseHead.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import Links from "../components/Links.astro";
+import Tips from "../components/Tips.astro";
+import config from "../config";
+import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
+---
+
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <BaseHead title={`友情链接 - ${SITE_TITLE}`} description="我的友情链接" />
+  </head>
+  <body>
+    <Header />
+    <main class="max-w-4xl mx-auto px-6 py-4 min-h-[calc(100vh-200px)]">
+      <article class="px-2 py-4">
+        <div class="max-w-none">
+          <h1 class="no-style! text-4xl font-bold mb-8 text-center">友情链接</h1>
+          <div class="mb-12">
+            <h2 class="no-style! text-2xl font-semibold mb-6">友链列表</h2>
+            <div class="bg-primary/10 dark:bg-primary/20 rounded-lg p-6 mb-12">
+              <Links links={config.friendlyLink} />
+            </div>
+          </div>
+
+          <div class="mb-12">
+            <h2 class="no-style! text-2xl font-semibold mb-6">友链说明</h2>
+            <div class="mb-4">
+              <Tips type="info">
+                欢迎交换友链！如果你有自己的博客或网站，欢迎与我交换友链。
+              </Tips>
+            </div>
+
+            <h3 class="no-style! text-xl font-semibold mb-3">申请要求</h3>
+            <ul class="list-disc list-inside text-gray-700 space-y-2 mb-6">
+              <li>网站内容积极向上，无违法违规内容</li>
+              <li>网站可以正常访问，且加载速度正常</li>
+              <li>建议网站支持 HTTPS</li>
+              <li>原创内容优先</li>
+            </ul>
+
+            <h3 class="no-style! text-xl font-semibold mb-3">本站信息</h3>
+            <div class="bg-primary/10 dark:bg-primary/20 rounded-lg p-4 mb-6">
+              <ul class="space-y-2 text-gray-700 dark:text-slate-300">
+                <li><strong>站点名称：</strong>{config.siteTitle}</li>
+                <li>
+                  <strong>站点地址：</strong><a
+                    href={config.siteUrl}
+                    class="no-style text-blue-600 hover:underline">{config.siteUrl}</a>
+                </li>
+                <li><strong>站点描述：</strong>{config.siteDescription}</li>
+              </ul>
+            </div>
+
+            <h3 class="no-style! text-xl font-semibold mb-3">申请方式</h3>
+            <p class="text-gray-700 dark:text-slate-300 mb-4">
+              请在本页面评论区留言或通过邮件联系我，留言格式如下：
+            </p>
+            <div
+              class="bg-primary/10 dark:bg-primary/20 rounded-lg p-4 font-mono text-sm"
+            >
+              <p>站点名称：你的站点名称</p>
+              <p>站点地址：https://your-site.com</p>
+              <p>站点描述：简短的站点描述</p>
+              <p>站点图标：https://your-site.com/avatar.png</p>
+            </div>
+          </div>
+        </div>
+      </article>
+    </main>
+    <Footer />
+  </body>
+</html>

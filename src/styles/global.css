@@ -40,278 +40,278 @@ html.dark body {
 }
 
 /* Headings */
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
+h1:not(.no-style),
+h2:not(.no-style),
+h3:not(.no-style),
+h4:not(.no-style),
+h5:not(.no-style),
+h6:not(.no-style) {
 	@apply my-0 mb-2 leading-tight;
 }
 
-h1 {
+h1:not(.no-style) {
 	@apply text-3xl;
 }
 
-h2 {
+h2:not(.no-style) {
 	@apply text-2xl;
 }
 
-h3 {
+h3:not(.no-style) {
 	@apply text-xl;
 }
 
-h4 {
+h4:not(.no-style) {
 	@apply text-lg;
 }
 
-h5 {
+h5:not(.no-style) {
 	@apply text-base;
 }
 
 /* Text formatting */
-strong,
-b {
+strong:not(.no-style),
+b:not(.no-style) {
 	@apply font-bold;
 }
 
-a {
+a:not(.no-style) {
 	@apply text-slate-800 underline decoration-slate-300 transition-colors rounded px-1;
 }
 
-html.dark a {
+html.dark a:not(.no-style) {
 	@apply text-slate-200 decoration-slate-700;
 }
 
-a:visited {
+a:not(.no-style):visited {
 	@apply text-slate-600 decoration-slate-400 bg-primary/10;
 }
 
-html.dark a:visited {
+html.dark a:not(.no-style):visited {
 	@apply text-slate-400 decoration-slate-600;
 }
 
-a:hover {
+a:not(.no-style):hover {
 	@apply opacity-100 decoration-primary bg-primary/5;
 }
 
-p {
+p:not(.no-style) {
+	@apply mb-2;
+}
+
+.prose p:not(.no-style) {
 	@apply mb-4;
 }
 
-.prose p {
-	@apply mb-8;
-}
-
 /* Form elements */
-textarea {
+textarea:not(.no-style) {
 	@apply w-full text-base;
 }
 
-input {
+input:not(.no-style) {
 	@apply text-base;
 }
 
 /* Table and media */
-table {
+table:not(.no-style) {
 	@apply w-full;
 }
 
-img {
+img:not(.no-style) {
 	@apply max-w-full h-auto rounded-lg;
 }
 
 /* Code blocks */
-code {
+code:not(.no-style) {
 	@apply px-1 py-0.5 rounded;
 }
 
-pre {
+pre:not(.no-style) {
 	@apply p-6 rounded-lg bg-gray-100;
 }
 
-html.dark pre {
+html.dark pre:not(.no-style) {
 	@apply bg-gray-800;
 }
 
-pre>code {
+pre:not(.no-style)>code {
 	all: unset;
 	font-family: "SF Mono", "Menlo", "Ubuntu Mono", "Consolas", "Lucida Console", monospace;
 }
 
-blockquote {
+blockquote:not(.no-style) {
 	@apply border-l-4 border-primary pl-6 py-3 my-8 bg-slate-50 text-slate-700 italic;
 }
 
-html.dark blockquote {
+html.dark blockquote:not(.no-style) {
 	@apply bg-slate-800/50 text-slate-200;
 }
 
-hr {
+hr:not(.no-style) {
 	@apply border-t border-slate-200 my-12;
 }
 
-html.dark hr {
+html.dark hr:not(.no-style) {
 	@apply border-slate-800;
 }
 
 /* Markdown Content Styles */
-.prose h1,
-.prose h2,
-.prose h3,
-.prose h4,
-.prose h5,
-.prose h6 {
+.prose h1:not(.no-style),
+.prose h2:not(.no-style),
+.prose h3:not(.no-style),
+.prose h4:not(.no-style),
+.prose h5:not(.no-style),
+.prose h6:not(.no-style) {
 	@apply font-semibold text-slate-900 mt-12 mb-6 leading-tight;
 }
 
-html.dark .prose h1,
-html.dark .prose h2,
-html.dark .prose h3,
-html.dark .prose h4,
-html.dark .prose h5,
-html.dark .prose h6 {
+html.dark .prose h1:not(.no-style),
+html.dark .prose h2:not(.no-style),
+html.dark .prose h3:not(.no-style),
+html.dark .prose h4:not(.no-style),
+html.dark .prose h5:not(.no-style),
+html.dark .prose h6:not(.no-style) {
 	@apply text-slate-100;
 }
 
-.prose h1 {
+.prose h1:not(.no-style) {
 	@apply text-4xl mt-16;
 }
 
-.prose h2 {
+.prose h2:not(.no-style) {
 	@apply text-3xl border-b border-slate-200 pb-3;
 }
 
-html.dark .prose h2 {
+html.dark .prose h2:not(.no-style) {
 	@apply border-slate-800;
 }
 
-.prose h3 {
+.prose h3:not(.no-style) {
 	@apply text-2xl;
 }
 
-.prose h4 {
+.prose h4:not(.no-style) {
 	@apply text-xl;
 }
 
-.prose h5 {
+.prose h5:not(.no-style) {
 	@apply text-lg;
 }
 
-.prose h6 {
+.prose h6:not(.no-style) {
 	@apply text-base;
 }
 
-.prose a {
+.prose a:not(.no-style) {
 	@apply text-slate-800 underline decoration-slate-300 transition-colors rounded px-1;
 }
 
-html.dark .prose a {
+html.dark .prose a:not(.no-style) {
 	@apply text-slate-200 decoration-slate-700;
 }
 
-.prose a:visited {
+.prose a:not(.no-style):visited {
 	@apply text-slate-600 decoration-slate-400 bg-primary/10;
 }
 
-html.dark .prose a:visited {
+html.dark .prose a:not(.no-style):visited {
 	@apply text-slate-400 decoration-slate-600;
 }
 
-.prose a:hover {
+.prose a:not(.no-style):hover {
 	@apply opacity-100 decoration-primary bg-primary/5;
 }
 
-.prose ul,
-.prose ol {
+.prose ul:not(.no-style),
+.prose ol:not(.no-style) {
 	@apply my-6 pl-8 space-y-2;
 }
 
-.prose ul {
+.prose ul:not(.no-style) {
 	@apply list-disc;
 }
 
-.prose ol {
+.prose ol:not(.no-style) {
 	@apply list-decimal;
 }
 
-.prose li {
+.prose li:not(.no-style) {
 	@apply text-slate-700 leading-relaxed;
 }
 
-html.dark .prose li {
+html.dark .prose li:not(.no-style) {
 	@apply text-slate-200;
 }
 
-.prose li::marker {
+.prose li:not(.no-style)::marker {
 	@apply text-primary;
 }
 
-.prose table {
+.prose table:not(.no-style) {
 	@apply w-full my-8 border-collapse;
 }
 
-.prose thead {
+.prose thead:not(.no-style) {
 	@apply border-b-2 border-slate-300;
 }
 
-html.dark .prose thead {
+html.dark .prose thead:not(.no-style) {
 	@apply border-slate-700;
 }
 
-.prose th {
+.prose th:not(.no-style) {
 	@apply text-left font-semibold text-slate-900 py-3 px-4 bg-slate-50;
 }
 
-html.dark .prose th {
+html.dark .prose th:not(.no-style) {
 	@apply text-slate-100 bg-slate-900;
 }
 
-.prose td {
+.prose td:not(.no-style) {
 	@apply py-3 px-4 border-b border-slate-200;
 }
 
-html.dark .prose td {
+html.dark .prose td:not(.no-style) {
 	@apply border-slate-800;
 }
 
-.prose img {
+.prose img:not(.no-style) {
 	@apply my-8 rounded-md mx-auto;
 }
 
-.prose code {
+.prose code:not(.no-style) {
 	@apply bg-slate-100 text-slate-800 px-2 py-1 rounded text-sm font-mono;
 }
 
-html.dark .prose code {
+html.dark .prose code:not(.no-style) {
 	@apply bg-slate-800 text-slate-200;
 }
 
-.prose pre {
+.prose pre:not(.no-style) {
 	@apply my-8 bg-slate-100;
 }
 
-html.dark .prose pre {
+html.dark .prose pre:not(.no-style) {
 	@apply bg-slate-900;
 }
 
-.prose pre code {
+.prose pre:not(.no-style) code {
 	@apply bg-transparent text-sm;
 }
 
-.prose strong {
+.prose strong:not(.no-style) {
 	@apply font-bold text-slate-900;
 }
 
-html.dark .prose strong {
+html.dark .prose strong:not(.no-style) {
 	@apply text-slate-100;
 }
 
-.prose em {
+.prose em:not(.no-style) {
 	@apply italic text-slate-700;
 }
 
-html.dark .prose em {
+html.dark .prose em:not(.no-style) {
 	@apply text-slate-300;
 }
 
