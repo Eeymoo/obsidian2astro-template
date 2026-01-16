@@ -6,7 +6,7 @@ import Header from "../../components/Header.astro";
 import PostDate from "../../components/PostDate.astro";
 import { SITE_DESCRIPTION, SITE_TITLE } from "../../consts";
 import { generatePostSlug } from "../../utils";
-import { generateCategorySlug } from "../../utils/categories.ts";
+import { generateCategorySlug } from "../../utils";
 
 export async function getStaticPaths() {
   const posts = await getCollection("blog");

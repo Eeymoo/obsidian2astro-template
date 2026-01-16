@@ -1,5 +1,8 @@
 import config from '../config/index.ts';
 import crypto from 'crypto';
+import { MD_LINK_REG } from './regexps.ts';
+import { generateCategorySlug } from './categories.ts';
+import { generateTagSlug } from './tags.ts';
 
 /**
  * 生成文章的固定链接 slug
@@ -33,15 +36,8 @@ export function convertMdALinksToGoto(mdContent: string, whiteList: string[] = c
     throw new TypeError('第二个参数 whiteList 必须是数组类型');
   }
 
-  // 正则表达式匹配 Markdown 行内链接：[链接文本](链接地址 "可选标题")
-  // 分组说明：
-  // 1. ([^\]]+) - 匹配链接文本（除了 ] 之外的所有字符）
-  // 2. ([^)"\s]+) - 匹配原始链接地址（除了 )、"、空白符之外的所有字符，避免匹配标题部分）
-  // 3. (\s*"[^"]*")? - 匹配可选的链接标题（可选空白符+双引号+标题内容+双引号，? 表示可选）
-  const mdLinkReg = /\[([^\]]+)\]\(([^)"\s]+)(\s*"[^"]*")?\)/g;
-
   // 使用 replace 方法进行批量替换，回调函数处理每个匹配项
-  return mdContent.replace(mdLinkReg, (match, linkText, originalUrl, title) => {
+  return mdContent.replace(MD_LINK_REG, (match, linkText, originalUrl, title) => {
     // 判断原始链接是否在白名单中
     const isInWhiteList = whiteList.some(whiteUrl => whiteUrl === originalUrl);
 
@@ -102,3 +98,7 @@ export function convertHtmlALinksToGoto(htmlContent: string, whiteList: string[]
   // 8. 将处理后的 DOM 转换回 HTML 字符串并返回
   return doc.body.innerHTML;
 }
+
+// 统一导出所有 utils 方法和规则
+export { generateCategorySlug, generateTagSlug };
+export { MD_LINK_REG } from './regexps.ts';
