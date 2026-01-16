@@ -1,0 +1,86 @@
+---
+import { type CollectionEntry, getCollection } from "astro:content";
+import BaseHead from "../../components/BaseHead.astro";
+import Footer from "../../components/Footer.astro";
+import Header from "../../components/Header.astro";
+import PostDate from "../../components/PostDate.astro";
+import { SITE_DESCRIPTION, SITE_TITLE } from "../../consts";
+import { generatePostSlug } from "../../utils";
+import { generateCategorySlug } from "../../utils/categories.ts";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("blog");
+  const visible = posts.filter((p) => !p.data.hidden);
+
+  const categorySet = new Set<string>();
+  for (const post of visible) {
+    if (post.data.categories) {
+      categorySet.add(post.data.categories);
+    }
+  }
+
+  return Array.from(categorySet).map((c) => ({
+    params: { category: generateCategorySlug(c) + ".html" },
+    props: {},
+  }));
+}
+
+const rawParam = Astro.params.category ?? "";
+const rawSlug = rawParam.replace(/\.html$/, "");
+
+// 找到与当前 slug 对应的原始分类名
+const allVisible = await getCollection("blog");
+const categorySet = new Set<string>();
+for (const post of allVisible.filter((p) => !p.data.hidden)) {
+  if (post.data.categories) categorySet.add(post.data.categories);
+}
+const category = Array.from(categorySet).find((c) => generateCategorySlug(c) === rawSlug) ?? rawSlug;
+
+const allPosts = (await getCollection("blog"))
+  .filter((p) => !p.data.hidden)
+  .filter((p) => p.data.categories === category)
+  .sort((a, b) => b.data.date?.valueOf() - a.data.date?.valueOf());
+---
+
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <BaseHead title={`${SITE_TITLE} · ${category}`} description={SITE_DESCRIPTION} />
+    <script>
+      const savedTheme = localStorage.getItem("theme");
+      const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+      const isDark = savedTheme === "dark" || (!savedTheme && prefersDark);
+      if (isDark) {
+        document.documentElement.classList.add("dark");
+      }
+    </script>
+  </head>
+  <body>
+    <Header />
+    <main class="w-full max-w-285 mx-auto px-4 py-12">
+      <section>
+        <h1 class="m-0 mb-6 text-xl font-bold text-gray-900 dark:text-gray-100">分类：{category}</h1>
+        {allPosts.length === 0 ? (
+          <p class="text-gray-600 dark:text-gray-300">该分类暂无文章。</p>
+        ) : (
+          <ul class="grid grid-cols-2 gap-6 list-none m-0 p-0 sm:grid-cols-1 sm:gap-6">
+            {allPosts.map((post) => {
+              const slug = generatePostSlug(post);
+              return (
+                <li class="w-full first:mb-4">
+                  <a href={`/post/${slug}.html`} class="block hover:bg-primary/20 p-4! rounded transition-colors">
+                    <h4 class="title m-0 text-gray-900 leading-tight underline decoration-primary hover:decoration-primary transition-colors dark:text-gray-100">
+                      {post.data.title}
+                    </h4>
+                    <PostDate date={post.data.date} updated={post.data.updated} />
+                  </a>
+                </li>
+              );
+            })}
+          </ul>
+        )}
+      </section>
+    </main>
+    <Footer />
+  </body>
+  </html>

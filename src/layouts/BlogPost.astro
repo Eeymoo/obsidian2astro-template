@@ -57,7 +57,7 @@ const { title, description, date, updated, heroImage, tags, categories } =
 
             <div class="date mb-2">
               <PostDate date={new Date(date)} updated={updated}>
-                <Categories categories={categories} />
+                <Categories categories={categories} link={true} />
               </PostDate>
             </div>
             <Tags tags={tags} link={true} />

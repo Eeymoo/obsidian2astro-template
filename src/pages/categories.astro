@@ -1,0 +1,62 @@
+---
+import { getCollection } from "astro:content";
+import BaseHead from "../components/BaseHead.astro";
+import Footer from "../components/Footer.astro";
+import Header from "../components/Header.astro";
+import { SITE_DESCRIPTION, SITE_TITLE } from "../consts";
+import { generateCategorySlug } from "../utils/categories.ts";
+
+const posts = (await getCollection("blog")).filter((post) => !post.data.hidden);
+
+const categoryMap = new Map<string, number>();
+for (const post of posts) {
+  const category = post.data.categories;
+  if (category) {
+    categoryMap.set(category, (categoryMap.get(category) || 0) + 1);
+  }
+}
+
+const categories = Array.from(categoryMap.entries())
+  .map(([name, count]) => ({ name, count }))
+  .sort((a, b) => b.count - a.count || a.name.localeCompare(b.name));
+---
+
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <BaseHead title={`${SITE_TITLE} · Categories`} description={SITE_DESCRIPTION} />
+    <script>
+      const savedTheme = localStorage.getItem("theme");
+      const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+      const isDark = savedTheme === "dark" || (!savedTheme && prefersDark);
+      if (isDark) {
+        document.documentElement.classList.add("dark");
+      }
+    </script>
+  </head>
+  <body>
+    <Header />
+    <main class="w-full max-w-285 mx-auto px-4 py-12">
+      <section>
+        <h1 class="m-0 mb-6 text-xl font-bold text-gray-900 dark:text-gray-100">所有分类</h1>
+        {categories.length === 0 ? (
+          <p class="text-gray-600 dark:text-gray-300">暂无分类。</p>
+        ) : (
+          <ul class="flex gap-2 flex-wrap list-none m-0 p-0">
+            {categories.map(({ name, count }) => (
+              <li>
+                <a
+                  href={`/categories/${generateCategorySlug(name)}.html`}
+                  class="inline-block bg-primary/10 text-primary text-sm px-3 py-1.5 rounded hover:bg-primary/20 transition-colors dark:bg-primary/20 dark:text-primary/90"
+                >
+                  {name} <span class="opacity-70">({count})</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        )}
+      </section>
+    </main>
+    <Footer />
+  </body>
+  </html>
