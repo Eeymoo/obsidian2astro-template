@@ -155,7 +155,7 @@
       moonIcon?.classList.toggle("hidden", theme !== "dark");
     };
 
-    const applyWithTransition = (nextIsDark, theme) => {
+    let applyWithTransition = (nextIsDark, theme) => {
       if (!document.startViewTransition) {
         applyWithCircleAnimation(nextIsDark, theme);
         applyWithTransition = applyWithCircleAnimation;
