@@ -10,17 +10,17 @@ import Categories from "../components/Categories.astro";
 import FrontMatter from "../components/FrontMatter.astro";
 import "../styles/global.css";
 
-type Props = CollectionEntry<"blog">["data"] & {
+type Props = Omit<CollectionEntry<"blog">["data"], "date" | "updated"> & {
   date: string;
+  updated?: string;
 };
 
-const { title, description, date, updated, heroImage, tags, categories } =
-  Astro.props;
+const { title, date, updated, heroImage, tags, categories } = Astro.props;
 ---
 
 <html lang="en" class="scroll-smooth">
   <head>
-    <BaseHead title={title} description={description || ""} />
+    <BaseHead title={title} description={""} />
     <script>
       // 防止闪烁：在页面加载前设置主题
       const savedTheme = localStorage.getItem("theme");
@@ -56,7 +56,10 @@ const { title, description, date, updated, heroImage, tags, categories } =
             <h1 class="mb-2 text-lg font-bold">{title}</h1>
 
             <div class="flex mb-2">
-              <PostDate date={new Date(date)} updated={updated} />
+              <PostDate
+                date={new Date(date)}
+                updated={updated ? new Date(updated) : undefined}
+              />
               <Categories categories={categories} link={true} />
             </div>
             <Tags tags={tags} link={true} />
