@@ -6,6 +6,13 @@ type Config = {
   navLinks: Array<NavLink>;
   // 友情连接
   friendlyLink: Array<FriendlyLink>;
+  // 捐赠地址
+  donate?: DonateConfig;
+};
+
+type DonateConfig = {
+  etcAddress?: string;
+  solAddress?: string;
 };
 
 type NavLink = {
@@ -19,4 +26,4 @@ type FriendlyLink = {
   desc: string;
   img: string;
 };
-export type { Config, NavLink, FriendlyLink };
+export type { Config, NavLink, FriendlyLink, DonateConfig };

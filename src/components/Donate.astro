@@ -1,0 +1,340 @@
+---
+interface Props {
+  etcAddress?: string;
+  solAddress?: string;
+}
+
+const { etcAddress, solAddress } = Astro.props;
+---
+
+<div class="donate-container">
+  <div class="donate-buttons">
+    {
+      etcAddress && (
+        <button
+          class="donate-button etc-button"
+          data-address={etcAddress}
+          data-chain="etc"
+          aria-label="使用小狐狸钱包捐赠 ETC"
+        >
+          <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M11.944 17.97L4.58 13.62 11.943 24l7.37-10.38-7.372 4.35h.003zM12.056 0L4.69 12.223l7.365 4.354 7.365-4.35L12.056 0z" />
+          </svg>
+          <span>捐赠 ETC</span>
+        </button>
+      )
+    }
+
+    {
+      solAddress && (
+        <button
+          class="donate-button sol-button"
+          data-address={solAddress}
+          data-chain="sol"
+          aria-label="使用 Phantom 钱包捐赠 SOL"
+        >
+          <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M20.45 8.55a.65.65 0 0 0-.46-.19H4.73a.36.36 0 0 0-.29.55l3.63 4.88a.65.65 0 0 0 .46.19h15.26a.36.36 0 0 0 .29-.55zm-15.72 11a.65.65 0 0 0 .46.19h15.26a.36.36 0 0 0 .29-.55l-3.63-4.88a.65.65 0 0 0-.46-.19H4.39a.36.36 0 0 0-.29.55zM4.39 4.93h15.26a.65.65 0 0 0 .46-1.12L16.48.19a.65.65 0 0 0-.46-.19H4.73a.36.36 0 0 0-.29.55z" />
+          </svg>
+          <span>捐赠 SOL</span>
+        </button>
+      )
+    }
+  </div>
+
+  <div id="donate-message" class="donate-message hidden"></div>
+</div>
+
+<style>
+  .donate-container {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    background-color: rgb(249 250 251);
+    border-radius: 0.5rem;
+    border: 1px solid rgb(229 231 235);
+  }
+
+  html.dark .donate-container {
+    background-color: rgb(17 24 39);
+    border-color: rgb(55 65 81);
+  }
+
+  .donate-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+  }
+
+  .donate-button {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    font-weight: 500;
+    transition: all 300ms;
+    transform: scale(1);
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+  }
+
+  .donate-button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+  }
+
+  .donate-button:active {
+    transform: scale(0.95);
+  }
+
+  .etc-button {
+    background: linear-gradient(to right, rgb(34 197 94), rgb(5 150 105));
+    color: white;
+  }
+
+  .etc-button:hover {
+    background: linear-gradient(to right, rgb(22 163 74), rgb(4 120 87));
+  }
+
+  .sol-button {
+    background: linear-gradient(to right, rgb(168 85 247), rgb(219 39 119));
+    color: white;
+  }
+
+  .sol-button:hover {
+    background: linear-gradient(to right, rgb(147 51 234), rgb(190 24 93));
+  }
+
+  .donate-button .icon {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+
+  .donate-message {
+    margin-top: 1rem;
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+    text-align: center;
+    font-size: 0.875rem;
+  }
+
+  .donate-message.success {
+    background-color: rgb(220 252 231);
+    color: rgb(22 101 52);
+    display: block;
+  }
+
+  html.dark .donate-message.success {
+    background-color: rgb(20 83 45);
+    color: rgb(187 247 208);
+  }
+
+  .donate-message.error {
+    background-color: rgb(254 226 226);
+    color: rgb(153 27 27);
+    display: block;
+  }
+
+  html.dark .donate-message.error {
+    background-color: rgb(127 29 29);
+    color: rgb(254 202 202);
+  }
+
+  .donate-message.info {
+    background-color: rgb(219 234 254);
+    color: rgb(30 64 175);
+    display: block;
+  }
+
+  html.dark .donate-message.info {
+    background-color: rgb(30 58 138);
+    color: rgb(191 219 254);
+  }
+
+  .donate-message.hidden {
+    display: none;
+  }
+</style>
+
+<script>
+  // 检查是否安装了 MetaMask
+  function checkMetaMask(): boolean {
+    return typeof window.ethereum !== "undefined";
+  }
+
+  // 检查是否安装了 Phantom (Solana 钱包)
+  function checkPhantom(): boolean {
+    return typeof window.solana !== "undefined" && window.solana.isPhantom;
+  }
+
+  // 显示消息
+  function showMessage(message: string, type: "success" | "error" | "info") {
+    const messageEl = document.getElementById("donate-message");
+    if (messageEl) {
+      messageEl.textContent = message;
+      messageEl.className = `donate-message ${type}`;
+
+      setTimeout(() => {
+        messageEl.className = "donate-message hidden";
+      }, 5000);
+    }
+  }
+
+  // 复制地址到剪贴板
+  async function copyToClipboard(address: string): Promise<boolean> {
+    try {
+      await navigator.clipboard.writeText(address);
+      return true;
+    } catch (err) {
+      console.error("复制失败:", err);
+      return false;
+    }
+  }
+
+  // 处理 ETC 捐赠
+  async function handleETCDonate(address: string) {
+    if (!checkMetaMask()) {
+      const copied = await copyToClipboard(address);
+      if (copied) {
+        showMessage(
+          `地址已复制: ${address.slice(0, 6)}...${address.slice(-4)} - 推荐安装 MetaMask 等 Web3 钱包以便捷转账`,
+          "info",
+        );
+      } else {
+        showMessage(
+          `捐赠地址: ${address} - 推荐安装 Web3 钱包 (MetaMask 等)`,
+          "info",
+        );
+      }
+      return;
+    }
+
+    try {
+      // 请求连接钱包
+      await window.ethereum.request({ method: "eth_requestAccounts" });
+
+      // 切换到 Ethereum Classic 网络 (chainId: 0x3d = 61)
+      try {
+        await window.ethereum.request({
+          method: "wallet_switchEthereumChain",
+          params: [{ chainId: "0x3d" }],
+        });
+      } catch (switchError: any) {
+        // 如果网络不存在，尝试添加
+        if (switchError.code === 4902) {
+          await window.ethereum.request({
+            method: "wallet_addEthereumChain",
+            params: [
+              {
+                chainId: "0x3d",
+                chainName: "Ethereum Classic",
+                nativeCurrency: {
+                  name: "Ethereum Classic",
+                  symbol: "ETC",
+                  decimals: 18,
+                },
+                rpcUrls: ["https://etc.rivet.link"],
+                blockExplorerUrls: ["https://blockscout.com/etc/mainnet/"],
+              },
+            ],
+          });
+        } else {
+          throw switchError;
+        }
+      }
+
+      // 发起转账
+      const transactionParameters = {
+        to: address,
+        from: window.ethereum.selectedAddress,
+        value: "0x0", // 用户可以在 MetaMask 中修改金额
+      };
+
+      const txHash = await window.ethereum.request({
+        method: "eth_sendTransaction",
+        params: [transactionParameters],
+      });
+
+      showMessage("交易已发送！感谢您的捐赠 ❤️", "success");
+    } catch (error: any) {
+      console.error("ETC donation error:", error);
+      if (error.code === 4001) {
+        showMessage("您取消了交易", "info");
+      } else {
+        showMessage(`交易失败: ${error.message}`, "error");
+      }
+    }
+  }
+
+  // 处理 SOL 捐赠
+  async function handleSOLDonate(address: string) {
+    if (!checkPhantom()) {
+      const copied = await copyToClipboard(address);
+      if (copied) {
+        showMessage(
+          `地址已复制: ${address.slice(0, 6)}...${address.slice(-4)} - 推荐安装 Phantom 等 Web3 钱包以便捷转账`,
+          "info",
+        );
+      } else {
+        showMessage(
+          `捐赠地址: ${address} - 推荐安装 Web3 钱包 (Phantom 等)`,
+          "info",
+        );
+      }
+      return;
+    }
+
+    try {
+      // 连接钱包
+      const resp = await window.solana.connect();
+      showMessage("已连接钱包，请在 Phantom 中确认转账", "info");
+
+      // 注意：这里只是连接钱包，实际转账需要使用 Solana web3.js
+      // 由于这需要额外的依赖，这里提供简化版本
+      // 实际使用时建议集成 @solana/web3.js
+
+      // 简化版：直接打开 Phantom 的转账界面
+      const solanaExplorerUrl = `https://phantom.app/ul/browse/https://phantom.app/ul/v1/send?recipient=${address}`;
+      window.open(solanaExplorerUrl, "_blank");
+    } catch (error: any) {
+      console.error("SOL donation error:", error);
+      if (error.code === 4001) {
+        showMessage("您取消了连接", "info");
+      } else {
+        showMessage(`连接失败: ${error.message}`, "error");
+      }
+    }
+  }
+
+  // 绑定事件
+  document.addEventListener("DOMContentLoaded", () => {
+    const donateButtons = document.querySelectorAll(".donate-button");
+
+    donateButtons.forEach((button) => {
+      button.addEventListener("click", async (e) => {
+        const target = e.currentTarget as HTMLElement;
+        const address = target.dataset.address;
+        const chain = target.dataset.chain;
+
+        if (!address) return;
+
+        if (chain === "etc") {
+          await handleETCDonate(address);
+        } else if (chain === "sol") {
+          await handleSOLDonate(address);
+        }
+      });
+    });
+  });
+</script>
+
+<script is:inline>
+  // 全局类型声明
+  declare global {
+    interface Window {
+      ethereum?: any;
+      solana?: any;
+    }
+  }
+</script>

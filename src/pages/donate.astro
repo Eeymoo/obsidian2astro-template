@@ -1,0 +1,121 @@
+---
+import BaseHead from "../components/BaseHead.astro";
+import Footer from "../components/Footer.astro";
+import Header from "../components/Header.astro";
+import Donate from "../components/Donate.astro";
+import config from "../config";
+import "../styles/global.css";
+---
+
+<!doctype html>
+<html lang="zh-CN" class="scroll-smooth">
+  <head>
+    <BaseHead
+      title="捐赠支持 - Eeymoo"
+      description="感谢您的支持，您的每一份捐赠都是对我最大的鼓励"
+    />
+    <script>
+      const savedTheme = localStorage.getItem("theme");
+      const prefersDark = window.matchMedia(
+        "(prefers-color-scheme: dark)",
+      ).matches;
+      const isDark = savedTheme === "dark" || (!savedTheme && prefersDark);
+      if (isDark) {
+        document.documentElement.classList.add("dark");
+      }
+    </script>
+  </head>
+  <body>
+    <Header />
+    <main class="w-full max-w-4xl mx-auto p-8">
+      <div class="donate-page">
+        <h1
+          class="text-4xl font-bold text-gray-900 dark:text-white mb-6 text-center"
+        >
+          💖 捐赠支持
+        </h1>
+
+        <div class="intro-section mb-8">
+          <p class="text-lg text-gray-700 dark:text-gray-300 mb-4 text-center">
+            如果我的文章或项目对您有所帮助，您可以通过以下方式支持我
+          </p>
+          <p class="text-base text-gray-600 dark:text-gray-400 text-center">
+            您的每一份支持都是我持续创作的动力 ❤️
+          </p>
+        </div>
+
+        {
+          config.donate && (
+            <Donate
+              etcAddress={config.donate.etcAddress}
+              solAddress={config.donate.solAddress}
+            />
+          )
+        }
+
+        <div class="info-section mt-8">
+          <h2 class="text-2xl font-semibold text-gray-900 dark:text-white mb-4">
+            使用说明
+          </h2>
+          <ul
+            class="list-disc list-inside space-y-2 text-gray-700 dark:text-gray-300"
+          >
+            <li>
+              点击按钮后，如果您已安装对应的钱包插件，将自动唤起钱包进行转账
+            </li>
+            <li>如果未安装钱包，地址将自动复制到剪贴板，您可以手动转账</li>
+            <li>
+              <strong>ETC (Ethereum Classic)</strong>: 推荐使用 MetaMask 等 Web3
+              钱包
+            </li>
+            <li><strong>SOL (Solana)</strong>: 推荐使用 Phantom 钱包</li>
+          </ul>
+        </div>
+
+        <div
+          class="thank-you-section mt-8 p-6 bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 rounded-lg border border-blue-200 dark:border-blue-800"
+        >
+          <h2
+            class="text-2xl font-semibold text-gray-900 dark:text-white mb-3 text-center"
+          >
+            感谢您的支持
+          </h2>
+          <p class="text-gray-700 dark:text-gray-300 text-center">
+            无论金额大小，您的支持都是对我最大的鼓励。我会继续努力创作更多优质内容！
+          </p>
+        </div>
+      </div>
+    </main>
+    <Footer />
+
+    <style>
+      .donate-page {
+        max-width: 800px;
+        margin: 0 auto;
+      }
+
+      .intro-section {
+        border-bottom: 2px solid rgb(229 231 235);
+        padding-bottom: 2rem;
+      }
+
+      html.dark .intro-section {
+        border-color: rgb(55 65 81);
+      }
+
+      .info-section ul li {
+        margin-left: 1rem;
+      }
+
+      @media (max-width: 640px) {
+        .donate-page h1 {
+          font-size: 2rem;
+        }
+
+        .donate-page h2 {
+          font-size: 1.5rem;
+        }
+      }
+    </style>
+  </body>
+</html>

@@ -29,6 +29,10 @@ const config: Config = {
       name: "Friends",
       href: "/friends",
     },
+    {
+      name: "Donate",
+      href: "/donate",
+    },
   ],
   friendlyLink: [
     {
@@ -50,5 +54,9 @@ const config: Config = {
       img: "https://avatars.githubusercontent.com/u/82026204?v=4",
     },
   ],
+  donate: {
+    etcAddress: "0x5d0738e5904a1c8dad3f6ef71453a61caeebdd9d",
+    solAddress: "FkdthSY7ciFDNQhsrHm3rt3mCHDUeubUG4uXqyKqZdjR",
+  },
 };
 export default config;
