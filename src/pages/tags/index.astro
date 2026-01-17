@@ -1,11 +1,10 @@
 ---
 import { getCollection } from "astro:content";
-import BaseHead from "../components/BaseHead.astro";
-import Footer from "../components/Footer.astro";
-import Header from "../components/Header.astro";
-import { SITE_DESCRIPTION, SITE_TITLE } from "../consts";
-import { generateTagSlug } from "../utils";
-
+import BaseHead from "../../components/BaseHead.astro";
+import Footer from "../../components/Footer.astro";
+import Header from "../../components/Header.astro";
+import { SITE_DESCRIPTION, SITE_TITLE } from "../../consts";
+import { generateTagSlug } from "../../utils";
 const posts = (await getCollection("blog")).filter((post) => !post.data.hidden);
 
 const tagMap = new Map<string, number>();
@@ -27,7 +26,9 @@ const tags = Array.from(tagMap.entries())
     <BaseHead title={`${SITE_TITLE} · Tags`} description={SITE_DESCRIPTION} />
     <script>
       const savedTheme = localStorage.getItem("theme");
-      const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+      const prefersDark = window.matchMedia(
+        "(prefers-color-scheme: dark)",
+      ).matches;
       const isDark = savedTheme === "dark" || (!savedTheme && prefersDark);
       if (isDark) {
         document.documentElement.classList.add("dark");
@@ -38,25 +39,29 @@ const tags = Array.from(tagMap.entries())
     <Header />
     <main class="w-full max-w-285 mx-auto px-4 py-12">
       <section>
-        <h1 class="m-0 mb-6 text-xl font-bold text-gray-900 dark:text-gray-100">所有标签</h1>
-        {tags.length === 0 ? (
-          <p class="text-gray-600 dark:text-gray-300">暂无标签。</p>
-        ) : (
-          <ul class="flex gap-2 flex-wrap list-none m-0 p-0">
-            {tags.map(({ name, count }) => (
-              <li>
-                <a
-                  href={`/tags/${generateTagSlug(name)}.html`}
-                  class="inline-block bg-primary/10 text-primary text-sm px-2 py-1 rounded hover:bg-primary/20 transition-colors dark:bg-primary/20 dark:text-primary/90"
-                >
-                  {name} <span class="opacity-70">({count})</span>
-                </a>
-              </li>
-            ))}
-          </ul>
-        )}
+        <h1 class="m-0 mb-6 text-xl font-bold text-gray-900 dark:text-gray-100">
+          所有标签
+        </h1>
+        {
+          tags.length === 0 ? (
+            <p class="text-gray-600 dark:text-gray-300">暂无标签。</p>
+          ) : (
+            <ul class="flex gap-2 flex-wrap list-none m-0 p-0">
+              {tags.map(({ name, count }) => (
+                <li>
+                  <a
+                    href={`/tags/${generateTagSlug(name)}.html`}
+                    class="inline-block bg-primary/10 text-primary text-sm px-2 py-1 rounded hover:bg-primary/20 transition-colors dark:bg-primary/20 dark:text-primary/90"
+                  >
+                    {name} <span class="opacity-70">({count})</span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          )
+        }
       </section>
     </main>
     <Footer />
   </body>
-  </html>
+</html>
