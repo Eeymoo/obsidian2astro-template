@@ -12,57 +12,79 @@ interface DomainUrls {
 }
 
 /**
- * 发送HTTP请求获取页面内容
+ * 发送HTTP请求获取页面内容（支持重定向）
  */
-function fetchPage(urlString: string): Promise<string> {
+function fetchPage(urlString: string, maxRedirects: number = 5): Promise<string> {
   return new Promise((resolve, reject) => {
-    try {
-      const urlObj = new URL(urlString);
-      const protocol = urlObj.protocol === 'https:' ? https : http;
-      const options: any = {
-        hostname: urlObj.hostname,
-        port: urlObj.port || (urlObj.protocol === 'https:' ? 443 : 80),
-        path: urlObj.pathname + urlObj.search || '/',
-        method: 'GET',
-        headers: {
-          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
-          'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-          'Accept-Language': 'en-US,en;q=0.5',
-          'Connection': 'close'
-        },
-        timeout: 15000,
-        rejectUnauthorized: false // 允许自签名证书
-      };
-
-      // 只为本地开发设置Host头
-      if (urlObj.hostname.includes('localhost') || urlObj.hostname.includes('127.0.0.1')) {
-        options.headers['Host'] = urlObj.host;
+    const tryFetch = (url: string, redirectCount: number = 0) => {
+      if (redirectCount > maxRedirects) {
+        reject(new Error(`Too many redirects for ${urlString}`));
+        return;
       }
 
-      const req = protocol.request(options, (res) => {
-        // 检查响应状态码
-        if (res.statusCode && res.statusCode >= 400) {
-          reject(new Error(`HTTP ${res.statusCode}`));
-          return;
+      try {
+        const urlObj = new URL(url);
+        const protocol = urlObj.protocol === 'https:' ? https : http;
+        const options: any = {
+          hostname: urlObj.hostname,
+          port: urlObj.port || (urlObj.protocol === 'https:' ? 443 : 80),
+          path: urlObj.pathname + urlObj.search || '/',
+          method: 'GET',
+          headers: {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
+            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+            'Accept-Language': 'en-US,en;q=0.5',
+            'Connection': 'close'
+          },
+          timeout: 15000,
+          rejectUnauthorized: false // 允许自签名证书
+        };
+
+        // 只为本地开发设置Host头
+        if (urlObj.hostname.includes('localhost') || urlObj.hostname.includes('127.0.0.1')) {
+          options.headers['Host'] = urlObj.host;
         }
 
-        let data = '';
-        res.on('data', chunk => { data += chunk; });
-        res.on('end', () => resolve(data));
-      });
+        const req = protocol.request(options, (res) => {
+          const statusCode = res.statusCode || 0;
 
-      req.on('error', reject);
-      req.on('timeout', () => {
-        req.destroy();
-        reject(new Error(`Request timeout for ${urlString}`));
-      });
-      req.on('aborted', () => {
-        reject(new Error(`Request aborted for ${urlString}`));
-      });
-      req.end();
-    } catch (error) {
-      reject(error);
-    }
+          // 处理重定向
+          if ((statusCode === 301 || statusCode === 302 || statusCode === 303 || statusCode === 307 || statusCode === 308) && res.headers.location) {
+            const location = res.headers.location;
+            const resolvedLocation = location.startsWith('http')
+              ? location
+              : new URL(location, url).href;
+
+            tryFetch(resolvedLocation, redirectCount + 1);
+            return;
+          }
+
+          // 检查响应状态码
+          if (statusCode >= 400) {
+            reject(new Error(`HTTP ${statusCode}`));
+            return;
+          }
+
+          let data = '';
+          res.on('data', chunk => { data += chunk; });
+          res.on('end', () => resolve(data));
+        });
+
+        req.on('error', reject);
+        req.on('timeout', () => {
+          req.destroy();
+          reject(new Error(`Request timeout for ${url}`));
+        });
+        req.on('aborted', () => {
+          reject(new Error(`Request aborted for ${url}`));
+        });
+        req.end();
+      } catch (error) {
+        reject(error);
+      }
+    };
+
+    tryFetch(urlString);
   });
 }
 

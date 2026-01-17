@@ -54,7 +54,7 @@ const categories = Array.from(categoryMap.entries())
               {categories.map(({ name, count }) => (
                 <li>
                   <a
-                    href={`/categories/${generateCategorySlug(name)}.html`}
+                    href={`/categories/${generateCategorySlug(name)}`}
                     class="inline-block bg-primary/10 text-primary text-sm px-3 py-1.5 rounded hover:bg-primary/20 transition-colors dark:bg-primary/20 dark:text-primary/90"
                   >
                     {name} <span class="opacity-70">({count})</span>

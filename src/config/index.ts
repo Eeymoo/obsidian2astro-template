@@ -11,23 +11,23 @@ const config: Config = {
     },
     {
       name: "Blog",
-      href: "/post.html",
+      href: "/post",
     },
     {
       name: "Categories",
-      href: "/categories.html",
+      href: "/categories",
     },
     {
       name: "Tags",
-      href: "/tags.html",
+      href: "/tags",
     },
     {
       name: "Archives",
-      href: "/archives.html",
+      href: "/archives",
     },
     {
       name: "Friends",
-      href: "/friends.html",
+      href: "/friends",
     },
   ],
   friendlyLink: [

@@ -50,7 +50,7 @@ const tags = Array.from(tagMap.entries())
               {tags.map(({ name, count }) => (
                 <li>
                   <a
-                    href={`/tags/${generateTagSlug(name)}.html`}
+                    href={`/tags/${generateTagSlug(name)}`}
                     class="inline-block bg-primary/10 text-primary text-sm px-2 py-1 rounded hover:bg-primary/20 transition-colors dark:bg-primary/20 dark:text-primary/90"
                   >
                     {name} <span class="opacity-70">({count})</span>

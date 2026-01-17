@@ -16,7 +16,7 @@ const { tags, link = false } = Astro.props;
         <li>
           {link ? (
             <a
-              href={`/tags/${generateTagSlug(tag)}.html`}
+              href={`/tags/${generateTagSlug(tag)}/`}
               class="inline-block bg-primary/10 text-primary text-sm px-2 py-1 rounded hover:bg-primary/20 transition-colors dark:bg-primary/20 dark:text-primary/90"
             >
               {tag}
