@@ -27,7 +27,7 @@ const image = {
       // 防止闪烁：在页面加载前设置主题
       const savedTheme = localStorage.getItem("theme");
       const prefersDark = window.matchMedia(
-        "(prefers-color-scheme: dark)"
+        "(prefers-color-scheme: dark)",
       ).matches;
       const isDark = savedTheme === "dark" || (!savedTheme && prefersDark);
       if (isDark) {
@@ -68,13 +68,13 @@ const image = {
                     <h4 class="title m-0 text-gray-900 leading-tight underline decoration-primary hover:decoration-primary transition-colors dark:text-gray-100">
                       {post.data.title}
                     </h4>
-                    <PostDate
-                      date={post.data.date}
-                      updated={post.data.updated}
-                      class="mb-2"
-                    >
+                    <div class="flex">
+                      <PostDate
+                        date={post.data.date}
+                        updated={post.data.updated}
+                      />
                       <Categories categories={post.data.categories} />
-                    </PostDate>
+                    </div>
                     <Tags tags={post.data.tags} />
                   </a>
                 </li>

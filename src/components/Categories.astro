@@ -11,11 +11,11 @@ const { categories, link = false } = Astro.props;
 
 {
   categories && (
-    <div class="category flex items-center ml-2">
+    <div class="category flex items-center ml-2 text-sm">
       {link ? (
         <a
           href={`/categories/${generateCategorySlug(categories)}.html`}
-          class="flex items-center hover:text-primary transition-colors"
+          class="no-style flex items-center hover:text-primary transition-colors"
         >
           <svg
             class="mr-1"
