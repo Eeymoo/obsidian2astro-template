@@ -18,54 +18,264 @@ import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
     <main class="max-w-4xl mx-auto px-6 py-4 min-h-[calc(100vh-200px)]">
       <article class="px-2 py-4">
         <div class="max-w-none">
-          <h1 class="no-style! text-4xl font-bold mb-8 text-center">友情链接</h1>
+          <h1 class="no-style! text-4xl font-bold mb-8 text-center">
+            友情链接
+          </h1>
           <div class="mb-12">
-            <h2 class="no-style! text-2xl font-semibold mb-6">友链列表</h2>
-            <div class="bg-primary/10 dark:bg-primary/20 rounded-lg p-6 mb-12">
+            <h2
+              class="no-style! text-2xl font-semibold mb-6 text-gray-800 dark:text-slate-100"
+            >
+              友链列表
+            </h2>
+            <div
+              class="bg-gradient-to-br from-primary/5 to-primary/10 dark:from-primary/10 dark:to-primary/20 border border-primary/20 dark:border-primary/30 rounded-xl p-6 shadow-sm"
+            >
               <Links links={config.friendlyLink} />
             </div>
           </div>
 
           <div class="mb-12">
-            <h2 class="no-style! text-2xl font-semibold mb-6">友链说明</h2>
+            <h2
+              class="no-style! text-2xl font-semibold mb-6 text-gray-800 dark:text-slate-100"
+            >
+              友链说明
+            </h2>
             <div class="mb-4">
               <Tips type="info">
                 欢迎交换友链！如果你有自己的博客或网站，欢迎与我交换友链。
               </Tips>
             </div>
 
-            <h3 class="no-style! text-xl font-semibold mb-3">申请要求</h3>
-            <ul class="list-disc list-inside text-gray-700 space-y-2 mb-6">
-              <li>网站内容积极向上，无违法违规内容</li>
-              <li>网站可以正常访问，且加载速度正常</li>
-              <li>建议网站支持 HTTPS</li>
-              <li>原创内容优先</li>
-            </ul>
-
-            <h3 class="no-style! text-xl font-semibold mb-3">本站信息</h3>
-            <div class="bg-primary/10 dark:bg-primary/20 rounded-lg p-4 mb-6">
-              <ul class="space-y-2 text-gray-700 dark:text-slate-300">
-                <li><strong>站点名称：</strong>{config.siteTitle}</li>
-                <li>
-                  <strong>站点地址：</strong><a
-                    href={config.siteUrl}
-                    class="no-style text-blue-600 hover:underline">{config.siteUrl}</a>
+            <h3
+              class="no-style! text-xl font-semibold mb-4 text-gray-800 dark:text-slate-100"
+            >
+              申请要求
+            </h3>
+            <div class="bg-gray-50 dark:bg-slate-800/50 rounded-lg p-5 mb-6">
+              <ul class="space-y-3 text-gray-700 dark:text-slate-300">
+                <li class="flex items-start">
+                  <span class="text-primary mr-2 mt-1">✓</span>
+                  <span>网站内容积极向上，无违法违规内容</span>
                 </li>
-                <li><strong>站点描述：</strong>{config.siteDescription}</li>
+                <li class="flex items-start">
+                  <span class="text-primary mr-2 mt-1">✓</span>
+                  <span>网站可以正常访问，加载速度良好</span>
+                </li>
+                <li class="flex items-start">
+                  <span class="text-primary mr-2 mt-1">✓</span>
+                  <span>建议使用 HTTPS 协议</span>
+                </li>
+                <li class="flex items-start">
+                  <span class="text-primary mr-2 mt-1">✓</span>
+                  <span>优先考虑原创内容网站</span>
+                </li>
               </ul>
             </div>
 
-            <h3 class="no-style! text-xl font-semibold mb-3">申请方式</h3>
-            <p class="text-gray-700 dark:text-slate-300 mb-4">
-              请在本页面评论区留言或通过邮件联系我，留言格式如下：
-            </p>
-            <div
-              class="bg-primary/10 dark:bg-primary/20 rounded-lg p-4 font-mono text-sm"
+            <h3
+              class="no-style! text-xl font-semibold mb-4 text-gray-800 dark:text-slate-100"
             >
-              <p>站点名称：你的站点名称</p>
-              <p>站点地址：https://your-site.com</p>
-              <p>站点描述：简短的站点描述</p>
-              <p>站点图标：https://your-site.com/avatar.png</p>
+              本站信息
+            </h3>
+            <div
+              class="bg-linear-to-br from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 border border-blue-200/50 dark:border-blue-700/50 rounded-xl p-5 mb-6 shadow-sm"
+            >
+              <ul class="space-y-3 text-gray-700 dark:text-slate-300">
+                <li class="flex items-start">
+                  <strong class="min-w-20 text-gray-800 dark:text-slate-200"
+                    >站点名称：</strong
+                  >
+                  <span>{config.siteTitle}</span>
+                </li>
+                <li class="flex items-start">
+                  <strong class="min-w-20 text-gray-800 dark:text-slate-200"
+                    >站点地址：</strong
+                  >
+                  <a
+                    href={config.siteUrl}
+                    class="no-style text-blue-600 dark:text-blue-400 hover:underline transition-colors"
+                    >{config.siteUrl}</a
+                  >
+                </li>
+                <li class="flex items-start">
+                  <strong class="min-w-20 text-gray-800 dark:text-slate-200"
+                    >站点描述：</strong
+                  >
+                  <span>{config.siteDescription}</span>
+                </li>
+              </ul>
+            </div>
+
+            <h3
+              class="no-style! text-xl font-semibold mb-4 text-gray-800 dark:text-slate-100"
+            >
+              提交方式
+            </h3>
+            <div class="grid gap-4 mb-6">
+              <div
+                class="bg-white dark:bg-slate-800/50 rounded-lg p-4 transition-all"
+              >
+                <div class="flex items-start">
+                  <span class="text-2xl mr-3 mt-0.5">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke-width="1.5"
+                      stroke="currentColor"
+                      class="size-6"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M17.25 6.75 22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3-4.5 16.5"
+                      ></path>
+                    </svg>
+                  </span>
+                  <div class="flex-1">
+                    <p
+                      class="font-semibold text-gray-800 dark:text-slate-200 mb-2 leading-6"
+                    >
+                      1. 提交 Pull Request
+                      <span
+                        class="ml-2 text-xs bg-green-100 dark:bg-green-900/50 text-green-700 dark:text-green-300 px-2 py-0.5 rounded-full"
+                        >推荐</span
+                      >
+                    </p>
+                    <p
+                      class="text-sm text-gray-600 dark:text-slate-400 mb-2 leading-6"
+                    >
+                      直接编辑配置文件并提交 PR
+                    </p>
+                    <a
+                      href="https://github.com/Eeymoo/obsidian2astro-template/blob/main/src/config/index.ts"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="no-style text-sm text-blue-600 dark:text-blue-400 hover:underline transition-colors inline-flex items-center"
+                    >
+                      <span>编辑 src/config/index.ts</span>
+                      <span class="ml-1">→</span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+
+              <div
+                class="bg-white dark:bg-slate-800/50 rounded-lg p-4 transition-all"
+              >
+                <div class="flex items-start">
+                  <span class="text-2xl mr-3 mt-0.5"
+                    ><svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke-width="1.5"
+                      stroke="currentColor"
+                      class="size-6"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M8.625 9.75a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H8.25m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H12m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0h-.375m-13.5 3.01c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.184-4.183a1.14 1.14 0 0 1 .778-.332 48.294 48.294 0 0 0 5.83-.498c1.585-.233 2.708-1.626 2.708-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z"
+                      ></path>
+                    </svg>
+                  </span>
+                  <div class="flex-1">
+                    <p
+                      class="font-semibold text-gray-800 dark:text-slate-200 mb-2 leading-6"
+                    >
+                      2. 提交 GitHub Issue
+                    </p>
+                    <p class="text-sm text-gray-600 dark:text-slate-400 mb-2">
+                      在 GitHub 仓库中创建 Issue，提交您的友链信息
+                    </p>
+                    <a
+                      href="https://github.com/Eeymoo/obsidian2astro-template/issues"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="no-style text-sm text-blue-600 dark:text-blue-400 hover:underline transition-colors inline-flex items-center"
+                    >
+                      <span>前往 Issues 页面</span>
+                      <span class="ml-1">→</span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+
+              <div
+                class="bg-white dark:bg-slate-800/50 rounded-lg p-4 transition-all flex flex-col"
+              >
+                <div class="flex items-start mb-3">
+                  <span class="text-2xl mr-3">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke-width="1.5"
+                      stroke="currentColor"
+                      class="size-6"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M21.75 9v.906a2.25 2.25 0 0 1-1.183 1.981l-6.478 3.488M2.25 9v.906a2.25 2.25 0 0 0 1.183 1.981l6.478 3.488m8.839 2.51-4.66-2.51m0 0-1.023-.55a2.25 2.25 0 0 0-2.134 0l-1.022.55m0 0-4.661 2.51m16.5 1.615a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V8.844a2.25 2.25 0 0 1 1.183-1.981l7.5-4.039a2.25 2.25 0 0 1 2.134 0l7.5 4.039a2.25 2.25 0 0 1 1.183 1.98V19.5Z"
+                      ></path>
+                    </svg>
+                  </span>
+                  <div class="flex-1">
+                    <p
+                      class="font-semibold text-gray-800 dark:text-slate-200 mb-2 line-clamp-2 leading-6"
+                    >
+                      3. 发送邮件
+                    </p>
+                    <p
+                      class="text-sm text-gray-600 dark:text-slate-400 mb-3 grow"
+                    >
+                      发送至邮箱
+                    </p>
+                    <a
+                      href="mailto:eeymoo@aliyun.com"
+                      class="no-style text-sm text-blue-600 dark:text-blue-400 hover:underline transition-colors inline-flex items-center mt-auto"
+                    >
+                      <span>eeymoo@aliyun.com</span>
+                      <span class="ml-1">→</span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <h3
+              class="no-style! text-xl font-semibold mb-4 text-gray-800 dark:text-slate-100"
+            >
+              信息格式
+            </h3>
+            <div
+              class="bg-gray-800 dark:bg-slate-900 border border-gray-700 dark:border-slate-700 rounded-xl p-5 shadow-lg"
+            >
+              <div class="font-mono text-sm space-y-2">
+                <p class="text-gray-300 dark:text-slate-300">
+                  <span class="text-blue-400">站点名称：</span><span
+                    class="text-gray-100">你的站点名称</span
+                  >
+                </p>
+                <p class="text-gray-300 dark:text-slate-300">
+                  <span class="text-blue-400">站点地址：</span><span
+                    class="text-gray-100">https://your-site.com</span
+                  >
+                </p>
+                <p class="text-gray-300 dark:text-slate-300">
+                  <span class="text-blue-400">站点描述：</span><span
+                    class="text-gray-100">简短的站点描述</span
+                  >
+                </p>
+                <p class="text-gray-300 dark:text-slate-300">
+                  <span class="text-blue-400">站点图标：</span><span
+                    class="text-gray-100">https://your-site.com/avatar.png</span
+                  >
+                  <span class="text-gray-500 ml-2"># 可选</span>
+                </p>
+              </div>
             </div>
           </div>
         </div>

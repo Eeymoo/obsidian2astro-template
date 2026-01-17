@@ -1,9 +1,9 @@
 import type { Config } from "./types";
 
 const config: Config = {
-  siteTitle: "My Astro Site",
-  siteDescription: "A description of my Astro site.",
-  siteUrl: "https://www.example.com",
+  siteTitle: "Eeymoo's Blog",
+  siteDescription: "记录、学习、分享技术与生活点滴",
+  siteUrl: "https://blog.eeymoo.com",
   navLinks: [
     {
       name: "Home",
