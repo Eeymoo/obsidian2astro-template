@@ -3,6 +3,7 @@ import { SITE_TITLE } from "../consts";
 import DarkModeButton from "./DarkModeButton.astro";
 import HeaderLink from "./HeaderLink.astro";
 import SearchBox from "./SearchBox.astro";
+import Logo from "./Logo.astro";
 import config from "../config";
 
 interface Props {
@@ -16,12 +17,13 @@ const { sticky = true } = Astro.props;
   class={`bg-white dark:bg-gray-900 px-4 py-0 transition-colors ${sticky ? "sticky top-0 z-50" : ""}`}
 >
   <nav class="flex items-center justify-between">
-    <h2 class="text-base m-0 logo">
+    <h2 class="no-style text-base m-0 logo">
       <a
         href="/"
-        class="underline decoration-primary hover:decoration-primary text-gray-900 dark:text-white transition-colors"
-        >{SITE_TITLE}</a
+        class="no-style underline decoration-primary hover:decoration-primary text-gray-900 dark:text-white transition-colors"
       >
+        <Logo class="inline-block w-6 h-6 mr-2" />
+      </a>
     </h2>
     <div class="internal-links">
       {
