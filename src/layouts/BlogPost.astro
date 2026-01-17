@@ -25,7 +25,7 @@ const { title, description, date, updated, heroImage, tags, categories } =
       // 防止闪烁：在页面加载前设置主题
       const savedTheme = localStorage.getItem("theme");
       const prefersDark = window.matchMedia(
-        "(prefers-color-scheme: dark)"
+        "(prefers-color-scheme: dark)",
       ).matches;
       const isDark = savedTheme === "dark" || (!savedTheme && prefersDark);
       if (isDark) {
@@ -55,17 +55,15 @@ const { title, description, date, updated, heroImage, tags, categories } =
           <div class="title mb-4 py-4 text-center leading-tight">
             <h1 class="mb-2 text-lg font-bold">{title}</h1>
 
-            <div class="date mb-2">
-              <PostDate date={new Date(date)} updated={updated}>
-                <Categories categories={categories} link={true} />
-              </PostDate>
+            <div class="flex mb-2">
+              <PostDate date={new Date(date)} updated={updated} />
+              <Categories categories={categories} link={true} />
             </div>
             <Tags tags={tags} link={true} />
-            <hr />
           </div>
 
           <FrontMatter data={Astro.props} />
-          
+
           <div class="prose">
             <slot />
           </div>

@@ -11,7 +11,7 @@ const { categories, link = false } = Astro.props;
 
 {
   categories && (
-    <div class="category flex items-center ml-2 text-sm">
+    <div class="category flex items-center ml-2 text-sm h-7 py-0.5 text-gray-400 dark:text-gray-500">
       {link ? (
         <a
           href={`/categories/${generateCategorySlug(categories)}.html`}

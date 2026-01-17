@@ -11,7 +11,7 @@ const { tags, link = false } = Astro.props;
 
 {
   tags && tags.length > 0 && (
-    <ul class="flex gap-1 flex-wrap list-none! m-0 p-0">
+    <ul class="no-style flex gap-1 flex-wrap list-none! m-0 p-0">
       {tags.map((tag) => (
         <li>
           {link ? (
