@@ -24,13 +24,18 @@ const years = Object.keys(groupedByYear).sort((a, b) => Number(b) - Number(a));
 <!doctype html>
 <html lang="en" class="scroll-smooth">
   <head>
-    <BaseHead title={`${SITE_TITLE} · Archives`} description={SITE_DESCRIPTION} />
+    <BaseHead
+      title={`${SITE_TITLE} · Archives`}
+      description={SITE_DESCRIPTION}
+    />
     <script>
-      const savedTheme = localStorage.getItem('theme');
-      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      const isDark = savedTheme === 'dark' || (!savedTheme && prefersDark);
+      const savedTheme = localStorage.getItem("theme");
+      const prefersDark = window.matchMedia(
+        "(prefers-color-scheme: dark)",
+      ).matches;
+      const isDark = savedTheme === "dark" || (!savedTheme && prefersDark);
       if (isDark) {
-        document.documentElement.classList.add('dark');
+        document.documentElement.classList.add("dark");
       }
     </script>
   </head>
@@ -38,44 +43,54 @@ const years = Object.keys(groupedByYear).sort((a, b) => Number(b) - Number(a));
     <Header />
     <main class="w-full max-w-285 mx-auto px-4 py-12">
       <section>
-        {years.map((year) => (
-          <div class="mb-10">
-            <h2 class="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-4">{year}</h2>
-            <ul class="list-none m-0 p-0 space-y-3">
-              {groupedByYear[year]
-                .sort((a, b) => b.data.date?.valueOf() - a.data.date?.valueOf())
-                .map((post) => {
-                  const slug = generatePostSlug(post);
-                  return (
-                    <li class="w-full">
-                      <a
-                        href={`/post/${slug}.html`}
-                        class="block hover:bg-primary/20 p-4 rounded transition-colors"
-                      >
-                        <div class="flex items-center gap-3">
-                          {post.data.heroImage && (
-                            <Image
-                              width={160}
-                              height={90}
-                              src={post.data.heroImage}
-                              alt=""
-                              class="rounded-lg hidden sm:block"
-                            />
-                          )}
-                          <div class="min-w-0">
-                            <h4 class="m-0 text-gray-900 dark:text-gray-100 leading-tight underline decoration-primary hover:decoration-primary transition-colors">
-                              {post.data.title}
-                            </h4>
-                            <PostDate date={post.data.date} updated={post.data.updated} class="m-0" />
+        {
+          years.map((year) => (
+            <div class="mb-10">
+              <h2 class="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-4">
+                {year}
+              </h2>
+              <ul class="list-none m-0 p-0 space-y-3">
+                {groupedByYear[year]
+                  .sort(
+                    (a, b) => b.data.date?.valueOf() - a.data.date?.valueOf(),
+                  )
+                  .map((post) => {
+                    const slug = generatePostSlug(post);
+                    return (
+                      <li class="w-full">
+                        <a
+                          href={`/post/${slug}.html`}
+                          class="no-style block hover:bg-primary/20 p-4 rounded transition-colors"
+                        >
+                          <div class="flex items-center gap-3">
+                            {post.data.heroImage && (
+                              <Image
+                                width={160}
+                                height={90}
+                                src={post.data.heroImage}
+                                alt=""
+                                class="rounded-lg hidden sm:block"
+                              />
+                            )}
+                            <div class="min-w-0">
+                              <h4 class="m-0 text-gray-900 dark:text-gray-100 leading-tight underline decoration-primary hover:decoration-primary transition-colors">
+                                {post.data.title}
+                              </h4>
+                              <PostDate
+                                date={post.data.date}
+                                updated={post.data.updated}
+                                class="m-0"
+                              />
+                            </div>
                           </div>
-                        </div>
-                      </a>
-                    </li>
-                  );
-                })}
-            </ul>
-          </div>
-        ))}
+                        </a>
+                      </li>
+                    );
+                  })}
+              </ul>
+            </div>
+          ))
+        }
       </section>
     </main>
     <Footer />
