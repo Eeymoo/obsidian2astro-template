@@ -7,17 +7,17 @@ interface Props {
 const { etcAddress, solAddress } = Astro.props;
 ---
 
-<div class="donate-container">
-  <div class="donate-buttons">
+<div class="mt-8 mb-8 p-6 bg-slate-50 rounded-lg dark:bg-gray-900">
+  <div class="flex flex-wrap gap-4 justify-center">
     {
       etcAddress && (
         <button
-          class="donate-button etc-button"
+          class="donate-button-base etc-button"
           data-address={etcAddress}
           data-chain="etc"
           aria-label="使用小狐狸钱包捐赠 ETC"
         >
-          <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
+          <svg class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
             <path d="M11.944 17.97L4.58 13.62 11.943 24l7.37-10.38-7.372 4.35h.003zM12.056 0L4.69 12.223l7.365 4.354 7.365-4.35L12.056 0z" />
           </svg>
           <span>捐赠 ETC</span>
@@ -28,12 +28,12 @@ const { etcAddress, solAddress } = Astro.props;
     {
       solAddress && (
         <button
-          class="donate-button sol-button"
+          class="donate-button-base sol-button"
           data-address={solAddress}
           data-chain="sol"
           aria-label="使用 Phantom 钱包捐赠 SOL"
         >
-          <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
+          <svg class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
             <path d="M20.45 8.55a.65.65 0 0 0-.46-.19H4.73a.36.36 0 0 0-.29.55l3.63 4.88a.65.65 0 0 0 .46.19h15.26a.36.36 0 0 0 .29-.55zm-15.72 11a.65.65 0 0 0 .46.19h15.26a.36.36 0 0 0 .29-.55l-3.63-4.88a.65.65 0 0 0-.46-.19H4.39a.36.36 0 0 0-.29.55zM4.39 4.93h15.26a.65.65 0 0 0 .46-1.12L16.48.19a.65.65 0 0 0-.46-.19H4.73a.36.36 0 0 0-.29.55z" />
           </svg>
           <span>捐赠 SOL</span>
@@ -42,120 +42,12 @@ const { etcAddress, solAddress } = Astro.props;
     }
   </div>
 
-  <div id="donate-message" class="donate-message hidden"></div>
+  <div
+    id="donate-message"
+    class="donate-message hidden mt-4 px-3 py-3 rounded-lg text-center text-sm"
+  >
+  </div>
 </div>
-
-<style>
-  .donate-container {
-    margin-top: 2rem;
-    margin-bottom: 2rem;
-    padding: 1.5rem;
-    background-color: rgb(249 250 251);
-    border-radius: 0.5rem;
-    border: 1px solid rgb(229 231 235);
-  }
-
-  html.dark .donate-container {
-    background-color: rgb(17 24 39);
-    border-color: rgb(55 65 81);
-  }
-
-  .donate-buttons {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-    justify-content: center;
-  }
-
-  .donate-button {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.75rem 1.5rem;
-    border-radius: 0.5rem;
-    font-weight: 500;
-    transition: all 300ms;
-    transform: scale(1);
-    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
-  }
-
-  .donate-button:hover {
-    transform: scale(1.05);
-    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
-  }
-
-  .donate-button:active {
-    transform: scale(0.95);
-  }
-
-  .etc-button {
-    background: linear-gradient(to right, rgb(34 197 94), rgb(5 150 105));
-    color: white;
-  }
-
-  .etc-button:hover {
-    background: linear-gradient(to right, rgb(22 163 74), rgb(4 120 87));
-  }
-
-  .sol-button {
-    background: linear-gradient(to right, rgb(168 85 247), rgb(219 39 119));
-    color: white;
-  }
-
-  .sol-button:hover {
-    background: linear-gradient(to right, rgb(147 51 234), rgb(190 24 93));
-  }
-
-  .donate-button .icon {
-    width: 1.5rem;
-    height: 1.5rem;
-  }
-
-  .donate-message {
-    margin-top: 1rem;
-    padding: 0.75rem;
-    border-radius: 0.5rem;
-    text-align: center;
-    font-size: 0.875rem;
-  }
-
-  .donate-message.success {
-    background-color: rgb(220 252 231);
-    color: rgb(22 101 52);
-    display: block;
-  }
-
-  html.dark .donate-message.success {
-    background-color: rgb(20 83 45);
-    color: rgb(187 247 208);
-  }
-
-  .donate-message.error {
-    background-color: rgb(254 226 226);
-    color: rgb(153 27 27);
-    display: block;
-  }
-
-  html.dark .donate-message.error {
-    background-color: rgb(127 29 29);
-    color: rgb(254 202 202);
-  }
-
-  .donate-message.info {
-    background-color: rgb(219 234 254);
-    color: rgb(30 64 175);
-    display: block;
-  }
-
-  html.dark .donate-message.info {
-    background-color: rgb(30 58 138);
-    color: rgb(191 219 254);
-  }
-
-  .donate-message.hidden {
-    display: none;
-  }
-</style>
 
 <script>
   // 检查是否安装了 MetaMask
@@ -173,10 +65,35 @@ const { etcAddress, solAddress } = Astro.props;
     const messageEl = document.getElementById("donate-message");
     if (messageEl) {
       messageEl.textContent = message;
-      messageEl.className = `donate-message ${type}`;
+      messageEl.className = `donate-message mt-4 px-3 py-3 rounded-lg text-center text-sm`;
+
+      // 根据类型添加对应的样式
+      if (type === "success") {
+        messageEl.classList.add(
+          "bg-green-100",
+          "text-green-800",
+          "dark:bg-green-900",
+          "dark:text-green-200",
+        );
+      } else if (type === "error") {
+        messageEl.classList.add(
+          "bg-red-100",
+          "text-red-800",
+          "dark:bg-red-900",
+          "dark:text-red-200",
+        );
+      } else if (type === "info") {
+        messageEl.classList.add(
+          "bg-blue-100",
+          "text-blue-800",
+          "dark:bg-blue-900",
+          "dark:text-blue-200",
+        );
+      }
 
       setTimeout(() => {
-        messageEl.className = "donate-message hidden";
+        messageEl.className =
+          "donate-message hidden mt-4 px-3 py-3 rounded-lg text-center text-sm";
       }, 5000);
     }
   }
@@ -309,7 +226,7 @@ const { etcAddress, solAddress } = Astro.props;
 
   // 绑定事件
   document.addEventListener("DOMContentLoaded", () => {
-    const donateButtons = document.querySelectorAll(".donate-button");
+    const donateButtons = document.querySelectorAll(".donate-button-base");
 
     donateButtons.forEach((button) => {
       button.addEventListener("click", async (e) => {

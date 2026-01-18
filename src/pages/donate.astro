@@ -28,14 +28,14 @@ import "../styles/global.css";
   <body>
     <Header />
     <main class="w-full max-w-4xl mx-auto p-8">
-      <div class="donate-page">
+      <div class="max-w-3xl mx-auto">
         <h1
-          class="text-4xl font-bold text-gray-900 dark:text-white mb-6 text-center"
+          class="text-4xl font-bold text-gray-900 dark:text-white mb-6 text-center sm:text-2xl"
         >
           💖 捐赠支持
         </h1>
 
-        <div class="intro-section mb-8">
+        <div class="pb-8">
           <p class="text-lg text-gray-700 dark:text-gray-300 mb-4 text-center">
             如果我的文章或项目对您有所帮助，您可以通过以下方式支持我
           </p>
@@ -53,8 +53,10 @@ import "../styles/global.css";
           )
         }
 
-        <div class="info-section mt-8">
-          <h2 class="text-2xl font-semibold text-gray-900 dark:text-white mb-4">
+        <div class="mt-8">
+          <h2
+            class="text-2xl font-semibold text-gray-900 dark:text-white mb-4 sm:text-xl"
+          >
             使用说明
           </h2>
           <ul
@@ -72,11 +74,9 @@ import "../styles/global.css";
           </ul>
         </div>
 
-        <div
-          class="thank-you-section mt-8 p-6 bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 rounded-lg border border-blue-200 dark:border-blue-800"
-        >
+        <div class="mt-8 p-6 bg-gray-100 dark:bg-slate-800/40 rounded-lg">
           <h2
-            class="text-2xl font-semibold text-gray-900 dark:text-white mb-3 text-center"
+            class="text-2xl font-semibold text-gray-900 dark:text-white mb-3 text-center sm:text-xl"
           >
             感谢您的支持
           </h2>
@@ -87,35 +87,5 @@ import "../styles/global.css";
       </div>
     </main>
     <Footer />
-
-    <style>
-      .donate-page {
-        max-width: 800px;
-        margin: 0 auto;
-      }
-
-      .intro-section {
-        border-bottom: 2px solid rgb(229 231 235);
-        padding-bottom: 2rem;
-      }
-
-      html.dark .intro-section {
-        border-color: rgb(55 65 81);
-      }
-
-      .info-section ul li {
-        margin-left: 1rem;
-      }
-
-      @media (max-width: 640px) {
-        .donate-page h1 {
-          font-size: 2rem;
-        }
-
-        .donate-page h2 {
-          font-size: 1.5rem;
-        }
-      }
-    </style>
   </body>
 </html>
