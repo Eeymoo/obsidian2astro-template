@@ -14,57 +14,63 @@ const { sticky = true } = Astro.props;
 ---
 
 <header
-  class={`bg-white dark:bg-gray-900 px-4 py-3 transition-colors ${sticky ? "sticky top-0 z-50" : ""}`}
+  class={`bg-white dark:bg-gray-900 px-3 sm:px-4 py-3 transition-colors ${sticky ? "sticky top-0 z-50" : ""}`}
 >
-  <nav class="flex items-center justify-between md:justify-center gap-4">
-    <!-- Mobile Menu Button (Left) -->
-    <button
-      id="mobile-menu-toggle"
-      class="md:hidden flex items-center justify-center w-10 h-10 text-gray-700 dark:text-gray-300 hover:bg-primary/10 dark:hover:bg-primary/20 transition-colors"
-      aria-label="Toggle menu"
-    >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke-width="1.5"
-        stroke="currentColor"
-        class="size-6"
+  <nav
+    class="max-w-screen-xl mx-auto flex items-center justify-between gap-3 sm:gap-4 flex-wrap md:flex-nowrap lg:grid lg:grid-cols-[auto_1fr_auto] lg:items-center lg:gap-6"
+  >
+    <div class="flex items-center gap-3 flex-shrink-0">
+      <!-- Mobile Menu Button (Left) -->
+      <button
+        id="mobile-menu-toggle"
+        class="md:hidden flex items-center justify-center w-10 h-10 text-gray-700 dark:text-gray-300 hover:bg-primary/10 dark:hover:bg-primary/20 transition-colors"
+        aria-label="Toggle menu"
       >
-        <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          d="M12 6.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5ZM12 12.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5ZM12 18.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5Z"
-        ></path>
-      </svg>
-    </button>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="size-6"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M12 6.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5ZM12 12.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5ZM12 18.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5Z"
+          ></path>
+        </svg>
+      </button>
 
-    <!-- Logo (Center on mobile, left on desktop) -->
-    <h2
-      class="no-style text-base m-0 logo flex-1 md:flex-none md:absolute md:left-4"
-    >
-      <a
-        href="/"
-        class="no-style underline decoration-primary hover:decoration-primary text-gray-900 dark:text-white transition-colors flex items-center justify-center md:justify-start"
-      >
-        <Logo class="inline-block w-6 h-6 mr-2" />
-      </a>
-    </h2>
+      <!-- Logo (Center on mobile, left on desktop) -->
+      <h2 class="no-style text-base m-0 logo">
+        <a
+          href="/"
+          class="no-style underline decoration-primary hover:decoration-primary text-gray-900 dark:text-white transition-colors flex items-center justify-center md:justify-start"
+        >
+          <Logo class="inline-block w-6 h-6 mr-2" />
+        </a>
+      </h2>
+    </div>
 
     <!-- Desktop Navigation -->
-    <div class="hidden md:flex items-center gap-8 flex-1 justify-center">
-      <div class="internal-links flex gap-4">
+    <div
+      class="hidden md:flex items-center justify-center gap-4 flex-wrap md:flex-1 md:min-w-0 lg:justify-center"
+    >
+      <div class="internal-links flex flex-wrap justify-center">
         {
           config.navLinks.map((link) => (
             <HeaderLink href={link.href}>{link.name}</HeaderLink>
           ))
         }
       </div>
-      <SearchBox />
     </div>
 
-    <!-- Desktop Social Links -->
-    <div class="social-links hidden md:flex gap-4">
+    <!-- Desktop Actions -->
+    <div class="flex items-center gap-2 min-w-0 md:justify-end flex-shrink-0">
+      <div class="hidden lg:block">
+        <SearchBox />
+      </div>
       <a
         href="/rss.xml"
         target="_blank"
@@ -86,10 +92,6 @@ const { sticky = true } = Astro.props;
           ></path>
         </svg>
       </a>
-    </div>
-
-    <!-- Dark Mode Button (Right) -->
-    <div class="md:absolute md:right-4">
       <DarkModeButton />
     </div>
   </nav>
