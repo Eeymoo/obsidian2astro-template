@@ -14,7 +14,7 @@ import "../styles/global.css";
       // 防止闪烁：在页面加载前设置主题
       const savedTheme = localStorage.getItem("theme");
       const prefersDark = window.matchMedia(
-        "(prefers-color-scheme: dark)"
+        "(prefers-color-scheme: dark)",
       ).matches;
       const isDark = savedTheme === "dark" || (!savedTheme && prefersDark);
       if (isDark) {
@@ -24,7 +24,7 @@ import "../styles/global.css";
   </head>
   <body>
     <Header />
-    <main class="w-full max-w-4xl mx-auto p-8">
+    <main class="w-full h-[calc(100vh-56px)] max-w-4xl mx-auto p-8">
       <h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-4">
         Hi Everyone <span class="text-5xl inline-block animate-wave">👋</span
         ><br /> I'm
