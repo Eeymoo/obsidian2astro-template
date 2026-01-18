@@ -26,6 +26,13 @@ jobs:
       - name: Checkout Project
         uses: actions/checkout@v4
 
+      - name: Checkout Obsidian Content
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ env.OBSIDIAN_REPO }}
+          path: obsidian-doc
+          token: ${{ secrets.SERVICE_ACCOUNT_KEY }}
+
       - name: Set up Node.js & Cache Dependencies
         uses: actions/setup-node@v4
         with:
@@ -50,8 +57,8 @@ jobs:
       - name: Prepare Static Files
         run: |
           mkdir -p blog
-          mv dist/* blog/
-          ls -a blog
+          mv dist/* dist/.[^.]* blog/ 2>/dev/null || true
+          ls -la blog/_astro/ 2>/dev/null || echo "Warning: _astro directory not found"
 
       - name: Upload Static Files Artifact
         uses: actions/upload-artifact@v4
@@ -81,7 +88,7 @@ jobs:
       - name: Copy Static Files to Pages Repo
         run: |
           rm -rf pages-repo/*  # 清空旧文件（避免冗余）
-          cp -r blog/* pages-repo/  # 复制新生成的静态文件
+          cp -r blog/* blog/.[^.]* pages-repo/ 2>/dev/null || cp -r blog/* pages-repo/  # 复制新生成的静态文件，包括隐藏文件
 
       - name: Push to Pages Repository
         working-directory: pages-repo
