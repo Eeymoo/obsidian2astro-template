@@ -50,7 +50,7 @@ jobs:
       - name: Prepare Static Files
         run: |
           mkdir -p blog
-          mv public/* blog/
+          mv dist/* blog/
           ls -a blog
 
       - name: Upload Static Files Artifact
