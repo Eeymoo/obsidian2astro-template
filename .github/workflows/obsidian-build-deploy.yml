@@ -54,17 +54,11 @@ jobs:
           npm install --no-fund --no-audit
           npm run build
 
-      - name: Prepare Static Files
-        run: |
-          mkdir -p blog
-          mv dist/* dist/.[^.]* blog/ 2>/dev/null || true
-          ls -la blog/_astro/ 2>/dev/null || echo "Warning: _astro directory not found"
-
       - name: Upload Static Files Artifact
         uses: actions/upload-artifact@v4
         with:
           name: blog-static-files
-          path: blog/
+          path: dist/
           retention-days: 1
 
   deploy-to-pages:
@@ -75,7 +69,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: blog-static-files
-          path: blog
+          path: dist/
 
       - name: Checkout Pages Repository
         uses: actions/checkout@v4
@@ -88,7 +82,7 @@ jobs:
       - name: Copy Static Files to Pages Repo
         run: |
           rm -rf pages-repo/*  # 清空旧文件（避免冗余）
-          cp -r blog/* blog/.[^.]* pages-repo/ 2>/dev/null || cp -r blog/* pages-repo/  # 复制新生成的静态文件，包括隐藏文件
+          cp -r dist/* pages-repo/
 
       - name: Push to Pages Repository
         working-directory: pages-repo
