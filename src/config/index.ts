@@ -4,6 +4,7 @@ const config: Config = {
   siteTitle: "Eeymoo's Blog",
   siteDescription: "记录、学习、分享技术与生活点滴",
   siteUrl: "https://blog.eeymoo.com",
+  siteIcon: "https://avatars.githubusercontent.com/u/174967750?v=4",
   navLinks: [
     {
       name: "Home",

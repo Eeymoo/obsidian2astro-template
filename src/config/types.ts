@@ -2,6 +2,7 @@ type Config = {
   siteTitle: string;
   siteDescription: string;
   siteUrl: string;
+  siteIcon: string;
   // 导航链接
   navLinks: Array<NavLink>;
   // 友情连接

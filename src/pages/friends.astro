@@ -27,9 +27,7 @@ import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
             >
               友链列表
             </h2>
-            <div
-              class="bg-gradient-to-br from-primary/5 to-primary/10 dark:from-primary/10 dark:to-primary/20 border border-primary/20 dark:border-primary/30 rounded-xl p-6 shadow-sm"
-            >
+            <div class="bg-gray-100 dark:bg-slate-800/40 rounded-xl p-4">
               <Links links={config.friendlyLink} />
             </div>
           </div>
@@ -73,13 +71,11 @@ import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
             </div>
 
             <h3
-              class="no-style! text-xl font-semibold mb-4 text-gray-800 dark:text-slate-100"
+              class="no-style text-xl font-semibold mb-4 text-gray-800 dark:text-slate-100"
             >
               本站信息
             </h3>
-            <div
-              class="bg-linear-to-br from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 border border-blue-200/50 dark:border-blue-700/50 rounded-xl p-5 mb-6 shadow-sm"
-            >
+            <div class="bg-gray-100 dark:bg-slate-800/40 rounded-xl p-5 mb-6">
               <ul class="space-y-3 text-gray-700 dark:text-slate-300">
                 <li class="flex items-start">
                   <strong class="min-w-20 text-gray-800 dark:text-slate-200"
@@ -91,17 +87,21 @@ import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
                   <strong class="min-w-20 text-gray-800 dark:text-slate-200"
                     >站点地址：</strong
                   >
-                  <a
-                    href={config.siteUrl}
-                    class="no-style text-blue-600 dark:text-blue-400 hover:underline transition-colors"
-                    >{config.siteUrl}</a
-                  >
+                  <span>
+                    {config.siteUrl}
+                  </span>
                 </li>
                 <li class="flex items-start">
                   <strong class="min-w-20 text-gray-800 dark:text-slate-200"
                     >站点描述：</strong
                   >
                   <span>{config.siteDescription}</span>
+                </li>
+                <li class="flex items-start">
+                  <strong class="min-w-20 text-gray-800 dark:text-slate-200"
+                    >站点图标：</strong
+                  >
+                  <span>{config.siteIcon}</span>
                 </li>
               </ul>
             </div>
@@ -151,7 +151,7 @@ import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
                       href="https://github.com/Eeymoo/obsidian2astro-template/blob/main/src/config/index.ts"
                       target="_blank"
                       rel="noopener noreferrer"
-                      class="no-style text-sm text-blue-600 dark:text-blue-400 hover:underline transition-colors inline-flex items-center"
+                      class="text-sm"
                     >
                       <span>编辑 src/config/index.ts</span>
                       <span class="ml-1">→</span>
@@ -193,7 +193,7 @@ import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
                       href="https://github.com/Eeymoo/obsidian2astro-template/issues"
                       target="_blank"
                       rel="noopener noreferrer"
-                      class="no-style text-sm text-blue-600 dark:text-blue-400 hover:underline transition-colors inline-flex items-center"
+                      class="text-sm"
                     >
                       <span>前往 Issues 页面</span>
                       <span class="ml-1">→</span>
@@ -233,10 +233,7 @@ import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
                     >
                       发送至邮箱
                     </p>
-                    <a
-                      href="mailto:eeymoo@aliyun.com"
-                      class="no-style text-sm text-blue-600 dark:text-blue-400 hover:underline transition-colors inline-flex items-center mt-auto"
-                    >
+                    <a href="mailto:eeymoo@aliyun.com" class="text-sm">
                       <span>eeymoo@aliyun.com</span>
                       <span class="ml-1">→</span>
                     </a>
@@ -250,9 +247,7 @@ import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
             >
               信息格式
             </h3>
-            <div
-              class="bg-gray-800 dark:bg-slate-900 border border-gray-700 dark:border-slate-700 rounded-xl p-5 shadow-lg"
-            >
+            <div class="bg-gray-800 dark:bg-slate-900 rounded-xl p-5">
               <div class="font-mono text-sm space-y-2">
                 <p class="text-gray-300 dark:text-slate-300">
                   <span class="text-blue-400">站点名称：</span><span
