@@ -12,6 +12,10 @@ export default defineConfig({
   base: "/",
   integrations: [mdx(), sitemap()],
 
+  build: {
+    assets: "assets",
+  },
+
   markdown: {
     shikiConfig: {
       theme: "monokai",
