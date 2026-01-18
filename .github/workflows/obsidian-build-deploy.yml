@@ -1,0 +1,97 @@
+name: obsidian-build-deploy
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "src/**"
+      - "public/**"
+      - "package.json"
+      - ".github/workflows/**"
+  repository_dispatch:
+    types:
+      - obsidian-content-update
+
+env:
+  OBSIDIAN_REPO: Eeymoo/Obsidian
+  BLOG_PAGES_REPO: Eeymoo/Eeymoo.github.io # 目标Pages仓库
+  BLOG_PAGES_BRANCH: main # Pages仓库的部署分支（默认用main）
+  NODE_VERSION: "18"
+  OBSIDIAN_CONTENT_PATH: "博客"
+
+jobs:
+  generate-static-files:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Project
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js & Cache Dependencies
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: "npm"
+
+      - name: Move Obsidian Content to Project
+        run: |
+          mkdir -p src/content
+          if [ -d "obsidian-doc/${{ env.OBSIDIAN_CONTENT_PATH }}" ]; then
+            mv obsidian-doc/${{ env.OBSIDIAN_CONTENT_PATH }}/* src/content/
+            echo "成功移动Obsidian博客内容"
+          else
+            echo "Obsidian博客目录不存在，跳过移动"
+          fi
+
+      - name: Install Dependencies & Generate Static Files
+        run: |
+          npm install --no-fund --no-audit
+          npm run build
+
+      - name: Prepare Static Files
+        run: |
+          mkdir -p blog
+          mv public/* blog/
+          ls -a blog
+
+      - name: Upload Static Files Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: blog-static-files
+          path: blog/
+          retention-days: 1
+
+  deploy-to-pages:
+    needs: generate-static-files
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download Static Files
+        uses: actions/download-artifact@v4
+        with:
+          name: blog-static-files
+          path: blog
+
+      - name: Checkout Pages Repository
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ env.BLOG_PAGES_REPO }}
+          path: pages-repo
+          ref: ${{ env.BLOG_PAGES_BRANCH }} # 切换到部署分支
+          token: ${{ secrets.SERVICE_ACCOUNT_KEY }} # 授权推送
+
+      - name: Copy Static Files to Pages Repo
+        run: |
+          rm -rf pages-repo/*  # 清空旧文件（避免冗余）
+          cp -r blog/* pages-repo/  # 复制新生成的静态文件
+
+      - name: Push to Pages Repository
+        working-directory: pages-repo
+        run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
+          git add .
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+            exit 0
+          fi
+          git commit -m "Deploy blog: $(date +'%Y-%m-%d %H:%M:%S')"
+          git push origin ${{ env.BLOG_PAGES_BRANCH }}
