@@ -50,6 +50,14 @@ const { etcAddress, solAddress } = Astro.props;
 </div>
 
 <script>
+  // 全局类型声明
+  declare global {
+    interface Window {
+      ethereum?: any;
+      solana?: any;
+    }
+  }
+
   // 检查是否安装了 MetaMask
   function checkMetaMask(): boolean {
     return typeof window.ethereum !== "undefined";
@@ -244,14 +252,4 @@ const { etcAddress, solAddress } = Astro.props;
       });
     });
   });
-</script>
-
-<script is:inline>
-  // 全局类型声明
-  declare global {
-    interface Window {
-      ethereum?: any;
-      solana?: any;
-    }
-  }
 </script>
