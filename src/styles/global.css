@@ -127,7 +127,7 @@ code:not(.no-style) {
 }
 
 pre:not(.no-style) {
-	@apply p-6 rounded-lg bg-gray-100;
+	@apply p-3 rounded-lg bg-gray-100;
 }
 
 html.dark pre:not(.no-style) {
@@ -137,6 +137,7 @@ html.dark pre:not(.no-style) {
 pre:not(.no-style)>code {
 	all: unset;
 	font-family: "SF Mono", "Menlo", "Ubuntu Mono", "Consolas", "Lucida Console", monospace;
+	display: block;
 }
 
 blockquote:not(.no-style) {
@@ -288,7 +289,7 @@ html.dark .prose code:not(.no-style) {
 }
 
 .prose pre:not(.no-style) {
-	@apply my-8 bg-slate-100;
+	@apply my-4 bg-slate-100;
 }
 
 html.dark .prose pre:not(.no-style) {
@@ -296,7 +297,7 @@ html.dark .prose pre:not(.no-style) {
 }
 
 .prose pre:not(.no-style) code {
-	@apply bg-transparent text-sm;
+	@apply bg-transparent text-sm leading-normal;
 }
 
 .prose strong:not(.no-style) {
