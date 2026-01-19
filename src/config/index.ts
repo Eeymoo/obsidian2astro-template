@@ -15,6 +15,10 @@ const config: Config = {
       href: "/post",
     },
     {
+      name: "AICG",
+      href: "/tags/AICG",
+    },
+    {
       name: "Categories",
       href: "/categories",
     },
@@ -30,10 +34,10 @@ const config: Config = {
       name: "Friends",
       href: "/friends",
     },
-    {
-      name: "Donate",
-      href: "/donate",
-    },
+    // {
+    //   name: "Donate",
+    //   href: "/donate",
+    // },
   ],
   friendlyLink: [
     {
