@@ -8,6 +8,7 @@ import PostDate from "../components/PostDate.astro";
 import Tags from "../components/Tags.astro";
 import Categories from "../components/Categories.astro";
 import FrontMatter from "../components/FrontMatter.astro";
+import Tips from "../components/Tips.astro";
 import "../styles/global.css";
 
 type Props = Omit<CollectionEntry<"blog">["data"], "date" | "updated"> & {
@@ -63,6 +64,15 @@ const { title, date, updated, heroImage, tags, categories } = Astro.props;
               <Categories categories={categories} link={true} />
             </div>
             <Tags tags={tags} link={true} />
+            {
+              tags?.includes("AICG") && (
+                <div class="mt-3">
+                  <Tips type="warning">
+                    本文含有 AI 生成的内容，仅供参考，请自行甄别
+                  </Tips>
+                </div>
+              )
+            }
           </div>
 
           <FrontMatter data={Astro.props} />
