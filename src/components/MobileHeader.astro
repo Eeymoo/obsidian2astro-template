@@ -1,0 +1,68 @@
+---
+import { SITE_TITLE } from "../consts";
+import DarkModeButton from "./DarkModeButton.astro";
+import config from "../config/index";
+
+interface Props {
+  title?: string;
+  showBackButton?: boolean;
+  backUrl?: string;
+}
+
+const { title = SITE_TITLE, showBackButton = false, backUrl = "/m/" } = Astro.props;
+---
+
+<header class="mobile-header fixed top-0 left-0 right-0 z-50 bg-white dark:bg-slate-950 border-b border-slate-200 dark:border-slate-700">
+  <div class="flex items-center justify-between h-14 px-4">
+    <!-- 左侧：返回按钮或Logo -->
+    <div class="flex items-center">
+      {showBackButton ? (
+        <a 
+          href={backUrl}
+          class="w-8 h-8 flex items-center justify-center text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors"
+        >
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+          </svg>
+        </a>
+      ) : (
+        <div class="w-8 h-8 flex items-center justify-center">
+          <div class="w-5 h-5 bg-primary rounded"></div>
+        </div>
+      )}
+    </div>
+
+    <!-- 中间：标题 -->
+    <div class="flex-1 mx-4">
+      <h1 class="text-base font-semibold text-slate-900 dark:text-slate-100 text-center truncate">
+        {title}
+      </h1>
+    </div>
+
+    <!-- 右侧：功能按钮 -->
+    <div class="flex items-center gap-2">
+      <!-- 搜索按钮 -->
+      <a 
+        href="/m/search" 
+        class="w-8 h-8 flex items-center justify-center text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors"
+      >
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+        </svg>
+      </a>
+      
+      <!-- 主题切换按钮 -->
+      <DarkModeButton />
+    </div>
+  </div>
+
+  <!-- 额外的底部导航（可选） -->
+  <slot name="navigation" />
+</header>
+
+<style>
+  .mobile-header {
+    /* 安全区域适配 */
+    padding-top: env(safe-area-inset-top);
+  }
+</style>

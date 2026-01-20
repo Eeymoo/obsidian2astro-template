@@ -1,0 +1,90 @@
+---
+import BaseHead from "../components/BaseHead.astro";
+import MobileHeader from "../components/MobileHeader.astro";
+import MobileFooter from "../components/MobileFooter.astro";
+
+interface Props {
+  title?: string;
+  description?: string;
+  showBackButton?: boolean;
+  backUrl?: string;
+}
+
+const { 
+  title = "Eeymoo's Blog", 
+  description = "记录、学习、分享技术与生活点滴",
+  showBackButton = false,
+  backUrl = "/m/"
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="zh-CN" class="scroll-smooth">
+  <head>
+    <BaseHead title={title} description={description} />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="format-detection" content="telephone=no">
+  </head>
+  
+  <body class="mobile-body bg-white dark:bg-slate-950 text-slate-800 dark:text-slate-200">
+    <!-- 移动端头部 -->
+    <MobileHeader 
+      title={title} 
+      showBackButton={showBackButton}
+      backUrl={backUrl}
+    />
+    
+    <!-- 主内容区域 -->
+    <main class="mobile-main pt-14 pb-20 min-h-screen">
+      <slot />
+    </main>
+    
+    <!-- 移动端底部导航 -->
+    <MobileFooter />
+  </body>
+</html>
+
+<style>
+  /* 移动端全局样式 */
+  .mobile-body {
+    /* 安全区域适配 */
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+    
+    /* 优化移动端触摸体验 */
+    -webkit-user-select: text;
+    -webkit-touch-callout: default;
+    -webkit-tap-highlight-color: transparent;
+    
+    /* 防止缩放 */
+    touch-action: manipulation;
+  }
+  
+  .mobile-main {
+    /* 平滑滚动 */
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+  }
+  
+  /* 隐藏滚动条但保持功能 */
+  .mobile-main::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .mobile-main {
+    scrollbar-width: none;
+  }
+  
+  /* 优化文字选择 */
+  .mobile-body {
+    -webkit-user-select: text;
+    user-select: text;
+  }
+  
+  /* 移动端链接样式优化 */
+  .mobile-body a {
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
+  }
+</style>

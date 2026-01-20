@@ -1,0 +1,158 @@
+---
+import { getCollection, render } from "astro:content";
+import MobileMicroblogLayout from "../../../layouts/MobileMicroblogLayout.astro";
+import { filterContent } from "../../../utils";
+
+// 获取所有微博用于无限滚动
+const allPosts = filterContent(await getCollection("blog"), 'microblog')
+  .sort((a, b) => b.data.date?.valueOf() - a.data.date?.valueOf());
+
+// 首次加载50条，后续通过API加载
+const initialPosts = allPosts.slice(0, 50);
+
+const posts = await Promise.all(
+  initialPosts.map(async (post) => ({
+    ...post,
+    html: await render(post),
+  }))
+);
+---
+
+<MobileMicroblogLayout 
+  title="微博 - 无限滚动" 
+  posts={posts}
+  showLoadMore={true}
+  enablePullRefresh={true}
+/>
+
+<!-- 添加无限滚动脚本 -->
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    let currentPage = 1;
+    let isLoading = false;
+    let hasMoreContent = true;
+    
+    const microblogMain = document.querySelector('.mobile-microblog-main');
+    const loadMoreBtn = document.querySelector('.load-more-btn');
+    const loadingSpinner = document.querySelector('.loading-spinner');
+    const microblogList = document.querySelector('.microblog-list');
+    
+    // 模拟加载更多内容（实际项目中应该调用API）
+    async function loadMorePosts() {
+      if (isLoading || !hasMoreContent) return;
+      
+      isLoading = true;
+      loadMoreBtn.classList.add('hidden');
+      loadingSpinner.classList.remove('hidden');
+      
+      try {
+        // 模拟API延迟
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        
+        // 这里应该调用实际的API获取更多内容
+        // const response = await fetch(`/api/microblog?page=${currentPage + 1}`);
+        // const newPosts = await response.json();
+        
+        // 模拟没有更多内容
+        if (currentPage >= 3) {
+          hasMoreContent = false;
+          loadingSpinner.textContent = '已加载全部内容';
+          return;
+        }
+        
+        // 模拟加载的新内容
+        const newPostHTML = `
+          <article class="microblog-post loaded-item">
+            <div class="post-header">
+              <time class="post-time">12月${20 + currentPage}日 14:${30 + currentPage}</time>
+              <span class="ai-tag">AI</span>
+            </div>
+            <div class="post-content">
+              <div class="content-text">
+                这是动态加载的微博内容 ${currentPage + 1}...
+              </div>
+            </div>
+            <div class="post-actions">
+              <button class="action-btn share-btn" data-title="动态微博">
+                <span class="icon">📤</span>
+                <span class="text">分享</span>
+              </button>
+              <button class="action-btn more-btn">
+                <span class="icon">⋯</span>
+              </button>
+            </div>
+          </article>
+        `;
+        
+        microblogList.insertAdjacentHTML('beforeend', newPostHTML);
+        
+        currentPage++;
+        
+      } catch (error) {
+        console.error('加载失败:', error);
+        loadingSpinner.textContent = '加载失败，请重试';
+      } finally {
+        isLoading = false;
+        loadingSpinner.classList.add('hidden');
+        
+        if (hasMoreContent) {
+          loadMoreBtn.classList.remove('hidden');
+        }
+      }
+    }
+    
+    // 点击加载更多
+    loadMoreBtn?.addEventListener('click', loadMorePosts);
+    
+    // 滚动到底部自动加载
+    let scrollTimeout;
+    microblogMain?.addEventListener('scroll', () => {
+      clearTimeout(scrollTimeout);
+      
+      scrollTimeout = setTimeout(() => {
+        if (!isLoading && hasMoreContent) {
+          const { scrollTop, scrollHeight, clientHeight } = microblogMain;
+          const threshold = 100; // 距离底部100px时触发
+          
+          if (scrollTop + clientHeight >= scrollHeight - threshold) {
+            loadMorePosts();
+          }
+        }
+      }, 100);
+    });
+    
+    // 为动态加载的元素添加事件监听
+    document.addEventListener('click', (e) => {
+      const shareBtn = e.target.closest('.share-btn');
+      if (shareBtn) {
+        e.preventDefault();
+        const title = shareBtn.dataset.title;
+        const url = window.location.href;
+        
+        if (navigator.share) {
+          navigator.share({ title, url });
+        } else {
+          navigator.clipboard.writeText(`${title} - ${url}`);
+          showToast('链接已复制到剪贴板');
+        }
+      }
+    });
+  });
+</script>
+
+<style>
+  .loaded-item {
+    animation: fadeIn 0.3s ease-in;
+  }
+  
+  @keyframes fadeIn {
+    from { 
+      opacity: 0; 
+      transform: translateY(20px); 
+    }
+    to { 
+      opacity: 1; 
+      transform: translateY(0); 
+    }
+  }
+</style>

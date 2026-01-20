@@ -1,0 +1,21 @@
+---
+// 移动端Footer组件 - 高度80px，仅保留版权信息
+const currentYear = new Date().getFullYear();
+---
+
+<footer class="mobile-footer fixed bottom-0 left-0 right-0 z-50 h-20 bg-white dark:bg-slate-950 border-t border-slate-200 dark:border-slate-700">
+  <div class="h-full flex items-center justify-center px-4">
+    <div class="text-center">
+      <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+        &copy; {currentYear} Eeymoo. All rights reserved.
+      </p>
+    </div>
+  </div>
+
+  <!-- 安全区域适配 -->
+  <style>
+    .mobile-footer {
+      padding-bottom: env(safe-area-inset-bottom);
+    }
+  </style>
+</footer>

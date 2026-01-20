@@ -1,0 +1,26 @@
+---
+import { getCollection, render } from "astro:content";
+import MobileMicroblogLayout from "../../../layouts/MobileMicroblogLayout.astro";
+import { filterContent } from "../../../utils";
+
+// 获取所有微博
+const allPosts = filterContent(await getCollection("blog"), 'microblog')
+  .sort((a, b) => b.data.date?.valueOf() - a.data.date?.valueOf());
+
+// 只取最新一条
+const latestPost = allPosts.slice(0, 1);
+
+const posts = await Promise.all(
+  latestPost.map(async (post) => ({
+    ...post,
+    html: await render(post),
+  }))
+);
+---
+
+<MobileMicroblogLayout 
+  title="最新微博" 
+  posts={posts}
+  showLoadMore={false}
+  enablePullRefresh={true}
+/>
