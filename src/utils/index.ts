@@ -99,6 +99,59 @@ export function convertHtmlALinksToGoto(htmlContent: string, whiteList: string[]
   return doc.body.innerHTML;
 }
 
+/**
+ * 从 Markdown 内容中提取纯文本描述
+ * @param content - Markdown 内容字符串
+ * @param maxLength - 最大长度，默认180字
+ * @returns 提取的纯文本描述
+ */
+export function extractDescriptionFromContent(content: string, maxLength: number = 180): string {
+  if (!content || typeof content !== 'string') {
+    return '';
+  }
+
+  // 移除 frontmatter
+  let cleanContent = content.replace(/^---\n.*?\n---\n/s, '');
+  
+  // 移除 Markdown 语法
+  cleanContent = cleanContent
+    // 移除标题标记
+    .replace(/^#{1,6}\s+/gm, '')
+    // 移除加粗和斜体
+    .replace(/\*\*(.*?)\*\*/g, '$1')
+    .replace(/\*(.*?)\*/g, '$1')
+    .replace(/__(.*?)__/g, '$1')
+    .replace(/_(.*?)_/g, '$1')
+    // 移除代码块
+    .replace(/```[\s\S]*?```/g, '')
+    // 移除行内代码
+    .replace(/`([^`]+)`/g, '$1')
+    // 移除链接，保留文本
+    .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')
+    // 移除图片
+    .replace(/!\[([^\]]*)\]\([^)]+\)/g, '')
+    // 移除引用
+    .replace(/^>\s+/gm, '')
+    // 移除列表标记
+    .replace(/^[-*+]\s+/gm, '')
+    .replace(/^\d+\.\s+/gm, '')
+    // 移除表格
+    .replace(/\|.*\|/g, '')
+    // 移除分隔线
+    .replace(/^---+$/gm, '')
+    // 移除多余的空白字符
+    .replace(/\n+/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+
+  // 限制长度
+  if (cleanContent.length > maxLength) {
+    return cleanContent.substring(0, maxLength).trim() + '...';
+  }
+
+  return cleanContent;
+}
+
 // 统一导出所有 utils 方法和规则
 export { generateCategorySlug, generateTagSlug };
 export { filterContent } from './filterContent';
