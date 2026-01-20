@@ -38,10 +38,10 @@ const { title, posts } = Astro.props;
           {title}
         </h1>
         <nav class="mb-6 flex gap-4 text-sm">
-          <a href="/microblog/" class="text-blue-600 dark:text-blue-400 hover:underline">最新</a>
-          <a href="/microblog/latest/" class="text-blue-600 dark:text-blue-400 hover:underline">最新一条</a>
-          <a href="/microblog/today/" class="text-blue-600 dark:text-blue-400 hover:underline">历史今天</a>
-          <a href="/microblog/all/" class="text-blue-600 dark:text-blue-400 hover:underline">全部</a>
+          <a href="/microblog/" class="text-blue-600 dark:text-blue-400 hover:underline">Home</a>
+          <a href="/microblog/latest/" class="text-blue-600 dark:text-blue-400 hover:underline">Latest</a>
+          <a href="/microblog/today/" class="text-blue-600 dark:text-blue-400 hover:underline">Today</a>
+          <a href="/microblog/all/" class="text-blue-600 dark:text-blue-400 hover:underline">All Microblog</a>
         </nav>
         {
           posts.length === 0 ? (

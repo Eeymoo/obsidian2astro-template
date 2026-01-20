@@ -8,8 +8,9 @@ import PostDate from "../components/PostDate.astro";
 import { SITE_DESCRIPTION, SITE_TITLE } from "../consts";
 import { generatePostSlug, filterContent } from "../utils";
 
-const posts = filterContent(await getCollection("blog"))
-  .sort((a, b) => b.data.date?.valueOf() - a.data.date?.valueOf());
+const posts = filterContent(await getCollection("blog")).sort(
+  (a, b) => b.data.date?.valueOf() - a.data.date?.valueOf()
+);
 
 const groupedByYear: Record<string, typeof posts> = {};
 for (const post of posts) {
@@ -30,7 +31,7 @@ const years = Object.keys(groupedByYear).sort((a, b) => Number(b) - Number(a));
     <script>
       const savedTheme = localStorage.getItem("theme");
       const prefersDark = window.matchMedia(
-        "(prefers-color-scheme: dark)",
+        "(prefers-color-scheme: dark)"
       ).matches;
       const isDark = savedTheme === "dark" || (!savedTheme && prefersDark);
       if (isDark) {
@@ -41,20 +42,17 @@ const years = Object.keys(groupedByYear).sort((a, b) => Number(b) - Number(a));
   <body>
     <Header />
     <main class="w-full max-w-285 mx-auto px-4 py-12">
-      <section class="mb-8 flex gap-3 flex-wrap">
+      <nav class="mb-6 flex gap-4 text-sm">
         <a
           href="/categories"
-          class="inline-block bg-primary/10 text-primary px-4 py-2 rounded hover:bg-primary/20 transition-colors dark:bg-primary/20 dark:text-primary/90"
+          class="text-blue-600 dark:text-blue-400 hover:underline">Categories</a
         >
-          Categories
-        </a>
         <a
           href="/tags"
-          class="inline-block bg-primary/10 text-primary px-4 py-2 rounded hover:bg-primary/20 transition-colors dark:bg-primary/20 dark:text-primary/90"
+          class="text-blue-600 dark:text-blue-400 hover:underline">Tags</a
         >
-          Tags
-        </a>
-      </section>
+      </nav>
+      
       <section>
         {
           years.map((year) => (
@@ -65,7 +63,7 @@ const years = Object.keys(groupedByYear).sort((a, b) => Number(b) - Number(a));
               <ul class="list-none m-0 p-0 space-y-3">
                 {groupedByYear[year]
                   .sort(
-                    (a, b) => b.data.date?.valueOf() - a.data.date?.valueOf(),
+                    (a, b) => b.data.date?.valueOf() - a.data.date?.valueOf()
                   )
                   .map((post) => {
                     const slug = generatePostSlug(post);
