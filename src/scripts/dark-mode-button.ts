@@ -72,11 +72,12 @@ function initDarkModeButton() {
     const x = rect.left + rect.width / 2;
     const y = rect.top + rect.height / 2;
 
+    const rootStyles = getComputedStyle(document.documentElement);
     let bgColor;
     if (nextIsDark) {
-      bgColor = "rgba(26, 26, 26, 1)";
+      bgColor = `rgba(${rootStyles.getPropertyValue('--color-bg-dark').trim()}, 1)`;
     } else {
-      bgColor = "rgba(255, 255, 255, 1)";
+      bgColor = `rgba(${rootStyles.getPropertyValue('--color-bg-light').trim()}, 1)`;
     }
 
     transitionCircle!.style.left = x + "px";
