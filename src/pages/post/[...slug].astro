@@ -2,13 +2,12 @@
 import { type CollectionEntry, getCollection, render } from "astro:content";
 import Tips from "../../components/Tips.astro";
 import BlogPost from "../../layouts/BlogPost.astro";
-import { convertMdALinksToGoto, generatePostSlug } from "../../utils";
+import { convertMdALinksToGoto, generatePostSlug, filterContent } from "../../utils";
 
 export async function getStaticPaths() {
   const posts = await getCollection("blog");
 
-  return posts
-    .filter((post) => !post.data.hidden)
+  return filterContent(posts)
     .map((post) => ({
       params: {
         slug: generatePostSlug(post) + ".html",

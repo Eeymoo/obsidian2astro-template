@@ -101,4 +101,5 @@ export function convertHtmlALinksToGoto(htmlContent: string, whiteList: string[]
 
 // 统一导出所有 utils 方法和规则
 export { generateCategorySlug, generateTagSlug };
+export { filterContent } from './filterContent';
 export { MD_LINK_REG } from './regexps.ts';

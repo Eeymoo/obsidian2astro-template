@@ -4,9 +4,9 @@ import BaseHead from "../../components/BaseHead.astro";
 import Footer from "../../components/Footer.astro";
 import Header from "../../components/Header.astro";
 import { SITE_DESCRIPTION, SITE_TITLE } from "../../consts";
-import { generateCategorySlug } from "../../utils";
+import { generateCategorySlug, filterContent } from "../../utils";
 
-const posts = (await getCollection("blog")).filter((post) => !post.data.hidden);
+const posts = filterContent(await getCollection("blog"));
 
 const categoryMap = new Map<string, number>();
 for (const post of posts) {

@@ -5,12 +5,11 @@ import Footer from "../../../components/Footer.astro";
 import Header from "../../../components/Header.astro";
 import PostDate from "../../../components/PostDate.astro";
 import { SITE_DESCRIPTION, SITE_TITLE } from "../../../consts";
-import { generatePostSlug } from "../../../utils";
-import { generateCategorySlug } from "../../../utils";
+import { generatePostSlug, generateCategorySlug, filterContent } from "../../../utils";
 
 export async function getStaticPaths() {
-  const posts = await getCollection("blog");
-  const visible = posts.filter((p) => !p.data.hidden);
+  const posts = filterContent(await getCollection("blog"));
+  const visible = posts;
 
   const categorySet = new Set<string>();
   for (const post of visible) {
@@ -29,17 +28,16 @@ const rawParam = Astro.params.category ?? "";
 const rawSlug = rawParam.replace(/\.html$/, "");
 
 // 找到与当前 slug 对应的原始分类名
-const allVisible = await getCollection("blog");
+const allVisible = filterContent(await getCollection("blog"));
 const categorySet = new Set<string>();
-for (const post of allVisible.filter((p) => !p.data.hidden)) {
+for (const post of allVisible) {
   if (post.data.categories) categorySet.add(post.data.categories);
 }
 const category =
   Array.from(categorySet).find((c) => generateCategorySlug(c) === rawSlug) ??
   rawSlug;
 
-const allPosts = (await getCollection("blog"))
-  .filter((p) => !p.data.hidden)
+const allPosts = filterContent(await getCollection("blog"))
   .filter((p) => p.data.categories === category)
   .sort((a, b) => b.data.date?.valueOf() - a.data.date?.valueOf());
 ---
