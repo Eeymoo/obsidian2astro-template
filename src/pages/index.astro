@@ -3,7 +3,16 @@ import BaseHead from "../components/BaseHead.astro";
 import Footer from "../components/Footer.astro";
 import Header from "../components/Header.astro";
 import { SITE_DESCRIPTION, SITE_TITLE } from "../consts";
+import { getCollection, render } from "astro:content";
+import { filterContent } from "../utils";
 import "../styles/global.css";
+
+// 获取最新一条microblog
+const allMicroblogs = filterContent(await getCollection("blog"), 'microblog')
+  .sort((a, b) => b.data.date?.valueOf() - a.data.date?.valueOf());
+
+const latestMicroblog = allMicroblogs.length > 0 ? allMicroblogs[0] : null;
+const latestMicroblogHtml = latestMicroblog ? await render(latestMicroblog) : null;
 ---
 
 <!doctype html>
@@ -172,6 +181,24 @@ import "../styles/global.css";
           alt="Rust"
         />
       </div>
+      {
+        latestMicroblog && latestMicroblogHtml && (
+          <div class="mt-12 pt-8 border-t border-gray-200 dark:border-gray-700">
+            <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-4">
+              Latest Microblog
+            </h2>
+            <div class="mb-2 text-sm text-gray-400 dark:text-gray-500">
+              {latestMicroblog.data.date && new Date(latestMicroblog.data.date).toLocaleString('zh-CN')}
+            </div>
+            <div class="text-base prose dark:prose-invert max-w-none text-gray-600 dark:text-gray-300">
+              <latestMicroblogHtml.Content />
+            </div>
+            <a href="/microblog/" class="mt-4 inline-block text-blue-600 dark:text-blue-400 hover:underline text-sm">
+              查看更多 →
+            </a>
+          </div>
+        )
+      }
     </main>
     <Footer />
   </body>
