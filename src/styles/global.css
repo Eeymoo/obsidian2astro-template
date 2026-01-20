@@ -10,6 +10,36 @@
 @theme {
 	--color-primary: #8080f7;
 	--color-secondary: #F78080;
+	
+	/* 主题过渡动画颜色 */
+	--color-bg-light: 255, 255, 255;
+	--color-bg-dark: 15, 23, 42; /* slate-950 equivalent */
+	
+	/* 统一颜色设计系统 - 基于slate色系 */
+	--color-bg-primary: theme(colors.white);
+	--color-bg-secondary: theme(colors.slate.50);
+	--color-bg-tertiary: theme(colors.slate.100);
+	
+	--color-text-primary: theme(colors.slate.900);
+	--color-text-secondary: theme(colors.slate.700);
+	--color-text-tertiary: theme(colors.slate.600);
+	--color-text-quaternary: theme(colors.slate.500);
+	
+	--color-border-primary: theme(colors.slate.200);
+	--color-border-secondary: theme(colors.slate.300);
+	
+	/* 暗色模式对应 */
+	--color-bg-primary-dark: theme(colors.slate.950);
+	--color-bg-secondary-dark: theme(colors.slate.900);
+	--color-bg-tertiary-dark: theme(colors.slate.800);
+	
+	--color-text-primary-dark: theme(colors.slate.50);
+	--color-text-secondary-dark: theme(colors.slate.300);
+	--color-text-tertiary-dark: theme(colors.slate.400);
+	--color-text-quaternary-dark: theme(colors.slate.500);
+	
+	--color-border-primary-dark: theme(colors.slate.700);
+	--color-border-secondary-dark: theme(colors.slate.600);
 }
 
 @font-face {
@@ -30,13 +60,13 @@
 
 /* Base styles */
 body {
-	@apply font-sans break-words text-xl leading-loose text-gray-800 bg-white transition-colors duration-300;
+	@apply font-sans break-words text-xl leading-loose text-slate-800 bg-white transition-colors duration-300;
 	/* font-family: "Atkinson", sans-serif; */
 	font-family: "PingFang SC", "Noto Sans CJK SC", "Microsoft YaHei", sans-serif;
 }
 
 html.dark body {
-	@apply bg-gray-950 text-gray-200;
+	@apply bg-slate-950 text-slate-200;
 }
 
 /* Headings */
@@ -76,19 +106,19 @@ b:not(.no-style) {
 }
 
 a:not(.no-style) {
-	@apply text-slate-800 underline decoration-slate-300 transition-colors rounded px-1;
+	@apply text-slate-700 underline decoration-slate-300 transition-colors rounded px-1;
 }
 
 html.dark a:not(.no-style) {
-	@apply text-slate-200 decoration-slate-700;
+	@apply text-slate-300 decoration-slate-600;
 }
 
 a:not(.no-style):visited {
-	@apply text-slate-600 decoration-slate-400 bg-primary/10;
+	@apply text-slate-500 decoration-slate-400 bg-primary/10;
 }
 
 html.dark a:not(.no-style):visited {
-	@apply text-slate-400 decoration-slate-600;
+	@apply text-slate-400 decoration-slate-500;
 }
 
 a:not(.no-style):hover {
@@ -127,11 +157,11 @@ code:not(.no-style) {
 }
 
 pre:not(.no-style) {
-	@apply p-3 rounded-lg bg-gray-100;
+	@apply p-3 rounded-lg bg-slate-100;
 }
 
 html.dark pre:not(.no-style) {
-	@apply bg-gray-800;
+	@apply bg-slate-900;
 }
 
 pre:not(.no-style)>code {
@@ -145,7 +175,7 @@ blockquote:not(.no-style) {
 }
 
 html.dark blockquote:not(.no-style) {
-	@apply bg-slate-800/50 text-slate-200;
+	@apply bg-slate-900/50 text-slate-300;
 }
 
 hr:not(.no-style) {
@@ -153,7 +183,7 @@ hr:not(.no-style) {
 }
 
 html.dark hr:not(.no-style) {
-	@apply border-slate-800;
+	@apply border-slate-700;
 }
 
 /* Markdown Content Styles */
@@ -172,7 +202,7 @@ html.dark .prose h3:not(.no-style),
 html.dark .prose h4:not(.no-style),
 html.dark .prose h5:not(.no-style),
 html.dark .prose h6:not(.no-style) {
-	@apply text-slate-100;
+	@apply text-slate-50;
 }
 
 .prose h1:not(.no-style) {
@@ -184,7 +214,7 @@ html.dark .prose h6:not(.no-style) {
 }
 
 html.dark .prose h2:not(.no-style) {
-	@apply border-slate-800;
+	@apply border-slate-700;
 }
 
 .prose h3:not(.no-style) {
@@ -204,19 +234,19 @@ html.dark .prose h2:not(.no-style) {
 }
 
 .prose a:not(.no-style) {
-	@apply text-slate-800 underline decoration-slate-300 transition-colors rounded px-1;
+	@apply text-slate-700 underline decoration-slate-300 transition-colors rounded px-1;
 }
 
 html.dark .prose a:not(.no-style) {
-	@apply text-slate-200 decoration-slate-700;
+	@apply text-slate-300 decoration-slate-600;
 }
 
 .prose a:not(.no-style):visited {
-	@apply text-slate-600 decoration-slate-400 bg-primary/10;
+	@apply text-slate-500 decoration-slate-400 bg-primary/10;
 }
 
 html.dark .prose a:not(.no-style):visited {
-	@apply text-slate-400 decoration-slate-600;
+	@apply text-slate-400 decoration-slate-500;
 }
 
 .prose a:not(.no-style):hover {
@@ -241,7 +271,7 @@ html.dark .prose a:not(.no-style):visited {
 }
 
 html.dark .prose li:not(.no-style) {
-	@apply text-slate-200;
+	@apply text-slate-300;
 }
 
 .prose li:not(.no-style)::marker {
@@ -257,7 +287,7 @@ html.dark .prose li:not(.no-style) {
 }
 
 html.dark .prose thead:not(.no-style) {
-	@apply border-slate-700;
+	@apply border-slate-600;
 }
 
 .prose th:not(.no-style) {
@@ -265,7 +295,7 @@ html.dark .prose thead:not(.no-style) {
 }
 
 html.dark .prose th:not(.no-style) {
-	@apply text-slate-100 bg-slate-900;
+	@apply text-slate-50 bg-slate-900;
 }
 
 .prose td:not(.no-style) {
@@ -273,7 +303,7 @@ html.dark .prose th:not(.no-style) {
 }
 
 html.dark .prose td:not(.no-style) {
-	@apply border-slate-800;
+	@apply border-slate-700;
 }
 
 .prose img:not(.no-style) {
@@ -285,7 +315,7 @@ html.dark .prose td:not(.no-style) {
 }
 
 html.dark .prose code:not(.no-style) {
-	@apply bg-slate-800 text-slate-200;
+	@apply bg-slate-800 text-slate-300;
 }
 
 .prose pre:not(.no-style) {
@@ -305,7 +335,7 @@ html.dark .prose pre:not(.no-style) {
 }
 
 html.dark .prose strong:not(.no-style) {
-	@apply text-slate-100;
+	@apply text-slate-50;
 }
 
 .prose em:not(.no-style) {
@@ -313,7 +343,7 @@ html.dark .prose strong:not(.no-style) {
 }
 
 html.dark .prose em:not(.no-style) {
-	@apply text-slate-300;
+	@apply text-slate-400;
 }
 
 @media (max-width: 720px) {
@@ -334,7 +364,7 @@ html.dark .prose em:not(.no-style) {
 
 /* Logo styles */
 .logo {
-	@apply sticky top-0 z-50 bg-white dark:bg-gray-900 px-0 py-0;
+	@apply sticky top-0 z-50 bg-white dark:bg-slate-950 px-0 py-0;
 }
 
 /* Donate Component Styles */

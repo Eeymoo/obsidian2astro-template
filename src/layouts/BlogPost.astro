@@ -70,6 +70,14 @@ const { title, date, updated, heroImage, tags, categories, description, content 
 
 // 计算最终描述：优先使用 frontmatter description，其次从内容提取
 const finalDescription = description || extractDescriptionFromMarkdown(content || '');
+
+// 调试输出
+console.log('=== 描述提取调试 ===');
+console.log('Frontmatter description:', description);
+console.log('Has content:', !!content);
+console.log('Content length:', content?.length || 0);
+console.log('Final description:', finalDescription);
+console.log('Final description length:', finalDescription.length);
 ---
 
 <html lang="en" class="scroll-smooth">
@@ -105,7 +113,7 @@ const finalDescription = description || extractDescriptionFromMarkdown(content |
             )
           }
         </div>
-        <div class="prose w-full max-w-200 mx-auto px-4 text-gray-700">
+        <div class="prose w-full max-w-200 mx-auto px-4 text-slate-700 dark:text-slate-300">
           <div class="title mb-4 py-4 text-center leading-tight">
             <h1 class="mb-2 text-lg font-bold">{title}</h1>
 
