@@ -1,0 +1,17 @@
+---
+import { getCollection, render } from "astro:content";
+import MicroblogLayout from "../../layouts/MicroblogLayout.astro";
+import { filterContent } from "../../utils";
+
+const allPosts = filterContent(await getCollection("blog"), 'microblog')
+  .sort((a, b) => b.data.date?.valueOf() - a.data.date?.valueOf());
+
+const posts = await Promise.all(
+  allPosts.map(async (post) => ({
+    ...post,
+    html: await render(post),
+  }))
+);
+---
+
+<MicroblogLayout title="All Microblog" posts={posts} />

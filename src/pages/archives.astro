@@ -41,6 +41,20 @@ const years = Object.keys(groupedByYear).sort((a, b) => Number(b) - Number(a));
   <body>
     <Header />
     <main class="w-full max-w-285 mx-auto px-4 py-12">
+      <section class="mb-8 flex gap-3 flex-wrap">
+        <a
+          href="/categories"
+          class="inline-block bg-primary/10 text-primary px-4 py-2 rounded hover:bg-primary/20 transition-colors dark:bg-primary/20 dark:text-primary/90"
+        >
+          Categories
+        </a>
+        <a
+          href="/tags"
+          class="inline-block bg-primary/10 text-primary px-4 py-2 rounded hover:bg-primary/20 transition-colors dark:bg-primary/20 dark:text-primary/90"
+        >
+          Tags
+        </a>
+      </section>
       <section>
         {
           years.map((year) => (

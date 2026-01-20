@@ -1,0 +1,35 @@
+---
+import { getCollection, render } from "astro:content";
+import MicroblogLayout from "../../layouts/MicroblogLayout.astro";
+import { filterContent } from "../../utils";
+
+const allPosts = filterContent(await getCollection("blog"), 'microblog')
+  .sort((a, b) => b.data.date?.valueOf() - a.data.date?.valueOf());
+
+// 筛选历史上的今天的文章
+const today = new Date();
+const todayMonth = String(today.getMonth() + 1).padStart(2, '0');
+const todayDate = String(today.getDate()).padStart(2, '0');
+const todayKey = `${todayMonth}-${todayDate}`;
+
+const todayPosts = allPosts.filter(post => {
+  const postDate = new Date(post.data.date);
+  const postMonth = String(postDate.getMonth() + 1).padStart(2, '0');
+  const postDay = String(postDate.getDate()).padStart(2, '0');
+  return `${postMonth}-${postDay}` === todayKey && postDate.getFullYear() !== today.getFullYear();
+}).sort((a, b) => b.data.date?.valueOf() - a.data.date?.valueOf());
+
+const posts = await Promise.all(
+  todayPosts.map(async (post) => ({
+    ...post,
+    html: await render(post),
+  }))
+);
+---
+
+<MicroblogLayout title="History Today" posts={posts} />
+
+<script>
+  // 前端实现 - 页面加载后，可以动态更新
+  console.log('历史上的今天页面已加载');
+</script>

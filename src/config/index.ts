@@ -19,12 +19,8 @@ const config: Config = {
       href: "/tags/AICG",
     },
     {
-      name: "Categories",
-      href: "/categories",
-    },
-    {
-      name: "Tags",
-      href: "/tags",
+      name: "Microblog",
+      href: "/microblog",
     },
     {
       name: "Archives",
