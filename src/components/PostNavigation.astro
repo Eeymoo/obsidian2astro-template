@@ -26,13 +26,13 @@ const prevPost = currentIndex < allPosts.length - 1 ? allPosts[currentIndex + 1]
 const nextPost = currentIndex > 0 ? allPosts[currentIndex - 1] : null;
 ---
 
-<nav class="post-navigation mt-12 pt-8 border-t border-gray-200 dark:border-gray-700">
+<nav class="post-navigation mt-12 pt-8">
   <div class="flex justify-between items-center">
     <!-- 上一篇 -->
     {prevPost && (
       <div class="prev-post text-left max-w-md">
         <a href={`/post/${generatePostSlug(prevPost)}.html`} 
-           class="group block p-4 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
+           class="no-style group block p-4 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
           <div class="text-sm text-gray-500 dark:text-gray-400 mb-2 flex items-center">
             <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
@@ -53,7 +53,7 @@ const nextPost = currentIndex > 0 ? allPosts[currentIndex - 1] : null;
     {nextPost && (
       <div class="next-post text-right max-w-md ml-auto">
         <a href={`/post/${generatePostSlug(nextPost)}.html`} 
-           class="group block p-4 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
+           class="no-style group block p-4 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
           <div class="text-sm text-gray-500 dark:text-gray-400 mb-2 flex items-center justify-end">
             下一篇
             <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -97,5 +97,19 @@ const nextPost = currentIndex > 0 ? allPosts[currentIndex - 1] : null;
   
   .post-navigation .prev-post:only-child svg {
     transform: rotate(180deg);
+  }
+
+  /* Remove any border/shadow/outline for anchors with `no-style` */
+  .post-navigation .no-style {
+    border: none !important;
+    box-shadow: none !important;
+    outline: none !important;
+  }
+
+  .post-navigation .no-style:focus,
+  .post-navigation .no-style:active {
+    border: none !important;
+    box-shadow: none !important;
+    outline: none !important;
   }
 </style>
