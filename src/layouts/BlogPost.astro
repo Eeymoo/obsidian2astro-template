@@ -9,80 +9,69 @@ import Tags from "../components/Tags.astro";
 import Categories from "../components/Categories.astro";
 import FrontMatter from "../components/FrontMatter.astro";
 import Tips from "../components/Tips.astro";
+import StructuredData from "../components/StructuredData.astro";
+import Breadcrumb from "../components/Breadcrumb.astro";
+
+import PostNavigation from "../components/PostNavigation.astro";
 import "../styles/global.css";
 
-/**
- * 从 Markdown 内容中提取纯文本描述
- */
-function extractDescriptionFromMarkdown(content: string, maxLength: number = 180): string {
-  if (!content) return '';
-  
-  // 移除 frontmatter
-  let cleanContent = content.replace(/^---\n.*?\n---\n/s, '');
-  
-  // 移除 Markdown 语法
-  cleanContent = cleanContent
-    // 移除标题标记
-    .replace(/^#{1,6}\s+/gm, '')
-    // 移除加粗和斜体
-    .replace(/\*\*(.*?)\*\*/g, '$1')
-    .replace(/\*(.*?)\*/g, '$1')
-    .replace(/__(.*?)__/g, '$1')
-    .replace(/_(.*?)_/g, '$1')
-    // 移除代码块
-    .replace(/```[\s\S]*?```/g, '')
-    // 移除行内代码
-    .replace(/`([^`]+)`/g, '$1')
-    // 移除链接，保留文本
-    .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')
-    // 移除图片
-    .replace(/!\[([^\]]*)\]\([^)]+\)/g, '')
-    // 移除引用
-    .replace(/^>\s+/gm, '')
-    // 移除列表标记
-    .replace(/^[-*+]\s+/gm, '')
-    .replace(/^\d+\.\s+/gm, '')
-    // 移除表格
-    .replace(/\|.*\|/g, '')
-    // 移除分隔线
-    .replace(/^---+$/gm, '')
-    // 移除多余的空白字符
-    .replace(/\n+/g, ' ')
-    .replace(/\s+/g, ' ')
-    .trim();
-  
-  // 限制长度
-  if (cleanContent.length > maxLength) {
-    return cleanContent.substring(0, maxLength).trim() + '...';
-  }
-  
-  return cleanContent;
-}
+
 
 type Props = Omit<CollectionEntry<"blog">["data"], "date" | "updated"> & {
-  date: string;
-  updated?: string;
+  date: Date | string;
+  updated?: Date | string;
   description?: string;
-  content?: string;
+  originalId?: string;
 };
 
-const { title, date, updated, heroImage, tags, categories, description, content } = Astro.props;
+const { title, date, updated, heroImage, tags, categories, description } = Astro.props;
 
-// 计算最终描述：优先使用 frontmatter description，其次从内容提取
-const finalDescription = description || extractDescriptionFromMarkdown(content || '');
+// 使用 frontmatter description
+const finalDescription = description || '';
 
-// 调试输出
-console.log('=== 描述提取调试 ===');
-console.log('Frontmatter description:', description);
-console.log('Has content:', !!content);
-console.log('Content length:', content?.length || 0);
-console.log('Final description:', finalDescription);
-console.log('Final description length:', finalDescription.length);
+// 生成面包屑导航
+const breadcrumbs = [
+  { name: '首页', url: '/' },
+  { name: '博客', url: '/post/' },
+  { name: title, url: Astro.url.pathname }
+];
+
+// 生成结构化数据
+const structuredDataProps = {
+  title,
+  description: finalDescription,
+  image: heroImage?.src,
+  datePublished: date instanceof Date ? date.toISOString() : new Date(date).toISOString(),
+  dateModified: updated ? (updated instanceof Date ? updated.toISOString() : new Date(updated).toISOString()) : (date instanceof Date ? date.toISOString() : new Date(date).toISOString()),
+  url: Astro.url.href,
+  keywords: tags || [],
+  author: {
+    name: "Eeymoo",
+    url: "https://blog.eeymoo.com"
+  },
+  publisher: {
+    name: "Eeymoo's Blog",
+    logo: "https://blog.eeymoo.com/logo.svg"
+  },
+  articleSection: categories,
+  inLanguage: "zh-CN",
+  blogUrl: "https://blog.eeymoo.com/",
+  blogName: "Eeymoo's Blog"
+};
 ---
 
-<html lang="en" class="scroll-smooth">
+<html lang="zh-CN" class="scroll-smooth">
   <head>
-    <BaseHead title={title} description={finalDescription} />
+    <BaseHead 
+      title={title} 
+      description={finalDescription} 
+      image={heroImage}
+      keywords={tags}
+      publishedTime={date instanceof Date ? date.toISOString() : new Date(date).toISOString()}
+      modifiedTime={updated ? (updated instanceof Date ? updated.toISOString() : new Date(updated).toISOString()) : undefined}
+      articleSection={categories}
+    />
+    <StructuredData type="BlogPosting" data={structuredDataProps} />
     <script>
       // 防止闪烁：在页面加载前设置主题
       const savedTheme = localStorage.getItem("theme");
@@ -99,6 +88,9 @@ console.log('Final description length:', finalDescription.length);
   <body>
     <Header sticky={false} />
     <main class="w-full max-w-285 mx-auto px-4 py-12">
+      <!-- 面包屑导航 -->
+      <Breadcrumb items={breadcrumbs} />
+      
       <article>
         <div class="hero-image w-full">
           {
@@ -138,11 +130,19 @@ console.log('Final description length:', finalDescription.length);
 
           <FrontMatter data={Astro.props} />
 
-          <div class="prose">
+          <!-- 文章内容 -->
+          <div class="prose w-full max-w-200 mx-auto">
             <slot />
           </div>
         </div>
       </article>
+       
+      <!-- 上一篇下一篇导航 -->
+      <PostNavigation currentPost={{
+        id: Astro.props.originalId || Astro.url.pathname,
+        collection: "blog",
+        data: Astro.props
+      }} />
     </main>
     <Footer />
   </body>

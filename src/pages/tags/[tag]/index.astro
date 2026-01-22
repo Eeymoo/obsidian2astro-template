@@ -4,6 +4,8 @@ import BaseHead from "../../../components/BaseHead.astro";
 import Footer from "../../../components/Footer.astro";
 import Header from "../../../components/Header.astro";
 import PostDate from "../../../components/PostDate.astro";
+import StructuredData from "../../../components/StructuredData.astro";
+import Breadcrumb from "../../../components/Breadcrumb.astro";
 import { SITE_DESCRIPTION, SITE_TITLE } from "../../../consts";
 import { generatePostSlug, generateTagSlug, filterContent } from "../../../utils";
 
@@ -39,12 +41,52 @@ const tag =
 const allPosts = filterContent(await getCollection("blog"))
   .filter((p) => (p.data.tags || []).includes(tag))
   .sort((a, b) => b.data.date?.valueOf() - a.data.date?.valueOf());
+
+// 生成面包屑导航
+const breadcrumbs = [
+  { name: '首页', url: '/' },
+  { name: '标签', url: '/tags/' },
+  { name: tag, url: Astro.url.pathname }
+];
+
+// 标签页面结构化数据
+const tagStructuredData = {
+  "@type": "CollectionPage",
+  name: `${tag} - ${SITE_TITLE}`,
+  description: `浏览${tag}标签下的所有技术文章，共${allPosts.length}篇文章`,
+  url: Astro.url.href,
+  inLanguage: "zh-CN",
+  isPartOf: {
+    "@type": "WebSite",
+    "@id": `${Astro.url.origin}/`,
+    name: SITE_TITLE
+  },
+  mainEntity: {
+    "@type": "ItemList",
+    numberOfItems: allPosts.length,
+    itemListElement: allPosts.map((post, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      item: {
+        "@type": "BlogPosting",
+        name: post.data.title,
+        url: `${Astro.url.origin}/post/${generatePostSlug(post)}.html`,
+        datePublished: post.data.date.toISOString()
+      }
+    }))
+  }
+};
 ---
 
 <!doctype html>
-<html lang="en" class="scroll-smooth">
+<html lang="zh-CN" class="scroll-smooth">
   <head>
-    <BaseHead title={`${SITE_TITLE} · ${tag}`} description={SITE_DESCRIPTION} />
+    <BaseHead 
+      title={`${tag} - ${SITE_TITLE}`} 
+      description={`浏览${tag}标签下的所有技术文章，共${allPosts.length}篇文章`}
+      keywords={[tag, "技术博客", "编程", "前端开发", "后端开发"].slice(0, 10)}
+    />
+    <StructuredData type="WebPage" data={tagStructuredData} />
     <script>
       const savedTheme = localStorage.getItem("theme");
       const prefersDark = window.matchMedia(
@@ -59,6 +101,9 @@ const allPosts = filterContent(await getCollection("blog"))
   <body>
     <Header />
     <main class="w-full max-w-285 mx-auto px-4 py-12">
+      <!-- 面包屑导航 -->
+      <Breadcrumb items={breadcrumbs} />
+      
       <section>
         <h1 class="m-0 mb-6 text-xl font-bold text-primary dark:text-primary">
           {tag}
