@@ -11,71 +11,23 @@ import FrontMatter from "../components/FrontMatter.astro";
 import Tips from "../components/Tips.astro";
 import StructuredData from "../components/StructuredData.astro";
 import Breadcrumb from "../components/Breadcrumb.astro";
-import TableOfContents from "../components/TableOfContents.astro";
 
 import PostNavigation from "../components/PostNavigation.astro";
 import "../styles/global.css";
 
-/**
- * 从 Markdown 内容中提取纯文本描述
- */
-function extractDescriptionFromMarkdown(content: string, maxLength: number = 180): string {
-  if (!content) return '';
-  
-  // 移除 frontmatter
-  let cleanContent = content.replace(/^---\n.*?\n---\n/s, '');
-  
-  // 移除 Markdown 语法
-  cleanContent = cleanContent
-    // 移除标题标记
-    .replace(/^#{1,6}\s+/gm, '')
-    // 移除加粗和斜体
-    .replace(/\*\*(.*?)\*\*/g, '$1')
-    .replace(/\*(.*?)\*/g, '$1')
-    .replace(/__(.*?)__/g, '$1')
-    .replace(/_(.*?)_/g, '$1')
-    // 移除代码块
-    .replace(/```[\s\S]*?```/g, '')
-    // 移除行内代码
-    .replace(/`([^`]+)`/g, '$1')
-    // 移除链接，保留文本
-    .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')
-    // 移除图片
-    .replace(/!\[([^\]]*)\]\([^)]+\)/g, '')
-    // 移除引用
-    .replace(/^>\s+/gm, '')
-    // 移除列表标记
-    .replace(/^[-*+]\s+/gm, '')
-    .replace(/^\d+\.\s+/gm, '')
-    // 移除表格
-    .replace(/\|.*\|/g, '')
-    // 移除分隔线
-    .replace(/^---+$/gm, '')
-    // 移除多余的空白字符
-    .replace(/\n+/g, ' ')
-    .replace(/\s+/g, ' ')
-    .trim();
-  
-  // 限制长度
-  if (cleanContent.length > maxLength) {
-    return cleanContent.substring(0, maxLength).trim() + '...';
-  }
-  
-  return cleanContent;
-}
+
 
 type Props = Omit<CollectionEntry<"blog">["data"], "date" | "updated"> & {
   date: Date | string;
   updated?: Date | string;
   description?: string;
-  content?: string;
   originalId?: string;
 };
 
-const { title, date, updated, heroImage, tags, categories, description, content } = Astro.props;
+const { title, date, updated, heroImage, tags, categories, description } = Astro.props;
 
-// 计算最终描述：优先使用 frontmatter description，其次从内容提取
-const finalDescription = description || extractDescriptionFromMarkdown(content || '');
+// 使用 frontmatter description
+const finalDescription = description || '';
 
 // 生成面包屑导航
 const breadcrumbs = [
@@ -184,11 +136,6 @@ const structuredDataProps = {
           </div>
         </div>
       </article>
-      
-      <!-- 目录 -->
-      <div class="hidden lg:block fixed top-24 left-1/2 translate-x-96 w-64 max-h-screen overflow-y-auto">
-        <TableOfContents content={content} />
-      </div>
        
       <!-- 上一篇下一篇导航 -->
       <PostNavigation currentPost={{
