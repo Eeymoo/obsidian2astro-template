@@ -19,6 +19,19 @@ for (const post of posts) {
   groupedByYear[year].push(post);
 }
 const years = Object.keys(groupedByYear).sort((a, b) => Number(b) - Number(a));
+
+// Speculation Rules: prerender common navigation pages
+const speculationUrls = [
+  "/",           // Home page
+  "/post",       // Posts listing
+  "/categories", // Categories listing
+  "/tags",       // Tags listing
+];
+// Add URLs for the first few posts shown in archives
+posts.slice(0, 5).forEach((post) => {
+  const slug = generatePostSlug(post);
+  speculationUrls.push(`/post/${slug}.html`);
+});
 ---
 
 <!doctype html>
@@ -27,6 +40,8 @@ const years = Object.keys(groupedByYear).sort((a, b) => Number(b) - Number(a));
     <BaseHead
       title={`${SITE_TITLE} · Archives`}
       description={SITE_DESCRIPTION}
+      speculationUrls={speculationUrls}
+      speculationEagerness="moderate"
     />
     <script>
       const savedTheme = localStorage.getItem("theme");

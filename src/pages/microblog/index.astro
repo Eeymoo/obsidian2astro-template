@@ -14,6 +14,20 @@ const posts = await Promise.all(
     html: await render(post),
   }))
 );
+
+// Speculation Rules: prerender common navigation pages
+const speculationUrls = [
+  "/",           // Home page
+  "/post",       // Posts listing
+  "/categories", // Categories
+  "/tags",       // Tags
+  "/archives",   // Archives
+];
 ---
 
-<MicroblogLayout title="Microblog" posts={posts} />
+<MicroblogLayout 
+  title="Microblog" 
+  posts={posts}
+  speculationUrls={speculationUrls}
+  speculationEagerness="moderate"
+/>

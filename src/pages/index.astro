@@ -30,6 +30,17 @@ const homepageStructuredData = {
     "query-input": "required name=search_term_string"
   }
 };
+
+// Speculation Rules: hint important navigation paths for faster page loads
+const speculationUrls = [
+  "/post",           // Blog post listing page
+  "/categories",     // Categories listing
+  "/tags",           // Tags listing
+  "/archives",       // Archives page
+];
+if (allMicroblogs.length > 0) {
+  speculationUrls.push("/microblog");
+}
 ---
 
 <!doctype html>
@@ -39,6 +50,8 @@ const homepageStructuredData = {
       title={SITE_TITLE} 
       description={SITE_DESCRIPTION}
       keywords={["技术博客", "编程", "JavaScript", "TypeScript", "Vue", "React", "前端开发", "后端开发"]}
+      speculationUrls={speculationUrls}
+      speculationEagerness="moderate"
     />
     <StructuredData type="WebPage" data={homepageStructuredData} />
     <script>

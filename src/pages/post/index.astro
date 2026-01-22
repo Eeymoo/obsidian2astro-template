@@ -16,12 +16,25 @@ const image = {
   width: 1140,
   height: 360,
 };
+
+// Speculation Rules: prerender recent posts and related pages for faster navigation
+const speculationUrls = [
+  "/",              // Home page
+  "/categories",    // Categories listing
+  "/tags",          // Tags listing
+  "/archives",      // Archives page
+];
+// Add URLs for the first few posts
+posts.slice(0, 5).forEach((post) => {
+  const slug = generatePostSlug(post);
+  speculationUrls.push(`/post/${slug}.html`);
+});
 ---
 
 <!doctype html>
 <html lang="en" class="scroll-smooth">
   <head>
-    <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+    <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} speculationUrls={speculationUrls} speculationEagerness="moderate" />
     <script>
       // 防止闪烁：在页面加载前设置主题
       const savedTheme = localStorage.getItem("theme");

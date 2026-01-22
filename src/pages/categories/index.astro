@@ -19,6 +19,18 @@ for (const post of posts) {
 const categories = Array.from(categoryMap.entries())
   .map(([name, count]) => ({ name, count }))
   .sort((a, b) => b.count - a.count || a.name.localeCompare(b.name));
+
+// Speculation Rules: prerender common navigation pages
+const speculationUrls = [
+  "/",           // Home page
+  "/post",       // Posts listing
+  "/tags",       // Tags listing
+  "/archives",   // Archives page
+];
+// Add URLs for top categories
+categories.slice(0, 5).forEach(({ name }) => {
+  speculationUrls.push(`/categories/${generateCategorySlug(name)}`);
+});
 ---
 
 <!doctype html>
@@ -27,6 +39,8 @@ const categories = Array.from(categoryMap.entries())
     <BaseHead
       title={`${SITE_TITLE} · Categories`}
       description={SITE_DESCRIPTION}
+      speculationUrls={speculationUrls}
+      speculationEagerness="moderate"
     />
     <script>
       const savedTheme = localStorage.getItem("theme");
