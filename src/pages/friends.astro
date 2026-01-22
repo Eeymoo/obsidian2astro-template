@@ -6,12 +6,21 @@ import Links from "../components/Links.astro";
 import Tips from "../components/Tips.astro";
 import config from "../config";
 import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
+
+// Speculation Rules: hint common navigation paths
+const speculationUrls = [
+  "/",           // Home page
+  "/post",       // Posts listing
+  "/categories", // Categories
+  "/tags",       // Tags
+  "/archives",   // Archives
+];
 ---
 
 <!doctype html>
 <html lang="zh-CN">
   <head>
-    <BaseHead title={`友情链接 - ${SITE_TITLE}`} description="我的友情链接" />
+    <BaseHead title={`友情链接 - ${SITE_TITLE}`} description="我的友情链接" speculationUrls={speculationUrls} speculationEagerness="moderate" />
   </head>
   <body>
     <Header />

@@ -22,9 +22,21 @@ type Props = Omit<CollectionEntry<"blog">["data"], "date" | "updated"> & {
   updated?: Date | string;
   description?: string;
   originalId?: string;
+  speculationUrls?: string[];
+  speculationEagerness?: string;
 };
 
-const { title, date, updated, heroImage, tags, categories, description } = Astro.props;
+const { 
+  title, 
+  date, 
+  updated, 
+  heroImage, 
+  tags, 
+  categories, 
+  description,
+  speculationUrls = ["/", "/post", "/categories", "/tags", "/archives"],
+  speculationEagerness = "lazy"
+} = Astro.props;
 
 // 使用 frontmatter description
 const finalDescription = description || '';
@@ -70,6 +82,8 @@ const structuredDataProps = {
       publishedTime={date instanceof Date ? date.toISOString() : new Date(date).toISOString()}
       modifiedTime={updated ? (updated instanceof Date ? updated.toISOString() : new Date(updated).toISOString()) : undefined}
       articleSection={categories}
+      speculationUrls={speculationUrls}
+      speculationEagerness={speculationEagerness}
     />
     <StructuredData type="BlogPosting" data={structuredDataProps} />
     <script>

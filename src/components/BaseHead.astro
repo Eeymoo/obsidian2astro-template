@@ -17,6 +17,11 @@ interface Props {
   articleSection?: string;
   noindex?: boolean;
   canonical?: string;
+  // Optional: list of URLs (absolute or site-relative) to hint browsers to
+  // prerender/prefetch using the Speculation Rules API.
+  speculationUrls?: string[];
+  // Optional eagerness for speculation rules: e.g. "immediate" | "moderate" | "lazy"
+  speculationEagerness?: string;
 }
 
 const canonicalURL = new URL(Astro.props.canonical || Astro.url.pathname, Astro.site);
@@ -32,6 +37,9 @@ const {
   articleSection,
   noindex = false,
   canonical
+  ,
+  speculationUrls = [],
+  speculationEagerness = "lazy"
 } = Astro.props;
 
 // 生成关键词字符串
@@ -39,6 +47,29 @@ const keywordsString = keywords.length > 0 ? keywords.join(', ') : '';
 
 // 生成当前时间
 const currentDate = new Date().toISOString();
+
+// Generate Speculation Rules JSON
+let speculationRulesJSON = '';
+if (speculationUrls && speculationUrls.length > 0) {
+  const absoluteUrls = speculationUrls.map((u) => new URL(u, Astro.site).toString());
+  speculationRulesJSON = JSON.stringify({
+    prerender: [
+      {
+        source: "list",
+        urls: absoluteUrls,
+        eagerness: speculationEagerness,
+      },
+    ],
+    // Keep prefetch as a fallback for user agents where prerender may not run
+    prefetch: [
+      {
+        source: "list",
+        urls: absoluteUrls,
+        eagerness: speculationEagerness,
+      },
+    ],
+  });
+}
 ---
 
 <!-- Global Metadata -->
@@ -160,3 +191,8 @@ const currentDate = new Date().toISOString();
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
 <link rel="manifest" href="/site.webmanifest" />
+
+<!-- Speculation Rules: allow opt-in prerender/prefetch hints for supporting browsers -->
+{speculationRulesJSON && (
+  <script type="speculationrules" set:html={speculationRulesJSON} />
+)}

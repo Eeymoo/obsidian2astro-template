@@ -1,6 +1,14 @@
 ---
 import AboutHeroImage from '../assets/blog-placeholder-about.jpg';
 import Layout from '../layouts/BlogPost.astro';
+
+const speculationUrls = [
+  "/",           // Home page
+  "/post",       // Posts listing
+  "/categories", // Categories
+  "/tags",       // Tags
+  "/archives",   // Archives
+];
 ---
 
 <Layout
@@ -8,6 +16,8 @@ import Layout from '../layouts/BlogPost.astro';
 	description="Lorem ipsum dolor sit amet"
 	date={new Date('August 08 2021')}
 	heroImage={AboutHeroImage}
+	speculationUrls={speculationUrls}
+	speculationEagerness="moderate"
 >
 	<p>
 		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut

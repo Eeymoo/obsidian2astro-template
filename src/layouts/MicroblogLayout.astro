@@ -7,9 +7,16 @@ import { SITE_DESCRIPTION, SITE_TITLE } from "../consts";
 interface Props {
   title: string;
   posts: any[];
+  speculationUrls?: string[];
+  speculationEagerness?: string;
 }
 
-const { title, posts } = Astro.props;
+const { 
+  title, 
+  posts,
+  speculationUrls = ["/", "/post", "/categories", "/tags", "/archives"],
+  speculationEagerness = "lazy"
+} = Astro.props;
 ---
 
 <!doctype html>
@@ -18,6 +25,8 @@ const { title, posts } = Astro.props;
     <BaseHead
       title={`${SITE_TITLE} · ${title}`}
       description={SITE_DESCRIPTION}
+      speculationUrls={speculationUrls}
+      speculationEagerness={speculationEagerness}
     />
     <script>
       const savedTheme = localStorage.getItem("theme");
