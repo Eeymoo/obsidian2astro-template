@@ -14,7 +14,7 @@ const { sticky = true } = Astro.props;
 ---
 
 <header
-  class={`bg-white dark:bg-gray-900 px-3 sm:px-4 py-3 transition-colors ${sticky ? "sticky top-0 z-50" : ""}`}
+  class={`bg-white dark:bg-slate-950 px-3 sm:px-4 py-3 transition-colors ${sticky ? "sticky top-0 z-50" : ""}`}
 >
   <nav
     class="max-w-screen-xl mx-auto flex items-center justify-between gap-3 sm:gap-4 flex-wrap md:flex-nowrap lg:grid lg:grid-cols-[auto_1fr_auto] lg:items-center lg:gap-6"
@@ -23,7 +23,7 @@ const { sticky = true } = Astro.props;
       <!-- Mobile Menu Button (Left) -->
       <button
         id="mobile-menu-toggle"
-        class="md:hidden flex items-center justify-center w-10 h-10 text-gray-700 dark:text-gray-300 hover:bg-primary/10 dark:hover:bg-primary/20 transition-colors"
+        class="md:hidden flex items-center justify-center w-10 h-10 text-slate-700 dark:text-slate-300 hover:bg-primary/10 dark:hover:bg-primary/20 transition-colors"
         aria-label="Toggle menu"
       >
         <svg
@@ -46,7 +46,7 @@ const { sticky = true } = Astro.props;
       <h2 class="no-style text-base m-0 logo">
         <a
           href="/"
-          class="no-style underline decoration-primary hover:decoration-primary text-gray-900 dark:text-white transition-colors flex items-center justify-center md:justify-start"
+          class="no-style underline decoration-primary hover:decoration-primary text-slate-900 dark:text-slate-50 transition-colors flex items-center justify-center md:justify-start"
         >
           <Logo class="inline-block w-6 h-6 mr-2" />
         </a>
@@ -74,7 +74,7 @@ const { sticky = true } = Astro.props;
       <a
         href="/rss.xml"
         target="_blank"
-        class="w-10 h-10 flex items-center justify-center text-gray-700 hover:bg-primary/10 transition-colors dark:text-gray-300 dark:hover:bg-primary/20"
+        class="w-10 h-10 flex items-center justify-center text-slate-700 hover:bg-primary/10 transition-colors dark:text-slate-300 dark:hover:bg-primary/20"
       >
         <span class="sr-only">Subscribe to RSS</span>
         <svg
@@ -99,7 +99,7 @@ const { sticky = true } = Astro.props;
   <!-- Mobile Menu -->
   <div
     id="mobile-menu"
-    class="hidden md:hidden mt-4 pb-4 space-y-4 border-t border-gray-200 dark:border-gray-700 pt-4"
+    class="hidden md:hidden mt-4 pb-4 space-y-4 border-t border-slate-200 dark:border-slate-700 pt-4"
   >
     <SearchBox />
     <div class="internal-links flex flex-col gap-2">
@@ -107,34 +107,13 @@ const { sticky = true } = Astro.props;
         config.navLinks.map((link) => (
           <a
             href={link.href}
-            class="block px-3 py-2 text-gray-900 dark:text-white hover:bg-primary/10 dark:hover:bg-primary/20 transition-colors"
+            class="block px-3 py-2 text-slate-900 dark:text-slate-50 hover:bg-primary/10 dark:hover:bg-primary/20 transition-colors"
           >
             {link.name}
           </a>
         ))
       }
     </div>
-    <a
-      href="/rss.xml"
-      target="_blank"
-      class="flex items-center gap-2 px-3 py-2 text-gray-700 dark:text-gray-300 hover:bg-primary/10 dark:hover:bg-primary/20 transition-colors"
-    >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke-width="1.5"
-        stroke="currentColor"
-        class="size-5"
-      >
-        <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          d="M12.75 19.5v-.75a7.5 7.5 0 0 0-7.5-7.5H4.5m0-6.75h.75c7.87 0 14.25 6.38 14.25 14.25v.75M6 18.75a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z"
-        ></path>
-      </svg>
-      <span>Subscribe to RSS</span>
-    </a>
   </div>
 </header>
 
