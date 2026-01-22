@@ -27,6 +27,7 @@ const isTempUrl = !post.data?.uri;
   date={post.data.date.toISOString()}
   updated={post.data.updated?.toISOString()}
   content={post.body}
+  originalId={post.id}
 >
   {
     isTempUrl && (

@@ -9,6 +9,11 @@ import Tags from "../components/Tags.astro";
 import Categories from "../components/Categories.astro";
 import FrontMatter from "../components/FrontMatter.astro";
 import Tips from "../components/Tips.astro";
+import StructuredData from "../components/StructuredData.astro";
+import Breadcrumb from "../components/Breadcrumb.astro";
+import TableOfContents from "../components/TableOfContents.astro";
+
+import PostNavigation from "../components/PostNavigation.astro";
 import "../styles/global.css";
 
 /**
@@ -60,21 +65,61 @@ function extractDescriptionFromMarkdown(content: string, maxLength: number = 180
 }
 
 type Props = Omit<CollectionEntry<"blog">["data"], "date" | "updated"> & {
-  date: string;
-  updated?: string;
+  date: Date | string;
+  updated?: Date | string;
   description?: string;
   content?: string;
+  originalId?: string;
 };
 
 const { title, date, updated, heroImage, tags, categories, description, content } = Astro.props;
 
 // 计算最终描述：优先使用 frontmatter description，其次从内容提取
 const finalDescription = description || extractDescriptionFromMarkdown(content || '');
+
+// 生成面包屑导航
+const breadcrumbs = [
+  { name: '首页', url: '/' },
+  { name: '博客', url: '/post/' },
+  { name: title, url: Astro.url.pathname }
+];
+
+// 生成结构化数据
+const structuredDataProps = {
+  title,
+  description: finalDescription,
+  image: heroImage?.src,
+  datePublished: date instanceof Date ? date.toISOString() : new Date(date).toISOString(),
+  dateModified: updated ? (updated instanceof Date ? updated.toISOString() : new Date(updated).toISOString()) : (date instanceof Date ? date.toISOString() : new Date(date).toISOString()),
+  url: Astro.url.href,
+  keywords: tags || [],
+  author: {
+    name: "Eeymoo",
+    url: "https://blog.eeymoo.com"
+  },
+  publisher: {
+    name: "Eeymoo's Blog",
+    logo: "https://blog.eeymoo.com/logo.svg"
+  },
+  articleSection: categories,
+  inLanguage: "zh-CN",
+  blogUrl: "https://blog.eeymoo.com/",
+  blogName: "Eeymoo's Blog"
+};
 ---
 
-<html lang="en" class="scroll-smooth">
+<html lang="zh-CN" class="scroll-smooth">
   <head>
-    <BaseHead title={title} description={finalDescription} />
+    <BaseHead 
+      title={title} 
+      description={finalDescription} 
+      image={heroImage}
+      keywords={tags}
+      publishedTime={date instanceof Date ? date.toISOString() : new Date(date).toISOString()}
+      modifiedTime={updated ? (updated instanceof Date ? updated.toISOString() : new Date(updated).toISOString()) : undefined}
+      articleSection={categories}
+    />
+    <StructuredData type="BlogPosting" data={structuredDataProps} />
     <script>
       // 防止闪烁：在页面加载前设置主题
       const savedTheme = localStorage.getItem("theme");
@@ -91,6 +136,9 @@ const finalDescription = description || extractDescriptionFromMarkdown(content |
   <body>
     <Header sticky={false} />
     <main class="w-full max-w-285 mx-auto px-4 py-12">
+      <!-- 面包屑导航 -->
+      <Breadcrumb items={breadcrumbs} />
+      
       <article>
         <div class="hero-image w-full">
           {
@@ -130,11 +178,24 @@ const finalDescription = description || extractDescriptionFromMarkdown(content |
 
           <FrontMatter data={Astro.props} />
 
-          <div class="prose">
+          <!-- 文章内容 -->
+          <div class="prose w-full max-w-200 mx-auto">
             <slot />
           </div>
         </div>
       </article>
+      
+      <!-- 目录 -->
+      <div class="hidden lg:block fixed top-24 left-1/2 translate-x-96 w-64 max-h-screen overflow-y-auto">
+        <TableOfContents content={content} />
+      </div>
+       
+      <!-- 上一篇下一篇导航 -->
+      <PostNavigation currentPost={{
+        id: Astro.props.originalId || Astro.url.pathname,
+        collection: "blog",
+        data: Astro.props
+      }} />
     </main>
     <Footer />
   </body>

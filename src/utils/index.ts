@@ -5,20 +5,51 @@ import { generateCategorySlug } from './categories.ts';
 import { generateTagSlug } from './tags.ts';
 
 /**
- * 生成文章的固定链接 slug
- * @param post - 文章对象，包含 id 和 data.uri
- * @returns 文章的 slug
+ * 生成统一的 slug（用于文章、目录标题等URL生成）
+ * 规则：trim -> 去除标点 -> 空白/下划线/斜杠替换为 '-' -> 去重 '-' -> 去除首尾 '-'
+ * @param input - 输入文本或文章对象
+ * @param fallbackPrefix - 当生成的slug为空时的前缀，默认为'temporary-url'
+ * @returns 生成的 slug
  */
-export function generatePostSlug(post: { id: string; data: { uri?: string } }): string {
-  if (post.data.uri) {
-    return post.data.uri;
+export function generatePostSlug(input: string | { id: string; data: { uri?: string } }, fallbackPrefix: string = 'temporary-url'): string {
+  // 如果是文章对象，优先使用 uri
+  if (typeof input === 'object') {
+    if (input.data.uri) {
+      return input.data.uri;
+    }
+    // 如果没有uri，使用id生成
+    const text = input.id;
+    const slug = generateSlugFromText(text);
+    return slug || `${fallbackPrefix}/` + crypto
+      .createHash('sha256')
+      .update(input.id, 'utf8')
+      .digest('hex')
+      .slice(0, 32);
   }
-  const algorithm = 'sha256';
-  return 'temporary-url/' + crypto
-    .createHash(algorithm)
-    .update(post.id, 'utf8')
+  
+  // 如果是字符串，直接处理
+  const slug = generateSlugFromText(input);
+  return slug || `${fallbackPrefix}-${crypto
+    .createHash('sha256')
+    .update(input, 'utf8')
     .digest('hex')
-    .slice(0, 32);
+    .slice(0, 8)}`;
+}
+
+/**
+ * 从文本生成slug的核心函数
+ * @param text - 文本内容
+ * @returns 生成的 slug
+ */
+function generateSlugFromText(text: string): string {
+  if (typeof text !== 'string' || !text.trim()) return '';
+  let s = text.trim();
+  s = s.replace(/[!@#$%^&*()+=,.:;"'<>?`~\[\]{}]/g, '');
+  s = s.replace(/\s+/g, '-');
+  s = s.replace(/[_/\\]+/g, '-');
+  s = s.replace(/-{2,}/g, '-');
+  s = s.replace(/^-|-$/g, '');
+  return s;
 }
 
 /**
@@ -150,6 +181,23 @@ export function extractDescriptionFromContent(content: string, maxLength: number
   }
 
   return cleanContent;
+}
+
+/**
+ * 生成统一的标题 slug（与分类/标签slug保持一致的规则）
+ * 规则：trim -> 去除标点 -> 空白/下划线/斜杠替换为 '-' -> 去重 '-' -> 去除首尾 '-'
+ * @param text - 标题文本
+ * @returns 标题的 slug
+ */
+export function generateHeadingSlug(text: string): string {
+  if (typeof text !== 'string') return '';
+  let s = text.trim();
+  s = s.replace(/[!@#$%^&*()+=,.:;"'<>?`~\[\]{}]/g, '');
+  s = s.replace(/\s+/g, '-');
+  s = s.replace(/[_/\\]+/g, '-');
+  s = s.replace(/-{2,}/g, '-');
+  s = s.replace(/^-|-$/g, '');
+  return s;
 }
 
 // 统一导出所有 utils 方法和规则

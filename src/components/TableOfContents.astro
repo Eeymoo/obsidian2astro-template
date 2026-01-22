@@ -1,0 +1,193 @@
+---
+import { generatePostSlug } from "../utils/index.ts";
+
+export interface TocItem {
+  id: string;
+  text: string;
+  level: number;
+}
+
+export interface Props {
+  content?: string;
+  maxLevel?: number;
+  className?: string;
+}
+
+const { content, maxLevel = 3, className = '' } = Astro.props;
+
+// 从内容中提取标题
+function extractHeadings(content: string, maxLevel: number): TocItem[] {
+  if (!content) return [];
+  
+  const headingRegex = /^(#{1,6})\s+(.+)$/gm;
+  const headings: TocItem[] = [];
+  let match;
+
+  while ((match = headingRegex.exec(content)) !== null) {
+    const level = match[1].length;
+    if (level <= maxLevel) {
+      const text = match[2].trim();
+      const id = generatePostSlug(text);
+      
+      headings.push({
+        id,
+        text,
+        level
+      });
+    }
+  }
+
+  return headings;
+}
+
+const tocItems = extractHeadings(content || '', maxLevel);
+---
+
+{tocItems.length > 0 && (
+  <aside class={`table-of-contents ${className}`}>
+    <div class="toc-container sticky top-4">
+      <h2 class="toc-title text-lg font-semibold mb-4 text-gray-900 dark:text-gray-100">
+        Contents
+      </h2>
+      <nav class="toc-nav">
+        <ul class="toc-list space-y-2">
+          {tocItems.map((item) => (
+            <li 
+              class="toc-item" 
+              style={`margin-left: ${(item.level - 1) * 1}rem;`}
+            >
+              <a 
+                href={`#${item.id}`}
+                class="toc-link text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm block py-1 transition-colors duration-200"
+                data-level={item.level}
+              >
+                {item.text}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+    </div>
+  </aside>
+)}
+
+<script>
+  // 目录高亮当前阅读位置
+  document.addEventListener('DOMContentLoaded', () => {
+    const tocLinks = document.querySelectorAll('.toc-link');
+    const headings = document.querySelectorAll('article h1, article h2, article h3, article h4, article h5, article h6');
+    
+    if (tocLinks.length === 0) return;
+
+    // 使用generatePostSlug生成ID
+    function generateSlug(text: string): string {
+      if (typeof text !== 'string' || !text.trim()) return '';
+      let s = text.trim();
+      s = s.replace(/[!@#$%^&*()+=,.:;"'<>?`~\[\]{}]/g, '');
+      s = s.replace(/\s+/g, '-');
+      s = s.replace(/[_/\\]+/g, '-');
+      s = s.replace(/-{2,}/g, '-');
+      s = s.replace(/^-|-$/g, '');
+      return s;
+    }
+
+    // 确保标题有ID，并且与目录中的ID匹配
+    headings.forEach((heading: Element, index: number) => {
+      if (!(heading as HTMLElement).id) {
+        const text = heading.textContent || '';
+        const id = generateSlug(text) || `heading-${index}`;
+        (heading as HTMLElement).id = id;
+      }
+      
+      // 打印调试信息
+      console.log('Heading:', (heading as HTMLElement).textContent, 'ID:', (heading as HTMLElement).id);
+    });
+
+    // 打印目录链接调试信息
+    tocLinks.forEach((link) => {
+      console.log('TOC Link:', link.getAttribute('href'));
+    });
+
+    // 监听滚动更新高亮
+    function updateActiveToc() {
+      let activeHeading: Element | null = null;
+      headings.forEach((heading: Element) => {
+        const rect = heading.getBoundingClientRect();
+        if (rect.top <= 100) {
+          activeHeading = heading;
+        }
+      });
+
+      tocLinks.forEach((link: Element) => {
+        link.classList.remove('text-primary-600', 'dark:text-primary-400', 'font-medium');
+        link.classList.add('text-gray-600', 'dark:text-gray-400');
+      });
+
+      if (activeHeading) {
+        const activeLink = document.querySelector(`.toc-link[href="#${(activeHeading as HTMLElement).id}"]`);
+        if (activeLink) {
+          activeLink.classList.remove('text-gray-600', 'dark:text-gray-400');
+          activeLink.classList.add('text-primary-600', 'dark:text-primary-400', 'font-medium');
+        }
+      }
+    }
+
+    // 平滑滚动
+    tocLinks.forEach((link) => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const targetId = link.getAttribute('href')?.slice(1);
+        console.log('Clicked TOC link, target ID:', targetId);
+        
+        const targetHeading = document.getElementById(targetId || '');
+        console.log('Found heading:', targetHeading);
+        
+        if (targetHeading) {
+          const offset = 80; // 偏移量，避免标题被固定header遮挡
+          const elementPosition = targetHeading.getBoundingClientRect().top;
+          const offsetPosition = elementPosition + window.pageYOffset - offset;
+          
+          window.scrollTo({
+            top: offsetPosition,
+            behavior: 'smooth'
+          });
+        }
+      });
+    });
+
+    window.addEventListener('scroll', updateActiveToc);
+    updateActiveToc(); // 初始调用
+  });
+</script>
+
+<style>
+  .table-of-contents {
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .toc-link[data-level="1"] {
+    font-weight: 500;
+    font-size: 1rem;
+  }
+
+  .toc-link[data-level="2"] {
+    font-size: 0.875rem;
+  }
+
+  .toc-link[data-level="3"] {
+    font-size: 0.75rem;
+  }
+
+  .toc-link[data-level="4"],
+  .toc-link[data-level="5"],
+  .toc-link[data-level="6"] {
+    font-size: 0.75rem;
+  }
+
+  @media (max-width: 768px) {
+    .table-of-contents {
+      display: none;
+    }
+  }
+</style>
