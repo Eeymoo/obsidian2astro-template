@@ -6,6 +6,9 @@ import { defineConfig } from "astro/config";
 
 import tailwindcss from "@tailwindcss/vite";
 
+// Get git hash from environment variable
+const gitHash = process.env.VITE_GIT_HASH || 'unknown';
+
 // https://astro.build/config
 export default defineConfig({
   site: "https://blog.eeymoo.com",
@@ -25,5 +28,8 @@ export default defineConfig({
 
   vite: {
     plugins: [tailwindcss()],
+    define: {
+      'import.meta.env.__version__': JSON.stringify(process.env.VITE_GIT_HASH || gitHash),
+    },
   },
 });

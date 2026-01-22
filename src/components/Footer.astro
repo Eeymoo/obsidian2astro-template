@@ -1,8 +1,28 @@
 ---
 import config from "../config";
 import FooterLinks from "./FooterLinks.astro";
+import { generateColorFromHash } from "../utils/index";
 
 const today = new Date();
+
+// 获取版本信息
+const version = import.meta.env.__version__;
+const isDev = import.meta.env.DEV;
+
+// 构建版本链接
+let versionLink = "https://github.com/Eeymoo/obsidian2astro-template";
+let versionHash = "dev";
+
+if (isDev) {
+  versionLink = "https://github.com/Eeymoo/obsidian2astro-template";
+  versionHash = "dev";
+} else if (version && version !== 'unknown') {
+  versionLink = `https://github.com/Eeymoo/obsidian2astro-template/commit/${version}`;
+  versionHash = version;
+}
+
+// 根据哈希生成颜色
+const hashColor = generateColorFromHash(versionHash);
 ---
 
 <footer
@@ -13,11 +33,11 @@ const today = new Date();
       &copy; {today.getFullYear()} Eeymoo All rights reserved.
     </div>
     <div>
-      <a
+      Built on <a
         class="no-underline!"
-        href="https://github.com/Eeymoo/obsidian2astro-template"
-        target="_blank">Eeymoo 2026</a
-      > · <a class="no-underline!" href="https://astro.build/" target="_blank"
+        href={versionLink}
+        target="_blank">obsidian2astro-template<span style={`color: ${hashColor};`}>#{versionHash}</span></a
+      > / <a class="no-underline!" href="https://astro.build/" target="_blank"
         >Astro</a
       >
     </div>
