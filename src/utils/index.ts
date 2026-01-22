@@ -200,6 +200,41 @@ export function generateHeadingSlug(text: string): string {
   return s;
 }
 
+/**
+ * 根据哈希值生成颜色
+ * 直接使用哈希值的前6位作为颜色值（如果哈希值是有效的十六进制）
+ * @param hash - 哈希字符串
+ * @returns 生成的十六进制颜色值
+ */
+export function generateColorFromHash(hash: string): string {
+  if (!hash) return '#666666';
+  
+  // 如果哈希值只包含十六进制字符且长度 >= 6，直接使用前6位
+  const hexRegex = /^[0-9a-f]+$/i;
+  if (hexRegex.test(hash) && hash.length >= 6) {
+    return `#${hash.substring(0, 6)}`;
+  }
+  
+  // 如果哈希值不是纯十六进制，使用哈希算法生成颜色
+  let hashValue = 5381;
+  for (let i = 0; i < hash.length; i++) {
+    hashValue = (hashValue * 33) ^ hash.charCodeAt(i);
+  }
+  
+  // 生成3个颜色分量
+  const r = (hashValue & 0xFF0000) >> 16;
+  const g = (hashValue & 0x00FF00) >> 8;
+  const b = hashValue & 0x0000FF;
+  
+  // 调整亮度确保可读性
+  const adjust = (c: number) => {
+    const adjusted = Math.floor(100 + (c / 255) * 100);
+    return adjusted.toString(16).padStart(2, '0');
+  };
+  
+  return `#${adjust(r)}${adjust(g)}${adjust(b)}`;
+}
+
 // 统一导出所有 utils 方法和规则
 export { generateCategorySlug, generateTagSlug };
 export { filterContent } from './filterContent';

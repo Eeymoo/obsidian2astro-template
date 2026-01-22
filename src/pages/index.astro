@@ -8,6 +8,8 @@ import { getCollection, render } from "astro:content";
 import { filterContent } from "../utils";
 import "../styles/global.css";
 
+
+
 // 获取最新一条microblog
 const allMicroblogs = filterContent(await getCollection("blog"), 'microblog')
   .sort((a, b) => b.data.date?.valueOf() - a.data.date?.valueOf());
