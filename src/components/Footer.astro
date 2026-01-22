@@ -9,15 +9,16 @@ const today = new Date();
 const version = import.meta.env.__version__;
 const isDev = import.meta.env.DEV;
 
-// 构建版本链接
-let versionLink = "https://github.com/Eeymoo/obsidian2astro-template";
+// 构建版本链接（固定为指定的 tree URL，versionHash 保持动态用于显示）
+let versionLink = "https://github.com/Eeymoo/obsidian2astro-template/tree/7cae16f";
 let versionHash = "dev";
 
 if (isDev) {
-  versionLink = "https://github.com/Eeymoo/obsidian2astro-template";
+  versionLink = "https://github.com/Eeymoo/obsidian2astro-template/tree/7cae16f";
   versionHash = "dev";
 } else if (version && version !== 'unknown') {
-  versionLink = `https://github.com/Eeymoo/obsidian2astro-template/commit/${version}`;
+  // 当存在版本哈希时，使用对应的 tree URL（随 git 哈希 跟随）
+  versionLink = `https://github.com/Eeymoo/obsidian2astro-template/tree/${version}`;
   versionHash = version;
 }
 
