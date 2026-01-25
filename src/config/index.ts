@@ -13,18 +13,22 @@ const config: Config = {
     {
       name: "Blog",
       href: "/post",
+      children: [
+        { name: "MicroBlog", href: "/microblog" },
+        { name: "Archives", href: "/archives" },
+      ],
     },
     {
       name: "AICG",
       href: "/tags/AICG",
     },
+    // moved into Blog children
     {
-      name: "Microblog",
-      href: "/microblog",
-    },
-    {
-      name: "Archives",
-      href: "/archives",
+      name: "Tools",
+      disabled: true,
+      children: [
+        { name: "GOTO", href: "/goto" },
+      ],
     },
     {
       name: "Friends",

@@ -11,6 +11,8 @@ interface Props {
 }
 
 const { sticky = true } = Astro.props;
+// Cast `navLinks` to any to avoid type errors in Astro templates when iterating
+const navLinks: any = config.navLinks;
 ---
 
 <header
@@ -59,8 +61,31 @@ const { sticky = true } = Astro.props;
     >
       <div class="internal-links flex flex-wrap justify-center">
         {
-          config.navLinks.map((link) => (
-            <HeaderLink href={link.href}>{link.name}</HeaderLink>
+          navLinks.map((link: any) => (
+            <div class="relative group">
+              {
+                link.children ? (
+                  <button class:list={[
+                    "no-style inline-block px-2 mx-2 my-2 text-gray-700 dark:text-gray-300 underline hover:bg-primary/10 dark:hover:bg-primary/20 transition-colors rounded",
+                    { "font-black text-gray-900 dark:text-gray-200! decoration-primary!": false },
+                  ]} disabled={link.disabled}>
+                    {link.name}
+                  </button>
+                ) : (
+                  <HeaderLink href={link.href}>{link.name}</HeaderLink>
+                )
+              }
+
+              {link.children ? (
+                <div class="absolute left-0 mt-2 w-48 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all">
+                  <div class="p-2">
+                    {Array.isArray(link.children) && link.children.map((child: any) => (
+                      <a href={child.href} class="block px-3 py-2 text-sm text-slate-700 dark:text-slate-300 hover:bg-primary/10 rounded">{child.name}</a>
+                    ))}
+                  </div>
+                </div>
+              ) : null}
+            </div>
           ))
         }
       </div>
@@ -104,13 +129,24 @@ const { sticky = true } = Astro.props;
     <SearchBox />
     <div class="internal-links flex flex-col gap-2">
       {
-        config.navLinks.map((link) => (
-          <a
-            href={link.href}
-            class="block px-3 py-2 text-slate-900 dark:text-slate-50 hover:bg-primary/10 dark:hover:bg-primary/20 transition-colors"
-          >
-            {link.name}
-          </a>
+        navLinks.map((link: any) => (
+          link.children ? (
+            <div>
+              <div class="px-3 py-2 text-slate-900 dark:text-slate-50 font-semibold">{link.name}</div>
+              <div class="pl-4">
+                {Array.isArray(link.children) && link.children.map((c: any) => (
+                  <a href={c.href} class="block px-3 py-2 text-slate-900 dark:text-slate-50 hover:bg-primary/10 dark:hover:bg-primary/20 transition-colors">{c.name}</a>
+                ))}
+              </div>
+            </div>
+          ) : (
+            <a
+              href={link.href}
+              class="block px-3 py-2 text-slate-900 dark:text-slate-50 hover:bg-primary/10 dark:hover:bg-primary/20 transition-colors"
+            >
+              {link.name}
+            </a>
+          )
         ))
       }
     </div>

@@ -18,7 +18,11 @@ type DonateConfig = {
 
 type NavLink = {
   name: string;
-  href: string;
+  href?: string;
+  // optional children for dropdowns
+  children?: Array<NavLink>;
+  // disable clicking on the main item (useful for labels/groups)
+  disabled?: boolean;
 };
 
 type FriendlyLink = {
