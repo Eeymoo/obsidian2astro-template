@@ -53,7 +53,7 @@ import '../../styles/global.css';
 
       <!-- 操作按钮区域 -->
       <div class="flex flex-col sm:flex-row gap-8 justify-center items-center mt-8">
-        <!-- 手动跳转链接 -->
+        <!-- 立即跳转链接 -->
         <a 
           id="redirectLink" 
           href="#" 
@@ -62,13 +62,14 @@ import '../../styles/global.css';
           立即跳转
         </a>
 
-        <!-- 取消按钮 -->
-        <button 
-          id="cancelBtn" 
-          class="px-16 py-4 bg-gray-300 dark:bg-gray-600 text-gray-900 dark:text-white font-bold text-lg rounded-full hover:bg-gray-400 dark:hover:bg-gray-500 active:scale-95 transition-all duration-200 shadow-md hover:shadow-lg"
+        <!-- 取消链接 -->
+        <a
+          id="cancelBtn"
+          href="#"
+          class="no-style px-16 py-4 bg-gray-300 dark:bg-gray-600 text-gray-900 dark:text-white font-bold text-lg rounded-full hover:bg-gray-400 dark:hover:bg-gray-500 active:scale-95 transition-all duration-200 shadow-md hover:shadow-lg"
         >
           取消
-        </button>
+        </a>
       </div>
 
       <!-- 备注信息 -->
@@ -124,17 +125,18 @@ import '../../styles/global.css';
             }, 1000);
           }
           
-          if (cancelBtn) {
-            cancelBtn.addEventListener('click', () => {
-              if (redirectTimer) clearInterval(redirectTimer);
-              cancelBtn.textContent = '已取消';
-              cancelBtn.disabled = true;
-              if (countdownEl) {
-                countdownEl.classList.add('text-gray-400', 'dark:text-slate-500');
-                countdownEl.textContent = '已取消';
-              }
-            });
-          }
+           if (cancelBtn) {
+             cancelBtn.addEventListener('click', (e) => {
+               e.preventDefault();
+               if (redirectTimer) clearInterval(redirectTimer);
+               cancelBtn.textContent = '已取消';
+               cancelBtn.classList.add('pointer-events-none', 'opacity-50');
+               if (countdownEl) {
+                 countdownEl.classList.add('text-gray-400', 'dark:text-slate-500');
+                 countdownEl.textContent = '已取消';
+               }
+             });
+           }
           
           // 如果 stop=true，不自动跳转（只显示链接）
           if (!stop) {
