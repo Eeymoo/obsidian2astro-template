@@ -22,29 +22,58 @@ import '../../styles/global.css';
   </head>
   <body>
     <Header />
-    <main class="w-full max-w-285 mx-auto px-4 py-12">
-      <h1 class="text-5xl font-bold mb-6">🌀 页面跳转中...</h1>
-      <p class="mb-4">
-        正在为您跳转到目标页面，请稍候片刻。
-      </p>
-      <p class="mb-6">
-        <strong>目标地址：</strong><br />
-        <code class="bg-primary/10 dark:bg-primary/20 px-2 py-1 rounded text-gray-800 dark:text-gray-200 break-all" id="urlDisplay">获取中...</code>
-      </p>
-      <div class="mb-6 p-4 bg-primary/10 dark:bg-primary/20 border-l-4 border-primary rounded">
-        <p class="text-lg font-bold text-gray-900 dark:text-white mb-2">
-          倒计时：<span id="countdown" class="text-3xl text-primary">3</span> 秒
+    <main class="w-full max-w-2xl mx-auto px-4 py-16 min-h-screen flex flex-col justify-center">
+      <!-- 倒计时区域 - 高优先级展示 -->
+      <div id="countdownContainer" class="mb-12">
+        <div class="text-center">
+          <div class="inline-flex items-center justify-center w-32 h-32 rounded-full bg-gradient-to-br from-primary/20 to-primary/10 dark:from-primary/30 dark:to-primary/20 mb-6">
+            <span id="countdown" class="text-7xl font-bold text-primary">3</span>
+          </div>
+          <p class="text-xl text-gray-700 dark:text-gray-300">秒后跳转</p>
+        </div>
+      </div>
+
+      <!-- URL 展示区域 - 突出 -->
+      <div class="mb-8 p-6 bg-primary/5 dark:bg-primary/10 border-2 border-primary/30 dark:border-primary/40 rounded-lg">
+        <p class="text-sm text-gray-600 dark:text-gray-400 mb-3">目标网址</p>
+        <p id="urlDisplay" class="text-lg md:text-xl font-semibold text-primary break-all leading-relaxed">
+          获取中...
         </p>
       </div>
-      <p class="mb-6">
-        如果页面未能自动跳转，请
-        <a id="redirectLink" href="#" class="underline decoration-primary hover:decoration-primary hover:bg-primary/10 transition-colors rounded px-1">点击这里</a>
-        手动跳转。
+
+      <!-- 页面标题 -->
+      <h1 class="text-4xl md:text-5xl font-bold text-center mb-6 text-gray-900 dark:text-white">
+        🌐 重定向中
+      </h1>
+
+      <!-- 描述文本 -->
+      <p class="text-center text-gray-700 dark:text-gray-300 mb-8 text-base md:text-lg">
+        正在为您跳转到目标页面，请稍等...
       </p>
-      <p class="mb-4">
-        <button id="cancelBtn" class="px-4 py-2 bg-primary/20 hover:bg-primary/30 dark:bg-primary/30 dark:hover:bg-primary/40 text-gray-800 dark:text-white rounded transition-colors">
-          取消跳转
+
+      <!-- 操作按钮区域 -->
+      <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+        <!-- 手动跳转链接 -->
+        <a 
+          id="redirectLink" 
+          href="#" 
+          class="px-8 py-3 bg-primary text-white font-semibold rounded-lg hover:bg-primary/90 transition-all duration-200 shadow-md hover:shadow-lg"
+        >
+          立即跳转
+        </a>
+
+        <!-- 取消按钮 -->
+        <button 
+          id="cancelBtn" 
+          class="px-8 py-3 bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-white font-semibold rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-all duration-200"
+        >
+          取消
         </button>
+      </div>
+
+      <!-- 备注信息 -->
+      <p class="text-center text-xs text-gray-500 dark:text-gray-400 mt-12">
+        如果页面未能自动跳转，请点击上方"立即跳转"按钮
       </p>
     </main>
     <Footer />
@@ -111,10 +140,10 @@ import '../../styles/global.css';
           if (!stop) {
             startCountdown();
           } else {
-            // stop=true 时隐藏倒计时
-            const countdownDiv = document.querySelector('.mb-6 p-4');
-            if (countdownDiv) {
-              countdownDiv.style.display = 'none';
+            // stop=true 时隐藏倒计时容器
+            const countdownContainer = document.getElementById('countdownContainer');
+            if (countdownContainer) {
+              countdownContainer.style.display = 'none';
             }
           }
         }
