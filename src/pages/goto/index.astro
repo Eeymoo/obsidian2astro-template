@@ -26,10 +26,10 @@ import '../../styles/global.css';
       <!-- 倒计时区域 - 高优先级展示 -->
       <div id="countdownContainer" class="mb-12">
         <div class="text-center">
-          <div class="inline-flex items-center justify-center w-32 h-32 rounded-full bg-gradient-to-br from-primary/20 to-primary/10 dark:from-primary/30 dark:to-primary/20 mb-6">
-            <span id="countdown" class="text-7xl font-bold text-primary">3</span>
+          <div class="inline-flex items-center justify-center w-40 h-40 rounded-full bg-gradient-to-br from-primary via-primary/80 to-primary/60 shadow-lg mb-6">
+            <span id="countdown" class="text-8xl font-bold text-white drop-shadow-md">3</span>
           </div>
-          <p class="text-xl text-gray-700 dark:text-gray-300">秒后跳转</p>
+          <p class="text-2xl font-semibold text-gray-900 dark:text-white mt-4">秒后跳转</p>
         </div>
       </div>
 
@@ -52,12 +52,12 @@ import '../../styles/global.css';
       </p>
 
       <!-- 操作按钮区域 -->
-      <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+      <div class="flex flex-col sm:flex-row gap-4 justify-center items-center mt-8">
         <!-- 手动跳转链接 -->
         <a 
           id="redirectLink" 
           href="#" 
-          class="px-8 py-3 bg-primary text-white font-semibold rounded-lg hover:bg-primary/90 transition-all duration-200 shadow-md hover:shadow-lg"
+          class="px-12 py-4 bg-primary text-white font-bold text-lg rounded-full hover:bg-primary/90 active:scale-95 transition-all duration-200 shadow-lg hover:shadow-xl"
         >
           立即跳转
         </a>
@@ -65,7 +65,7 @@ import '../../styles/global.css';
         <!-- 取消按钮 -->
         <button 
           id="cancelBtn" 
-          class="px-8 py-3 bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-white font-semibold rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-all duration-200"
+          class="px-12 py-4 bg-gray-300 dark:bg-gray-600 text-gray-900 dark:text-white font-bold text-lg rounded-full hover:bg-gray-400 dark:hover:bg-gray-500 active:scale-95 transition-all duration-200 shadow-md hover:shadow-lg"
         >
           取消
         </button>
