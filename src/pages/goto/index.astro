@@ -33,7 +33,7 @@ import '../../styles/global.css';
       </p>
       <div class="mb-6 p-4 bg-primary/10 dark:bg-primary/20 border-l-4 border-primary rounded">
         <p class="text-lg font-bold text-gray-900 dark:text-white mb-2">
-          倒计时：<span id="countdown" class="text-3xl text-primary">5</span> 秒
+          倒计时：<span id="countdown" class="text-3xl text-primary">3</span> 秒
         </p>
       </div>
       <p class="mb-6">
@@ -50,11 +50,32 @@ import '../../styles/global.css';
     <Footer />
 
     <script>
-      // 获取 URL 参数
-      const urlParams = new URLSearchParams(window.location.search);
-      const url = urlParams.get('url');
+      // 获取目标 URL，支持两种格式：
+      // 1. 查询参数方式: /goto?url=https://example.com
+      // 2. 路径方式: /goto/https://example.com 或 /goto/example.com
       
-      // 如果没有 url 参数，跳转至首页
+      let url = '';
+      
+      // 首先尝试从查询参数获取
+      const urlParams = new URLSearchParams(window.location.search);
+      url = urlParams.get('url') || '';
+      
+      // 如果没有查询参数，尝试从路径获取
+      if (!url) {
+        const pathname = window.location.pathname;
+        // 匹配 /goto/ 后面的所有内容
+        const match = pathname.match(/^\/goto\/(.+)$/);
+        if (match && match[1]) {
+          url = decodeURIComponent(match[1]);
+        }
+      }
+      
+      // 确保 URL 有协议前缀
+      if (url && !url.match(/^[a-zA-Z][a-zA-Z0-9+.-]*:\/\//)) {
+        url = 'https://' + url;
+      }
+      
+      // 如果没有 URL 或 URL 无效，跳转至首页
       if (!url) {
         window.location.href = '/';
       } else {
@@ -69,8 +90,8 @@ import '../../styles/global.css';
           redirectLink.href = url;
         }
         
-        // 倒计时和跳转逻辑
-        let countdown = 5;
+        // 倒计时和跳转逻辑 - 默认 3 秒后跳转
+        let countdown = 3;
         const countdownEl = document.getElementById('countdown');
         const cancelBtn = document.getElementById('cancelBtn');
         let redirectTimer = null;
@@ -79,28 +100,31 @@ import '../../styles/global.css';
           redirectTimer = setInterval(() => {
             countdown--;
             if (countdownEl) {
-              countdownEl.textContent = countdown;
+              countdownEl.textContent = countdown.toString();
             }
             
             if (countdown <= 0) {
-              clearInterval(redirectTimer);
+              if (redirectTimer) clearInterval(redirectTimer);
               window.location.href = url;
             }
           }, 1000);
         }
         
-        cancelBtn.addEventListener('click', () => {
-          clearInterval(redirectTimer);
-          cancelBtn.textContent = '已取消';
-          cancelBtn.disabled = true;
-          if (countdownEl) {
-            countdownEl.classList.add('text-gray-400', 'dark:text-slate-500');
-            countdownEl.textContent = '已取消';
-          }
-        });
+        if (cancelBtn) {
+          cancelBtn.addEventListener('click', () => {
+            if (redirectTimer) clearInterval(redirectTimer);
+            cancelBtn.textContent = '已取消';
+            cancelBtn.disabled = true;
+            if (countdownEl) {
+              countdownEl.classList.add('text-gray-400', 'dark:text-slate-500');
+              countdownEl.textContent = '已取消';
+            }
+          });
+        }
         
         startCountdown();
       }
     </script>
   </body>
 </html>
+
