@@ -9,11 +9,47 @@ type Config = {
   friendlyLink: Array<FriendlyLink>;
   // 捐赠地址
   donate?: DonateConfig;
+  // 评论系统配置
+  comments: CommentsConfig;
+};
+
+type CommentsConfig = {
+  system: 'giscus' | 'gitalk';
+  giscus?: GiscusConfig;
+  gitalk?: GitalkConfig;
 };
 
 type DonateConfig = {
   etcAddress?: string;
   solAddress?: string;
+};
+
+type GiscusConfig = {
+  repo: string;
+  repoId: string;
+  category: string;
+  categoryId: string;
+  mapping?: string;
+  term?: string;
+  strict?: string;
+  reactionsEnabled?: string;
+  emitMetadata?: string;
+  inputPosition?: string;
+  theme?: string;
+  lang?: string;
+  loading?: string;
+};
+
+type GitalkConfig = {
+  clientID: string;
+  clientSecret: string;
+  repo: string;
+  owner: string;
+  admin: string[];
+  id?: string;
+  distractionFreeMode?: boolean;
+  language?: string;
+  proxy?: string;
 };
 
 type NavLink = {
@@ -31,4 +67,4 @@ type FriendlyLink = {
   desc: string;
   img: string;
 };
-export type { Config, NavLink, FriendlyLink, DonateConfig };
+export type { Config, NavLink, FriendlyLink, DonateConfig, GiscusConfig, GitalkConfig, CommentsConfig };

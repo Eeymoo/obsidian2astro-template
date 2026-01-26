@@ -63,5 +63,31 @@ const config: Config = {
     etcAddress: "0x5d0738e5904a1c8dad3f6ef71453a61caeebdd9d",
     solAddress: "FkdthSY7ciFDNQhsrHm3rt3mCHDUeubUG4uXqyKqZdjR",
   },
+  comments: {
+    system: 'giscus',
+    giscus: {
+      repo: "Eeymoo/Eeymoo.github.io",
+      repoId: "R_kgDON12345",
+      category: "General",
+      categoryId: "DIC_kwDON123456",
+      mapping: "pathname",
+      strict: "0",
+      reactionsEnabled: "1",
+      emitMetadata: "0",
+      inputPosition: "top",
+      theme: "preferred_color_scheme",
+      lang: "zh-CN",
+      loading: "lazy",
+    },
+    gitalk: {
+      clientID: "YOUR_GITHUB_APP_CLIENT_ID",
+      clientSecret: "YOUR_GITHUB_APP_CLIENT_SECRET",
+      repo: "Eeymoo.github.io",
+      owner: "Eeymoo",
+      admin: ["Eeymoo"],
+      language: "zh-CN",
+      distractionFreeMode: false,
+    },
+  },
 };
 export default config;

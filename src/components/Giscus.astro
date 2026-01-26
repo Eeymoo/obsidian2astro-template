@@ -1,0 +1,91 @@
+ ---
+import config from "../config/index.ts";
+
+const { comments } = config;
+const { giscus } = comments;
+
+if (!giscus) {
+  throw new Error("Giscus 配置未在 config/index.ts 中定义");
+}
+
+const {
+  repo,
+  repoId,
+  category,
+  categoryId,
+  mapping = "pathname",
+  strict = "0",
+  reactionsEnabled = "1",
+  emitMetadata = "0",
+  inputPosition = "top",
+  theme = "preferred_color_scheme",
+  lang = "zh-CN",
+  loading = "lazy",
+} = giscus;
+
+const finalMapping = mapping === "pathname" ? "pathname" : "specific";
+const finalTerm = mapping === "pathname" ? "" : (Astro.props.dataCustomId || Astro.url.pathname);
+---
+
+<aside class="w-full max-w-50rem mx-auto mt-12 pt-8 border-t border-slate-200 dark:border-slate-800 pt-4 border-t-0">
+  <script src="https://giscus.app/client.js"
+    data-repo={repo}
+    data-repo-id={repoId}
+    data-category={category}
+    data-category-id={categoryId}
+    data-mapping={finalMapping}
+    data-term={finalTerm}
+    data-strict={strict}
+    data-reactions-enabled={reactionsEnabled}
+    data-emit-metadata={emitMetadata}
+    data-input-position={inputPosition}
+    data-theme={theme}
+    data-lang={lang}
+    data-loading={loading}
+    crossorigin="anonymous"
+    async
+  >
+  </script>
+</aside>
+
+<script is:inline>
+  function initGiscus() {
+    const wrappers = document.querySelectorAll('[data-custom-id] div.giscus-wrapper');
+    
+    wrappers.forEach(wrapper => {
+      const customId = wrapper.closest('[data-custom-id]')?.dataset.customId;
+      if (!customId) return;
+      
+      const script = wrapper.querySelector('script[data-repo]');
+      if (script) {
+        script.dataset.term = customId;
+      }
+    });
+    
+    function updateGiscusTheme() {
+      const iframes = document.querySelectorAll('.giscus-frame');
+      const isDark = document.documentElement.classList.contains('dark');
+      
+      iframes.forEach(iframe => {
+        if (iframe.contentWindow) {
+          iframe.contentWindow.postMessage(
+            { giscus: { setConfig: { theme: isDark ? 'dark' : 'light' } } },
+            'https://giscus.app'
+          );
+        }
+      });
+    }
+    
+    const observer = new MutationObserver(updateGiscusTheme);
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['class']
+    });
+  }
+  
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initGiscus);
+  } else {
+    initGiscus();
+  }
+</script>

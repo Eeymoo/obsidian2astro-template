@@ -1,0 +1,20 @@
+ ---
+import config from "../config/index.ts";
+import Giscus from "./Giscus.astro";
+import Gitalk from "./Gitalk.astro";
+
+const { comments } = config;
+const { system } = comments;
+const dataCustomId = Astro.props.dataCustomId || Astro.url.pathname;
+---
+
+{system === 'giscus' && (
+  <div data-custom-id={dataCustomId}>
+    <Giscus dataCustomId={dataCustomId} />
+  </div>
+)}
+{system === 'gitalk' && (
+  <div data-custom-id={dataCustomId}>
+    <Gitalk dataCustomId={dataCustomId} />
+  </div>
+)}
