@@ -1,0 +1,45 @@
+---
+import { type CollectionEntry, getCollection, render } from "astro:content";
+import MicroblogPost from "../../layouts/MicroblogPost.astro";
+import { convertMdALinksToGoto, generatePostSlug, filterContent } from "../../utils";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("blog");
+
+  return filterContent(posts)
+    .filter(post => post.data.categories === 'microblog' || post.data.tags?.includes('microblog'))
+    .map((post) => ({
+      params: {
+        slug: generatePostSlug(post),
+      },
+      props: post,
+    }));
+}
+type Props = CollectionEntry<"blog">;
+
+let post = Astro.props;
+const { Content } = await render(post);
+const slug = generatePostSlug(post);
+const isTempUrl = !post.data?.uri;
+---
+
+<MicroblogPost
+  {...post.data}
+  date={post.data.date.toISOString()}
+  updated={post.data.updated?.toISOString()}
+  originalId={post.id}
+  slug={slug}
+>
+  {
+    isTempUrl && (
+      <div class="bg-yellow-50 dark:bg-yellow-900/20 border-l-4 border-yellow-400 p-4 mb-4">
+        <p class="text-yellow-800 dark:text-yellow-200">
+          这是一个临时URL，可能在后续被移除或更改。
+        </p>
+      </div>
+    )
+  }
+  <div class="prose dark:prose-invert max-w-none text-gray-600 dark:text-gray-300">
+    <Content />
+  </div>
+</MicroblogPost>

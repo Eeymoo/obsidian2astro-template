@@ -1,0 +1,92 @@
+---
+import BaseHead from "../components/BaseHead.astro";
+import Footer from "../components/Footer.astro";
+import Header from "../components/Header.astro";
+import PostDate from "../components/PostDate.astro";
+import Tips from "../components/Tips.astro";
+import Comments from "../components/Comments.astro";
+import "../styles/global.css";
+
+type Props = {
+  title: string;
+  date: Date | string;
+  updated?: Date | string;
+  description?: string;
+  originalId?: string;
+  slug: string;
+  speculationUrls?: string[];
+  speculationEagerness?: string;
+};
+
+const { 
+  title, 
+  date, 
+  updated, 
+  description,
+  slug,
+  speculationUrls = ["/", "/microblog", "/microblog/all", "/microblog/latest", "/microblog/today"],
+  speculationEagerness = "lazy"
+} = Astro.props;
+
+const finalDescription = description || '';
+
+const breadcrumbs = [
+  { name: '首页', url: '/' },
+  { name: 'Microblog', url: '/microblog/' },
+  { name: title, url: Astro.url.pathname }
+];
+---
+
+<html lang="zh-CN" class="scroll-smooth">
+  <head>
+    <BaseHead 
+      title={title} 
+      description={finalDescription}
+      publishedTime={date instanceof Date ? date.toISOString() : new Date(date).toISOString()}
+      modifiedTime={updated ? (updated instanceof Date ? updated.toISOString() : new Date(updated).toISOString()) : undefined}
+      speculationUrls={speculationUrls}
+      speculationEagerness={speculationEagerness}
+    />
+    <script>
+      const savedTheme = localStorage.getItem("theme");
+      const prefersDark = window.matchMedia(
+        "(prefers-color-scheme: dark)",
+      ).matches;
+      const isDark = savedTheme === "dark" || (!savedTheme && prefersDark);
+      if (isDark) {
+        document.documentElement.classList.add("dark");
+      }
+    </script>
+  </head>
+
+  <body>
+    <Header />
+    <main class="w-full max-w-285 mx-auto px-4 py-12">
+      <a href="/microblog/" class="inline-block mb-6 text-sm text-blue-600 dark:text-blue-400 hover:underline">
+        ← 返回 Microblog 列表
+      </a>
+      
+      <article>
+        <div class="prose w-full max-w-200 mx-auto px-4 text-slate-700 dark:text-slate-300">
+          <div class="title mb-4 py-4 leading-tight">
+            <h1 class="mb-2 text-lg font-bold">{title}</h1>
+
+            <div class="flex">
+              <PostDate
+                date={new Date(date)}
+                updated={updated ? new Date(updated) : undefined}
+              />
+            </div>
+          </div>
+
+          <div class="prose w-full max-w-200 mx-auto">
+            <slot />
+          </div>
+        </div>
+      </article>
+      
+      <Comments dataCustomId={slug} />
+    </main>
+    <Footer />
+  </body>
+</html>
