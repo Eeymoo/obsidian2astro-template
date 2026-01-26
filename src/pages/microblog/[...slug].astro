@@ -1,13 +1,12 @@
 ---
 import { type CollectionEntry, getCollection, render } from "astro:content";
-import MicroblogPost from "../../../layouts/MicroblogPost.astro";
-import { convertMdALinksToGoto, generatePostSlug, filterContent } from "../../../utils";
+import MicroblogPost from "../../layouts/MicroblogPost.astro";
+import { convertMdALinksToGoto, generatePostSlug, filterContent } from "../../utils";
 
 export async function getStaticPaths() {
   const posts = await getCollection("blog");
 
-  return filterContent(posts)
-    .filter(post => post.data.categories === 'microblog' || post.data.tags?.includes('microblog'))
+  return filterContent(posts, 'microblog')
     .map((post) => ({
       params: {
         slug: generatePostSlug(post),
