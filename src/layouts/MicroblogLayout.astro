@@ -3,6 +3,7 @@ import BaseHead from "../components/BaseHead.astro";
 import Footer from "../components/Footer.astro";
 import Header from "../components/Header.astro";
 import { SITE_DESCRIPTION, SITE_TITLE } from "../consts";
+import { generatePostSlug } from "../utils";
 
 interface Props {
   title: string;
@@ -57,16 +58,25 @@ const {
             <p class="text-gray-600 dark:text-gray-300">暂无内容。</p>
           ) : (
             <ul class="list-none m-0 p-0 space-y-4">
-              {posts.map((post) => (
-                <li class="pb-4 border-b border-gray-200 dark:border-gray-700 last:border-b-0">
-                  <div class="mb-2 text-sm text-gray-400 dark:text-gray-500">
-                    {post.data.date && new Date(post.data.date).toLocaleString('zh-CN')}
-                  </div>
-                  <div class="text-base prose dark:prose-invert max-w-none text-gray-600 dark:text-gray-300">
-                    <post.html.Content />
-                  </div>
-                </li>
-              ))}
+              {posts.map((post) => {
+                const slug = generatePostSlug(post);
+                return (
+                  <li class="pb-4 border-b border-gray-200 dark:border-gray-700 last:border-b-0">
+                    <div class="mb-2 text-sm text-gray-400 dark:text-gray-500">
+                      {post.data.date && new Date(post.data.date).toLocaleString('zh-CN')}
+                    </div>
+                    <div class="text-base prose dark:prose-invert max-w-none text-gray-600 dark:text-gray-300">
+                      <post.html.Content />
+                    </div>
+                    <a 
+                      href={`/microblog/${slug}`} 
+                      class="mt-2 inline-block text-sm text-primary hover:text-primary/80 transition-colors"
+                    >
+                      查看详情 →
+                    </a>
+                  </li>
+                );
+              })}
             </ul>
           )
         }
