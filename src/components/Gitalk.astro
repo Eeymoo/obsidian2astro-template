@@ -1,0 +1,84 @@
+---
+import config from "../config/index";
+
+const { comments } = config;
+const { gitalk } = comments;
+
+if (!gitalk) {
+  throw new Error("Gitalk 配置未在 config/index.ts 中定义");
+}
+
+const {
+  clientID,
+  clientSecret,
+  repo,
+  owner,
+  admin,
+  id,
+  distractionFreeMode = false,
+  language = "zh-CN",
+  proxy,
+} = gitalk;
+---
+
+<div class="w-full max-w-50rem mx-auto mt-12 pt-8 border-t border-slate-200 dark:border-slate-800">
+  <div id="gitalk-container"></div>
+</div>
+
+<aside
+  id="gitalk-config"
+  data-client-id={clientID}
+  data-client-secret={clientSecret}
+  data-repo={repo}
+  data-owner={owner}
+  data-admin={JSON.stringify(admin)}
+  data-id={id || Astro.url.pathname}
+  data-distraction-free-mode={String(distractionFreeMode)}
+  data-language={language}
+  data-proxy={proxy || ""}
+  class="hidden"
+></aside>
+
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1.8.0/dist/gitalk.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1.8.0/dist/gitalk.css">
+
+<script is:inline>
+  function initGitalk() {
+    const config = document.getElementById('gitalk-config');
+    const gitalk = new Gitalk({
+      clientID: config.dataset.clientId,
+      clientSecret: config.dataset.clientSecret,
+      repo: config.dataset.repo,
+      owner: config.dataset.owner,
+      admin: JSON.parse(config.dataset.admin),
+      id: config.dataset.id,
+      distractionFreeMode: config.dataset.distractionFreeMode === 'true',
+      language: config.dataset.language,
+      proxy: config.dataset.proxy,
+    });
+
+    gitalk.render('gitalk-container');
+
+    function updateGitalkTheme() {
+      const isDark = document.documentElement.classList.contains('dark');
+      const gtCommentContainer = document.querySelector('.gt-container');
+      if (gtCommentContainer) {
+        gtCommentContainer.dataset.colorMode = isDark ? 'dark' : 'light';
+      }
+    }
+
+    const observer = new MutationObserver(updateGitalkTheme);
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['class']
+    });
+
+    updateGitalkTheme();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initGitalk);
+  } else {
+    initGitalk();
+  }
+</script>

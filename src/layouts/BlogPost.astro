@@ -13,6 +13,7 @@ import StructuredData from "../components/StructuredData.astro";
 import Breadcrumb from "../components/Breadcrumb.astro";
 
 import PostNavigation from "../components/PostNavigation.astro";
+import Comments from "../components/Comments.astro";
 import "../styles/global.css";
 
 
@@ -157,6 +158,9 @@ const structuredDataProps = {
         collection: "blog",
         data: Astro.props
       }} />
+      
+      <!-- 评论区 -->
+      <Comments />
     </main>
     <Footer />
   </body>
