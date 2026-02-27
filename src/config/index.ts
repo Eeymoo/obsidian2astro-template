@@ -98,9 +98,9 @@ const config: Config = {
   goto: {
     path: '/tool/goto/',
     whiteList: [
-      '/^https?:\\/\\/github\\.com\\/eeymoo/i',          // GitHub 个人主页
+      '/^https?:\/\/github\.com\/eeymoo/i',          // GitHub 个人主页
       // '*.google.com/*',                              // 通配符：匹配所有 google.com 子域名的任意路径
-      // '/^https?:\\/\\/([^.]+\\.)*google\\.com\\//i',  // 正则：匹配 google.com 及其子域名
+      // '/^https?:\/\/([^.]+\.)*google\.com\//i',  // 正则：匹配 google.com 及其子域名
     ],
     friendlyLinkUseGoto: false,
     http: {
@@ -108,5 +108,12 @@ const config: Config = {
       showWarning: true,
     },
   },
+  bg: {
+    dotSize: 1,
+    dotSizeHighlight: 2,
+    dotGap: 33,
+    polygonSides: [3, 4, 6],
+  },
 };
+
 export default config;

@@ -13,6 +13,8 @@ type Config = {
   comments: CommentsConfig;
   // Goto 跳转配置
   goto?: GotoConfig;
+  // 背景配置
+  bg?: BgConfig;
 };
 
 type GotoConfig = {
@@ -23,6 +25,13 @@ type GotoConfig = {
     disableAutoRedirect: boolean;
     showWarning: boolean;
   };
+};
+
+type BgConfig = {
+  dotSize: number;          // 默认点半径
+  dotSizeHighlight: number; // 高亮点半径
+  dotGap: number;           // 点间距
+  polygonSides: number[];   // 多边形边数数组，从中随机选择
 };
 
 type CommentsConfig = {
@@ -79,4 +88,4 @@ type FriendlyLink = {
   desc: string;
   img: string;
 };
-export type { Config, NavLink, FriendlyLink, DonateConfig, GiscusConfig, GitalkConfig, CommentsConfig, GotoConfig };
+export type { Config, NavLink, FriendlyLink, DonateConfig, GiscusConfig, GitalkConfig, CommentsConfig, GotoConfig, BgConfig };

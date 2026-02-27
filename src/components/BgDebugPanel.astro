@@ -1,0 +1,156 @@
+---
+// 仅开发环境
+const isDev = import.meta.env.DEV;
+---
+
+{isDev && (
+  <div 
+    id="bg-debug-panel" 
+    class="fixed bottom-4 right-4 bg-white dark:bg-slate-900 p-4 rounded-lg shadow-lg z-[100] text-sm max-w-xs border border-slate-200 dark:border-slate-700"
+  >
+    <h3 class="font-bold mb-3 text-slate-900 dark:text-slate-100">背景调试面板</h3>
+    
+    <div class="space-y-3">
+      <!-- dotSize -->
+      <div>
+        <label class="block text-slate-700 dark:text-slate-300 mb-1">
+          点大小: <span id="dotSize-value">1</span>px
+        </label>
+        <input 
+          type="range" 
+          id="dotSize-slider" 
+          min="0.5" 
+          max="5" 
+          step="0.5" 
+          value="1"
+          class="w-full"
+        />
+      </div>
+      
+      <!-- dotSizeHighlight -->
+      <div>
+        <label class="block text-slate-700 dark:text-slate-300 mb-1">
+          高亮大小: <span id="dotSizeHighlight-value">2</span>px
+        </label>
+        <input 
+          type="range" 
+          id="dotSizeHighlight-slider" 
+          min="1" 
+          max="10" 
+          step="1" 
+          value="2"
+          class="w-full"
+        />
+      </div>
+      
+      <!-- dotGap -->
+      <div>
+        <label class="block text-slate-700 dark:text-slate-300 mb-1">
+          点间距: <span id="dotGap-value">33</span>px
+        </label>
+        <input 
+          type="range" 
+          id="dotGap-slider" 
+          min="10" 
+          max="100" 
+          step="5" 
+          value="33"
+          class="w-full"
+        />
+      </div>
+      
+      <!-- polygonSides -->
+      <div>
+        <label class="block text-slate-700 dark:text-slate-300 mb-1">
+          多边形边数:
+        </label>
+        <div class="flex flex-wrap gap-2">
+          <label class="flex items-center gap-1">
+            <input type="checkbox" id="sides-3" checked class="w-4 h-4" />
+            <span class="text-slate-700 dark:text-slate-300">3</span>
+          </label>
+          <label class="flex items-center gap-1">
+            <input type="checkbox" id="sides-4" checked class="w-4 h-4" />
+            <span class="text-slate-700 dark:text-slate-300">4</span>
+          </label>
+          <label class="flex items-center gap-1">
+            <input type="checkbox" id="sides-6" checked class="w-4 h-4" />
+            <span class="text-slate-700 dark:text-slate-300">6</span>
+          </label>
+        </div>
+        <p class="text-xs text-slate-500 mt-1">注：只有3、4、6边可以完美平铺平面</p>
+      </div>
+      
+      <!-- showLines -->
+      <div>
+        <label class="flex items-center gap-2">
+          <input type="checkbox" id="show-lines" class="w-4 h-4" />
+          <span class="text-slate-700 dark:text-slate-300">显示连线（调试）</span>
+        </label>
+      </div>
+      <!-- 重新随机按钮 -->
+      <button 
+        id="regenerate-btn"
+        class="w-full py-2 px-4 bg-primary/20 hover:bg-primary/30 rounded transition-colors text-slate-900 dark:text-slate-100"
+      >
+        重新生成
+      </button>
+    </div>
+  </div>
+)}
+
+<script>
+  import { updateConfig } from '../scripts/dot-background';
+  
+  // 获取控件
+  const dotSizeSlider = document.getElementById('dotSize-slider') as HTMLInputElement;
+  const dotSizeValue = document.getElementById('dotSize-value');
+  const dotSizeHighlightSlider = document.getElementById('dotSizeHighlight-slider') as HTMLInputElement;
+  const dotSizeHighlightValue = document.getElementById('dotSizeHighlight-value');
+  const dotGapSlider = document.getElementById('dotGap-slider') as HTMLInputElement;
+  const dotGapValue = document.getElementById('dotGap-value');
+  const sides3 = document.getElementById('sides-3') as HTMLInputElement;
+  const sides4 = document.getElementById('sides-4') as HTMLInputElement;
+  const sides6 = document.getElementById('sides-6') as HTMLInputElement;
+  const showLinesCheckbox = document.getElementById('show-lines') as HTMLInputElement;
+  const regenerateBtn = document.getElementById('regenerate-btn');
+  // 更新配置的辅助函数
+  function applyConfig() {
+    const sides: number[] = [];
+    if (sides3?.checked) sides.push(3);
+    if (sides4?.checked) sides.push(4);
+    if (sides6?.checked) sides.push(6);
+    
+    updateConfig({
+      dotSize: parseFloat(dotSizeSlider?.value || '1'),
+      dotSizeHighlight: parseInt(dotSizeHighlightSlider?.value || '2', 10),
+      dotGap: parseInt(dotGapSlider?.value || '33', 10),
+      polygonSides: sides.length > 0 ? sides : [3, 4, 6],
+      showLines: showLinesCheckbox?.checked ?? false,
+    });
+  }
+  
+  // 绑定事件
+  dotSizeSlider?.addEventListener('input', () => {
+    if (dotSizeValue) dotSizeValue.textContent = dotSizeSlider.value;
+    applyConfig();
+  });
+  
+  dotSizeHighlightSlider?.addEventListener('input', () => {
+    if (dotSizeHighlightValue) dotSizeHighlightValue.textContent = dotSizeHighlightSlider.value;
+    applyConfig();
+  });
+  
+  dotGapSlider?.addEventListener('input', () => {
+    if (dotGapValue) dotGapValue.textContent = dotGapSlider.value;
+    applyConfig();
+  });
+  
+  [sides3, sides4, sides6].forEach(el => {
+    el?.addEventListener('change', applyConfig);
+  });
+  
+  showLinesCheckbox?.addEventListener('change', applyConfig);
+  
+  regenerateBtn?.addEventListener('click', applyConfig);
+</script>
