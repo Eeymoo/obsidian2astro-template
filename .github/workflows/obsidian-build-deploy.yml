@@ -43,7 +43,7 @@ jobs:
         run: |
           mkdir -p src/content/blog
           if [ -d "obsidian-doc/${{ env.OBSIDIAN_CONTENT_PATH }}" ]; then
-            mv obsidian-doc/${{ env.OBSIDIAN_CONTENT_PATH }}/* src/content/blog/
+            cp -r obsidian-doc/${{ env.OBSIDIAN_CONTENT_PATH }}/* src/content/blog/
             echo "成功移动Obsidian博客内容"
           else
             echo "Obsidian博客目录不存在，跳过移动"
