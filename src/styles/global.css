@@ -405,3 +405,20 @@ html.dark .prose em:not(.no-style) {
 .active-link::first-letter {
 	color: var(--color-primary) !important;
 }
+
+.diff-content {
+	@apply p-4 rounded-lg overflow-x-auto text-sm leading-relaxed;
+	font-family: "SF Mono", "Menlo", "Ubuntu Mono", "Consolas", "Lucida Console", monospace;
+}
+
+.diff-unchanged {
+	@apply text-slate-600 dark:text-slate-400;
+}
+
+.diff-removed {
+	@apply bg-red-100 dark:bg-red-950/50 text-red-700 dark:text-red-300 line-through decoration-red-500/50;
+}
+
+.diff-added {
+	@apply bg-green-100 dark:bg-green-950/50 text-green-700 dark:text-green-300;
+}

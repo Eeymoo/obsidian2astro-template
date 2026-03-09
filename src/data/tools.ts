@@ -24,4 +24,9 @@ export const tools: ToolItem[] = [
     href: '/tool/gzip-compare',
     description: '输入两段文本，实时对比它们的 Gzip 压缩率和大小',
   },
+  {
+    name: '文本差异对比',
+    href: '/tool/text-compare',
+    description: '对比两段文本或代码的差异，支持多语言语法高亮',
+  },
 ];
