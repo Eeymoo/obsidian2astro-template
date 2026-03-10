@@ -300,7 +300,7 @@ function initEventListeners() {
 }
 
 // 页面加载完成后初始化
-document.addEventListener('DOMContentLoaded', async () => {
+async function init() {
   try {
     await initDiffEditor();
     initEventListeners();
@@ -316,4 +316,11 @@ document.addEventListener('DOMContentLoaded', async () => {
       `;
     }
   }
-});
+}
+
+// 确保 DOM 完全加载后再初始化
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', init);
+} else {
+  init();
+}
