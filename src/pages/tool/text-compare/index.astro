@@ -11,15 +11,15 @@ const speculationUrls = ["/", "/post", "/categories", "/tags", "/archives"];
 <html lang="zh-CN" class="scroll-smooth">
   <head>
     <BaseHead
-      title={`${SITE_TITLE} · 文本对比`}
-      description="对比两段文本的差异，支持行对比、字对比，多种布局模式"
+      title={`${SITE_TITLE} · 文本差异对比`}
+      description="对比两段文本或代码的差异，支持多语言语法高亮"
       speculationUrls={speculationUrls}
       speculationEagerness="moderate"
     />
   </head>
   <body class="min-h-screen flex flex-col">
     <Header />
-    <main class="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 py-10 text-base leading-relaxed">
+    <main class="flex-1 w-full max-w-6xl mx-auto px-4 sm:px-6 py-10 text-base leading-relaxed">
       <a href="/tool" class="no-style inline-flex items-center text-sm text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 transition-colors mb-6">
         <svg class="w-4 h-4 mr-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <polyline points="15 18 9 12 15 6"></polyline>
@@ -29,109 +29,121 @@ const speculationUrls = ["/", "/post", "/categories", "/tags", "/archives"];
 
       <section class="mb-6">
         <h1 class="text-2xl sm:text-3xl font-semibold tracking-tight text-slate-900 dark:text-slate-100">
-          文本对比
+          文本差异对比
         </h1>
         <p class="mt-2 text-sm text-slate-600 dark:text-slate-400">
-          对比两段文本的差异，支持行对比、字对比，多种布局模式
+          对比两段文本或代码的差异，支持多语言语法高亮
         </p>
       </section>
 
       <!-- 控制栏 -->
-      <div class="border border-slate-200 dark:border-slate-800 rounded-xl bg-white dark:bg-slate-900 p-4 sm:p-5 mb-5">
-        <div class="flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4 items-start sm:items-center justify-between">
-          <div class="flex flex-wrap gap-3 items-center">
-            <!-- 语言选择 -->
-            <div class="flex items-center gap-2">
-              <label class="text-sm font-medium text-slate-700 dark:text-slate-300 whitespace-nowrap">语言:</label>
-              <select id="language" class="px-3 py-2 border border-slate-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 text-sm focus:outline-none focus:border-primary/60 focus:ring-2 focus:ring-primary/20 transition-colors">
-                <option value="plaintext">纯文本</option>
-                <option value="javascript">JavaScript</option>
-                <option value="typescript">TypeScript</option>
-                <option value="html">HTML</option>
-                <option value="css">CSS</option>
-                <option value="json">JSON</option>
-                <option value="markdown">Markdown</option>
-                <option value="python">Python</option>
-                <option value="java">Java</option>
-                <option value="go">Go</option>
-                <option value="rust">Rust</option>
-              </select>
-            </div>
+      <div class="flex flex-wrap items-center gap-3 mb-4">
+        <div class="flex items-center gap-2">
+          <label class="text-sm text-slate-600 dark:text-slate-400">语言:</label>
+          <select
+            id="language-select"
+            class="px-3 py-1.5 border border-slate-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 text-sm focus:outline-none focus:border-primary/60 focus:ring-2 focus:ring-primary/20 transition-colors"
+          >
+            <option value="plaintext">纯文本</option>
+            <option value="javascript">JavaScript</option>
+            <option value="typescript">TypeScript</option>
+            <option value="python">Python</option>
+            <option value="java">Java</option>
+            <option value="csharp">C#</option>
+            <option value="cpp">C++</option>
+            <option value="go">Go</option>
+            <option value="rust">Rust</option>
+            <option value="html">HTML</option>
+            <option value="css">CSS</option>
+            <option value="json">JSON</option>
+            <option value="yaml">YAML</option>
+            <option value="markdown">Markdown</option>
+            <option value="sql">SQL</option>
+            <option value="bash">Bash</option>
+          </select>
+        </div>
 
-            <!-- 对比模式 -->
-            <div class="flex items-center gap-2">
-              <label class="text-sm font-medium text-slate-700 dark:text-slate-300 whitespace-nowrap">对比模式:</label>
-              <select id="compare-mode" class="px-3 py-2 border border-slate-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 text-sm focus:outline-none focus:border-primary/60 focus:ring-2 focus:ring-primary/20 transition-colors">
-                <option value="line">行对比</option>
-                <option value="word">字对比</option>
-                <option value="char">字符对比</option>
-              </select>
-            </div>
+        <div class="flex items-center gap-2">
+          <label class="text-sm text-slate-600 dark:text-slate-400">对比模式:</label>
+          <select
+            id="diff-mode"
+            class="px-3 py-1.5 border border-slate-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 text-sm focus:outline-none focus:border-primary/60 focus:ring-2 focus:ring-primary/20 transition-colors"
+          >
+            <option value="word">词语对比</option>
+            <option value="line">行对比</option>
+            <option value="char">字符对比</option>
+          </select>
+        </div>
 
-            <!-- 布局切换 -->
-            <div class="flex items-center gap-2">
-              <label class="text-sm font-medium text-slate-700 dark:text-slate-300 whitespace-nowrap">布局:</label>
-              <div class="flex rounded-lg overflow-hidden border border-slate-200 dark:border-slate-700">
-                <button id="layout-side-by-side" class="px-3 py-2 bg-primary/10 text-primary dark:bg-primary/20 text-sm font-medium transition-colors">
-                  并排
-                </button>
-                <button id="layout-inline" class="px-3 py-2 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 text-sm transition-colors">
-                  内嵌
-                </button>
-              </div>
-            </div>
+        <button
+          id="compare-btn"
+          class="px-4 py-1.5 bg-primary text-white text-sm font-medium rounded-lg hover:bg-primary/90 transition-colors"
+        >
+          对比
+        </button>
+
+        <button
+          id="clear-btn"
+          class="px-4 py-1.5 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 text-sm font-medium rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+        >
+          清空
+        </button>
+      </div>
+
+      <!-- 输入区域 -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-5 mb-5">
+        <div class="border border-slate-200 dark:border-slate-800 rounded-xl bg-white dark:bg-slate-900 p-5">
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-sm font-medium text-slate-900 dark:text-slate-100">原文</span>
+            <span id="original-stats" class="text-xs text-slate-400"></span>
           </div>
+          <textarea
+            id="text-original"
+            rows="12"
+            placeholder="输入原始文本..."
+            class="w-full px-4 py-2.5 border border-slate-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 text-sm placeholder:text-slate-400 focus:outline-none focus:border-primary/60 focus:ring-2 focus:ring-primary/20 transition-colors font-mono text-xs"
+          ></textarea>
+        </div>
 
-          <div class="flex flex-wrap gap-2 items-center">
-            <!-- 全屏切换 -->
-            <button id="toggle-fullscreen" class="px-3 py-2 border border-slate-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 text-sm font-medium transition-colors flex items-center gap-2">
-              <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path>
-              </svg>
-              全屏
-            </button>
-
-            <!-- 清空按钮 -->
-            <button id="clear-btn" class="px-4 py-2 border border-slate-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 text-sm font-medium transition-colors">
-              清空
-            </button>
-
-            <!-- 对比按钮 -->
-            <button id="compare-btn" class="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 text-sm font-medium transition-colors">
-              开始对比
-            </button>
+        <div class="border border-slate-200 dark:border-slate-800 rounded-xl bg-white dark:bg-slate-900 p-5">
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-sm font-medium text-slate-900 dark:text-slate-100">修改后</span>
+            <span id="modified-stats" class="text-xs text-slate-400"></span>
           </div>
+          <textarea
+            id="text-modified"
+            rows="12"
+            placeholder="输入修改后的文本..."
+            class="w-full px-4 py-2.5 border border-slate-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 text-sm placeholder:text-slate-400 focus:outline-none focus:border-primary/60 focus:ring-2 focus:ring-primary/20 transition-colors font-mono text-xs"
+          ></textarea>
         </div>
       </div>
 
-      <!-- 编辑器容器 -->
-      <div class="border border-slate-200 dark:border-slate-800 rounded-xl bg-white dark:bg-slate-900 mb-5 overflow-hidden">
-        <div id="editor-container" class="w-full h-[600px]"></div>
+      <!-- 结果区域 -->
+      <div
+        id="diff-result"
+        class="border border-slate-200 dark:border-slate-800 rounded-xl bg-white dark:bg-slate-900 p-5 sm:p-6 mb-6 min-h-[200px]"
+      >
+        <p class="text-sm text-slate-400 text-center">点击"对比"按钮查看差异结果</p>
       </div>
 
       <!-- 统计信息 -->
-      <div id="statistics" class="border border-slate-200 dark:border-slate-800 rounded-xl bg-white dark:bg-slate-900 p-5 mb-6">
-        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
-          <div class="text-center">
-            <p class="text-sm text-slate-500 dark:text-slate-400">原文字符数</p>
-            <p id="original-count" class="text-xl font-semibold text-slate-900 dark:text-slate-100">0</p>
-          </div>
-          <div class="text-center">
-            <p class="text-sm text-slate-500 dark:text-slate-400">修改后字符数</p>
-            <p id="modified-count" class="text-xl font-semibold text-slate-900 dark:text-slate-100">0</p>
-          </div>
-          <div class="text-center">
-            <p class="text-sm text-slate-500 dark:text-slate-400">差异行数</p>
-            <p id="diff-lines" class="text-xl font-semibold text-slate-900 dark:text-slate-100">0</p>
-          </div>
-          <div class="text-center">
-            <p class="text-sm text-slate-500 dark:text-slate-400">相似度</p>
-            <p id="similarity" class="text-xl font-semibold text-slate-900 dark:text-slate-100">0%</p>
-          </div>
+      <div id="diff-stats" class="grid grid-cols-3 gap-4 mb-6 hidden">
+        <div class="border border-slate-200 dark:border-slate-800 rounded-lg bg-green-50 dark:bg-green-950/30 p-4 text-center">
+          <p class="text-2xl font-semibold text-green-600 dark:text-green-400" id="stat-added">0</p>
+          <p class="text-xs text-green-700 dark:text-green-300">新增</p>
+        </div>
+        <div class="border border-slate-200 dark:border-slate-800 rounded-lg bg-red-50 dark:bg-red-950/30 p-4 text-center">
+          <p class="text-2xl font-semibold text-red-600 dark:text-red-400" id="stat-removed">0</p>
+          <p class="text-xs text-red-700 dark:text-red-300">删除</p>
+        </div>
+        <div class="border border-slate-200 dark:border-slate-800 rounded-lg bg-slate-50 dark:bg-slate-900/50 p-4 text-center">
+          <p class="text-2xl font-semibold text-slate-600 dark:text-slate-400" id="stat-unchanged">0</p>
+          <p class="text-xs text-slate-600 dark:text-slate-400">未变</p>
         </div>
       </div>
 
-      <!-- 说明区域 -->
+      <!-- 说明 -->
       <div class="border border-slate-200 dark:border-slate-800 rounded-xl bg-white dark:bg-slate-900 p-5">
         <h3 class="text-xs font-medium text-slate-500 dark:text-slate-500 uppercase tracking-wide mb-3">
           说明
@@ -139,29 +151,47 @@ const speculationUrls = ["/", "/post", "/categories", "/tags", "/archives"];
         <ul class="text-sm text-slate-600 dark:text-slate-400 space-y-2 list-none m-0 p-0">
           <li class="flex items-start gap-2">
             <span class="text-slate-400">•</span>
-            <span>支持多种编程语言语法高亮，自动识别或手动选择语言</span>
+            <span>支持词语、行、字符三种对比模式</span>
           </li>
           <li class="flex items-start gap-2">
             <span class="text-slate-400">•</span>
-            <span>三种对比模式：行对比（适合大段文本）、字对比（适合句子级差异）、字符对比（适合精确差异）</span>
+            <span>绿色表示新增内容，红色表示删除内容</span>
           </li>
           <li class="flex items-start gap-2">
             <span class="text-slate-400">•</span>
-            <span>两种布局模式：并排模式（左右分栏对比）、内嵌模式（逐行显示差异）</span>
+            <span>选择编程语言后会对代码进行语法高亮</span>
           </li>
           <li class="flex items-start gap-2">
             <span class="text-slate-400">•</span>
-            <span>支持全屏模式，方便查看长文本差异</span>
-          </li>
-          <li class="flex items-start gap-2">
-            <span class="text-slate-400">•</span>
-            <span>所有处理均在本地浏览器完成，不会上传您的文本内容</span>
+            <span>所有计算在浏览器端完成，不会上传数据</span>
           </li>
         </ul>
       </div>
     </main>
     <Footer />
-    
-    <script src="/src/scripts/text-compare.ts" is:inline></script>
+
+    <!-- 引入 highlight.js -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css" />
+    <script is:inline src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script is:inline src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/javascript.min.js"></script>
+    <script is:inline src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/typescript.min.js"></script>
+    <script is:inline src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/python.min.js"></script>
+    <script is:inline src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/java.min.js"></script>
+    <script is:inline src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/csharp.min.js"></script>
+    <script is:inline src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/cpp.min.js"></script>
+    <script is:inline src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/go.min.js"></script>
+    <script is:inline src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/rust.min.js"></script>
+    <script is:inline src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/xml.min.js"></script>
+    <script is:inline src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/css.min.js"></script>
+    <script is:inline src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/json.min.js"></script>
+    <script is:inline src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/yaml.min.js"></script>
+    <script is:inline src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/markdown.min.js"></script>
+    <script is:inline src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/bash.min.js"></script>
+    <script is:inline src="https://cdnjs.cloudflare.com/ajax/libs/diff_match_patch/20121119/diff_match_patch.js"></script>
+
+    <script>
+      import { initTextCompare } from "../../../scripts/text-compare.ts";
+      initTextCompare();
+    </script>
   </body>
 </html>
