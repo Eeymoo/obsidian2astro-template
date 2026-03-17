@@ -70,6 +70,12 @@ const config: Config = {
       desc: "一只20岁的小水獭的学习与成长记录 🦦",
       img: "https://avatars.githubusercontent.com/u/174967750?v=4",
     },
+    {
+      name: "zeroanon",
+      link: "https://zeroanon.com",
+      desc: "不做圣经里腐朽的诗集，要做禁书里最惊世骇俗的篇章",
+      img: "https://avatars.githubusercontent.com/u/119206123?v=4",
+    },
   ],
   donate: {
     etcAddress: "0x5d0738e5904a1c8dad3f6ef71453a61caeebdd9d",
