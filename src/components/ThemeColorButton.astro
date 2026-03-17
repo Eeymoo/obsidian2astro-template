@@ -213,7 +213,7 @@ function applyWithSweepAnimation(theme, useRawColor) {
 
 function loadTheme() {
   const saved = localStorage.getItem(storageKey);
-  if (!saved) return 'hash';
+  if (!saved) return 'default';
   return saved === 'default' ? 'default' : 'hash';
 }
 
@@ -245,7 +245,7 @@ if (savedTheme === 'hash' && config.needsAdjustment && !hasFirstAdjusted()) {
 toggle?.addEventListener('click', () => {
   if (isAnimating) return;
   isAnimating = true;
-  const currentTheme = toggle.getAttribute('data-color-theme') || 'hash';
+  const currentTheme = toggle.getAttribute('data-color-theme') || 'default';
   const nextTheme = cycleTheme(currentTheme);
   localStorage.setItem(storageKey, nextTheme);
   applyThemeColor(nextTheme, false);
