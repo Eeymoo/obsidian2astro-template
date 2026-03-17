@@ -237,9 +237,13 @@ const savedTheme = loadTheme();
 if (savedTheme === 'hash' && config.needsAdjustment && !hasFirstAdjusted()) {
   applyThemeColor('hash', true);
   setTimeout(async () => {
-    isAnimating = true;
-    await applyWithSweepAnimation('hash', false);
-    markFirstAdjusted();
+    // Only run the auto-adjustment animation if we're still on hash theme
+    const currentTheme = toggle.getAttribute('data-color-theme');
+    if (currentTheme === 'hash' && !hasFirstAdjusted()) {
+      isAnimating = true;
+      await applyWithSweepAnimation('hash', false);
+      markFirstAdjusted();
+    }
   }, 2000);
 } else if (savedTheme) {
   applyThemeColor(savedTheme);
