@@ -179,7 +179,8 @@ function applyThemeColor(theme, useRawColor) {
   } else {
     color = useRawColor && config.needsAdjustment ? config.rawHashColor : config.hashColor;
   }
-  root.style.setProperty('--color-primary', color);
+  // Use !important to override the @theme variable in Tailwind CSS 4.x
+  root.style.setProperty('--color-primary', color, 'important');
   toggle?.setAttribute('data-color-theme', theme);
   const indicator = toggle?.querySelector('.color-indicator');
   if (indicator) {
@@ -187,7 +188,7 @@ function applyThemeColor(theme, useRawColor) {
   }
   const versionHashEl = document.querySelector('.version-hash');
   if (versionHashEl) {
-    versionHashEl.style.color = config.hashColor;
+    versionHashEl.style.color = theme === 'default' ? color : config.hashColor;
   }
 }
 
