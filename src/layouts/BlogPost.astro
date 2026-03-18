@@ -151,5 +151,74 @@ const structuredDataProps = {
       <Comments />
     </main>
     <Footer />
+
+    <!-- ZoomImage 客户端脚本 -->
+    <script>
+      const isPC = () => window.matchMedia('(min-width: 768px) and (hover: hover)').matches;
+
+      if (isPC()) {
+        document.querySelectorAll('.zoom-image-wrapper').forEach((wrapper) => {
+          const img = wrapper.querySelector('.zoom-image-target') as HTMLImageElement;
+          const portal = wrapper.querySelector('.zoom-image-portal') as HTMLElement;
+          const zoomImg = portal.querySelector('[data-zoom-image]') as HTMLImageElement;
+          const isIcon = wrapper.getAttribute('data-is-icon') === 'true';
+
+          if (!img || !portal || !zoomImg) return;
+
+          const ZOOM_SIZE = 300;
+
+          img.addEventListener('mouseenter', () => {
+            portal.classList.remove('hidden');
+            
+            if (isIcon) {
+              zoomImg.style.width = `${ZOOM_SIZE}px`;
+              zoomImg.style.height = `${ZOOM_SIZE}px`;
+              zoomImg.style.objectFit = 'contain';
+            } else {
+              zoomImg.style.maxWidth = `${ZOOM_SIZE}px`;
+              zoomImg.style.width = 'auto';
+              zoomImg.style.height = 'auto';
+              zoomImg.style.objectFit = 'contain';
+            }
+
+            if (!isIcon) {
+              portal.style.right = '20px';
+              portal.style.bottom = '20px';
+              portal.style.left = 'auto';
+              portal.style.top = 'auto';
+            }
+          });
+
+          if (isIcon) {
+            img.addEventListener('mousemove', (e: MouseEvent) => {
+              const offset = 15;
+              let x = e.clientX + offset;
+              let y = e.clientY + offset;
+
+              if (x + ZOOM_SIZE > window.innerWidth) {
+                x = e.clientX - ZOOM_SIZE - offset;
+              }
+
+              if (y + ZOOM_SIZE > window.innerHeight) {
+                y = e.clientY - ZOOM_SIZE - offset;
+              }
+
+              portal.style.left = `${x}px`;
+              portal.style.top = `${y}px`;
+              portal.style.right = 'auto';
+              portal.style.bottom = 'auto';
+            });
+          }
+
+          img.addEventListener('mouseleave', () => {
+            portal.classList.add('hidden');
+          });
+        });
+      } else {
+        document.querySelectorAll('.zoom-image-target').forEach((img) => {
+          (img as HTMLElement).classList.remove('cursor-pointer');
+        });
+      }
+    </script>
   </body>
 </html>

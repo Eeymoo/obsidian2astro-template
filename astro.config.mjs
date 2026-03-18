@@ -7,6 +7,7 @@ import { defineConfig } from "astro/config";
 
 import tailwindcss from "@tailwindcss/vite";
 import rehypeGotoLinks from "./src/plugins/rehypeGotoLinks.ts";
+import rehypeZoomImages from "./src/plugins/rehypeZoomImages.ts";
 import remarkWikiLinks from "./src/plugins/remarkWikiLinks.ts";
 import remarkCitation from "./src/plugins/remarkCitation.ts";
 import rehypeCitation from "./src/plugins/rehypeCitation.ts";
@@ -39,7 +40,7 @@ export default defineConfig({
       wrap: true,
     },
     remarkPlugins: [remarkCitation, remarkWikiLinks],
-    rehypePlugins: [rehypeGotoLinks, rehypeCitation],
+    rehypePlugins: [rehypeGotoLinks, rehypeZoomImages, rehypeCitation],
     remarkRehype: {
       handlers: {
         citation: citationToHast,
