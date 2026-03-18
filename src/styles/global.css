@@ -422,3 +422,20 @@ html.dark .prose em:not(.no-style) {
 .diff-added {
 	@apply bg-green-100 dark:bg-green-950/50 text-green-700 dark:text-green-300;
 }
+
+/* ZoomImage 组件样式 */
+.zoom-image-wrapper {
+	@apply relative inline-block max-w-full;
+}
+
+.zoom-image-target {
+	@apply max-w-full h-auto rounded-lg;
+}
+
+.zoom-image-portal {
+	@apply bg-white/95 dark:bg-slate-950/95 p-2 rounded-lg;
+}
+
+.zoom-image-portal img {
+	@apply transition-opacity duration-200;
+}
