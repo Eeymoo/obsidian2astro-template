@@ -160,10 +160,13 @@ const structuredDataProps = {
         document.querySelectorAll('.zoom-image-wrapper').forEach((wrapper) => {
           const img = wrapper.querySelector('.zoom-image-target') as HTMLImageElement;
           const portal = wrapper.querySelector('.zoom-image-portal') as HTMLElement;
+          
+          if (!img || !portal) return;
+          
           const zoomImg = portal.querySelector('[data-zoom-image]') as HTMLImageElement;
           const isIcon = wrapper.getAttribute('data-is-icon') === 'true';
 
-          if (!img || !portal || !zoomImg) return;
+          if (!zoomImg) return;
 
           const ZOOM_SIZE = 300;
 
