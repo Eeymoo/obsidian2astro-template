@@ -1,6 +1,5 @@
 ---
 import config from "../config";
-import FooterLinks from "./FooterLinks.astro";
 import { generateColorFromHash } from "../utils/index";
 import { processLink } from "../utils/goto";
 import SearchModal from "./SearchModal.astro";
@@ -30,11 +29,37 @@ const hashColor = generateColorFromHash(versionHash);
 // 处理外链
 const processedVersionLink = processLink(versionLink);
 const astroLink = processLink("https://astro.build/");
-const githubLink = processLink("https://github.com/eeymoo");
+
+// 过滤有效的友情链接
+const friendLinks = config.friendlyLink.filter(link => link.link);
+
+// 动态生成友链轮播 keyframes（适配任意友链数量）
+// 共 N+1 个 item（N 个原始 + 1 个复制第一个），每个 item 高 40px
+// 总时长 = N * 5s，每个 item 在屏幕上停留约 5s
+const ITEM_H = 40; // h-10 = 40px
+const n = friendLinks.length; // 原始友链数
+const total = n + 1; // 含复制项
+// 每个 item 占用的百分比区间（含停留 + 过渡各 1%）
+const holdPct = Math.floor(100 / total) - 2; // 停留时间
+// 生成 keyframe stops
+const friendKeyframes = (() => {
+  if (n === 0) return '@keyframes friend-scroll {}';
+  let stops = '';
+  for (let i = 0; i < total; i++) {
+    const y = i * ITEM_H;
+    const startPct = Math.round(i * (100 / total));
+    const endPct = i < total - 1
+      ? Math.round((i + 1) * (100 / total)) - 2
+      : 100;
+    stops += `  ${startPct}%, ${endPct}% { transform: translateY(-${y}px); }\n`;
+  }
+  return `@keyframes friend-scroll {\n${stops}}`;
+})();
+const friendScrollDuration = `${n * 5}s`;
 ---
 
 <footer
-  class="mt-auto h-10 md:h-auto md:py-12 px-4 text-center text-gray-500 dark:text-gray-400 bg-linear-to-b from-gray-50 to-white dark:from-gray-800 dark:to-gray-900 transition-colors flex items-center justify-center md:block"
+  class="mt-auto h-10 px-4 text-center text-gray-500 dark:text-gray-400 bg-linear-to-b from-gray-50 to-white dark:from-gray-800 dark:to-gray-900 transition-colors flex items-center justify-center"
 >
   <!-- 移动端简化版本 (一行) -->
   <div class="md:hidden flex items-center justify-center gap-1 text-xs">
@@ -48,45 +73,96 @@ const githubLink = processLink("https://github.com/eeymoo");
     </span>
   </div>
   
-  <!-- 桌面端完整版本 -->
-  <div class="hidden md:block">
-    <div>
-      <div>
-        &copy; {today.getFullYear()} Eeymoo All rights reserved.
-      </div>
-      <div>
-        Built on <a
-          class="no-underline!"
-          href={processedVersionLink}
-          target="_blank">obsidian2astro-template<span class="version-hash" style={`color: ${hashColor};`} data-hash-color={hashColor}>#{versionHash}</span></a
-        > / <a class="no-underline!" href={astroLink} target="_blank"
-          >Astro</a
-        >
-      </div>
-      <div class="social-links flex justify-center gap-4 mt-4">
-        <a
-          href={githubLink}
-          target="_blank"
-          class="no-underline text-gray-500 dark:text-gray-400 hover:bg-primary/10 dark:hover:bg-primary/20 p-2 rounded transition-colors"
-        >
-          <span class="sr-only">Go to Eeymoo's GitHub</span>
-          <svg
-            viewBox="0 0 16 16"
-            aria-hidden="true"
-            width="32"
-            height="32"
-            astro-icon="social/github"
-            ><path
-              fill="currentColor"
-              d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"
-            ></path></svg
+  <!-- 桌面端完整版本 - 新布局 -->
+  <div class="hidden md:flex w-full items-center justify-between gap-4">
+    <!-- 左列：垂直轮播 -->
+    <div class="flex-1 h-10 overflow-hidden relative">
+      <div class="carousel-container absolute w-full" style="animation: vertical-scroll 15s linear infinite;">
+        <div class="h-10 flex items-center text-xs text-gray-500 dark:text-gray-400 text-left whitespace-nowrap">
+          © {today.getFullYear()} Eeymoo All rights reserved.
+        </div>
+        <div class="h-10 flex items-center text-xs text-gray-500 dark:text-gray-400 text-left whitespace-nowrap">
+          Built on <a
+            class="no-underline!"
+            href={processedVersionLink}
+            target="_blank">obsidian2astro-template<span class="version-hash" style={`color: ${hashColor};`} data-hash-color={hashColor}>#{versionHash}</span></a
+          > / <a class="no-underline!" href={astroLink} target="_blank"
+            >Astro</a
           >
-        </a>
+        </div>
+        <div class="h-10 flex items-center text-xs text-gray-500 dark:text-gray-400 text-left whitespace-nowrap">
+          © {today.getFullYear()} Eeymoo All rights reserved.
+        </div>
       </div>
+      <style>
+        @keyframes vertical-scroll {
+          0%,  30% { transform: translateY(0px);   }
+          33%, 63% { transform: translateY(-40px); }
+          66%, 96% { transform: translateY(-80px); }
+          100%     { transform: translateY(-80px); }
+        }
+      </style>
     </div>
-    <div>
-      <FooterLinks links={config.friendlyLink} />
+    
+    <!-- 右列：友情链接 + 更多按钮 - 新布局 -->
+    <div class="flex items-center gap-2">
+      <!-- GitHub Icon (LEFT side) -->
+      <a
+        href={"https://github.com/Eeymoo/obsidian2astro-template"}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="no-underline text-gray-500 dark:text-gray-400 hover:bg-primary/10 dark:hover:bg-primary/20 p-2 rounded transition-colors flex items-center justify-center"
+      >
+        <span class="sr-only">GitHub</span>
+        <svg
+          viewBox="0 0 16 16"
+          aria-hidden="true"
+          width="20"
+          height="20"
+          fill="currentColor"
+        >
+          <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
+        </svg>
+      </a>
+      
+      
+      <!-- Friend Link Carousel (MIDDLE) - shows 1 at a time -->
+      <div class="h-10 overflow-hidden relative" style="width: 120px;">
+        <div class="carousel-container absolute w-full" style={`animation: friend-scroll ${friendScrollDuration} linear infinite;`}>
+          {friendLinks.map(link => (
+            <div class="h-10 flex items-center text-xs whitespace-nowrap">
+              <a href={processLink(link.link)} target="_blank" rel="noopener noreferrer"
+                 class="group no-underline! text-gray-500 dark:text-gray-400 hover:bg-primary/10 dark:hover:bg-primary/20 p-2! rounded transition-all duration-300 ease-in-out">
+                <img src={link.img} alt={link.name} class="w-4 h-4 inline-block mr-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-in-out" />
+                {link.name}
+              </a>
+            </div>
+          ))}
+          {friendLinks.length > 0 && (
+            <div class="h-10 flex items-center text-xs whitespace-nowrap">
+              <a href={processLink(friendLinks[0].link)} target="_blank" rel="noopener noreferrer"
+                 class="group no-underline! text-gray-500 dark:text-gray-400 hover:bg-primary/10 dark:hover:bg-primary/20 p-2! rounded transition-all duration-300 ease-in-out">
+                <img src={friendLinks[0].img} alt={friendLinks[0].name} class="w-4 h-4 inline-block mr-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-in-out" />
+                {friendLinks[0].name}
+              </a>
+            </div>
+          )}
+        </div>
+      </div>
+      
+      <!-- More Button (RIGHT side) -->
+<a href="/friends" class="p-2 rounded flex items-center justify-center no-underline! text-gray-500 dark:text-gray-400 hover:bg-primary/10 dark:hover:bg-primary/20 transition-colors" aria-label="查看全部友链">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" width="20" height="20" fill="currentColor">
+    <path d="M0 256a56 56 0 1 1 112 0 56 56 0 1 1 -112 0zm168 0a56 56 0 1 1 112 0 56 56 0 1 1 -112 0zm224-56a56 56 0 1 1 0 112 56 56 0 1 1 0-112z"/>
+  </svg>
+</a>
     </div>
   </div>
+  <style set:html={`
+    ${friendKeyframes}
+    .carousel-container {
+      will-change: transform;
+    }
+  `}></style>
   <SearchModal hidden={true} />
 </footer>
