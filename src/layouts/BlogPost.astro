@@ -11,10 +11,10 @@ import FrontMatter from "../components/FrontMatter.astro";
 import Tips from "../components/Tips.astro";
 import StructuredData from "../components/StructuredData.astro";
 import Breadcrumb from "../components/Breadcrumb.astro";
+import MarkdownViewToggle from "../components/MarkdownViewToggle.astro";
 
 import PostNavigation from "../components/PostNavigation.astro";
 import Comments from "../components/Comments.astro";
-
 
 
 type Props = Omit<CollectionEntry<"blog">["data"], "date" | "updated"> & {
@@ -70,6 +70,11 @@ const structuredDataProps = {
   blogUrl: "https://blog.eeymoo.com/",
   blogName: "Eeymoo's Blog"
 };
+
+// 检查文章是否有标题（用于判断是否显示 markmap 切换按钮)
+const slotContent = await Astro.slots.render('default');
+// 过滤掉文章标题 h1，只匹配文章正文中的 h2-h6 标题
+const hasHeadings = /<h[2-6][^>]*>/.test(slotContent);
 ---
 
 <html lang="zh-CN" class="scroll-smooth">
@@ -133,13 +138,20 @@ const structuredDataProps = {
 
           <FrontMatter data={Astro.props} />
 
-          <!-- 文章内容 -->
-          <div class="prose w-full max-w-200 mx-auto">
-            <slot />
+          <!-- 视图切换按钮 -->
+          <MarkdownViewToggle postId={Astro.props.originalId || Astro.url.pathname} hasHeadings={hasHeadings} />
+
+          <!-- 文章内容容器 -->
+          <div class="article-content-wrapper">
+            <div class="article-content">
+              <div class="prose w-full max-w-200 mx-auto">
+                <Fragment set:html={slotContent} />
+              </div>
+            </div>
           </div>
         </div>
       </article>
-       
+        
       <!-- 上一篇下一篇导航 -->
       <PostNavigation currentPost={{
         id: Astro.props.originalId || Astro.url.pathname,
@@ -151,6 +163,12 @@ const structuredDataProps = {
       <Comments />
     </main>
     <Footer />
+
+    <!-- Markdown 视图切换脚本 -->
+    <script>
+      import { init } from '../scripts/markmap-view';
+      init();
+    </script>
 
     <!-- ZoomImage 客户端脚本 -->
     <script>
