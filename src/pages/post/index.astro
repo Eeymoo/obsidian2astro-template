@@ -44,7 +44,7 @@ posts.slice(0, 5).forEach((post) => {
   </head>
   <body class="min-h-screen flex flex-col">
     <Header />
-    <main class="flex-1 w-full max-w-285 mx-auto px-4 py-12">
+    <main class="flex-1 w-full max-w-285 mx-auto px-4 sm:px-6 py-12">
       <section>
         <ul
           class="grid grid-cols-1 gap-6 list-none m-0 p-0 sm:grid-cols-2"
@@ -56,7 +56,7 @@ posts.slice(0, 5).forEach((post) => {
                   <a
                     data-uri={post.data.uri}
                     href={getPostUrl(post)}
-                    class="no-style block bg-slate-50 dark:bg-slate-800/30 hover:bg-primary/20 p-3 sm:p-4 rounded-xl transition-colors"
+                    class="no-style block bg-slate-50 dark:bg-slate-800/30 hover:bg-primary/20 p-4 sm:p-5 rounded-xl transition-colors"
                   >
                     {post.data.heroImage && (
                       <Image

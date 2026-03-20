@@ -1,16 +1,137 @@
 [
   {
-    "id": "blog:test-citation",
+    "id": "blog:test-description",
     "type": "blog",
-    "title": "Citation 功能测试",
-    "uri": "/post/test-citation.html",
-    "date": "2026-03-05",
+    "title": "测试文章描述提取",
+    "uri": "/post/test-description.html",
+    "date": "2026-01-20",
     "tags": [
-      "测试",
-      "citation"
+      "测试"
     ],
-    "categories": "技术",
-    "description": "测试 citation 引用功能的各种场景"
+    "categories": "技术"
+  },
+  {
+    "id": "blog:obsidian-hexo-github-pages-github-actions-auto-deploy-blog",
+    "type": "blog",
+    "title": "Obsidian + Hexo + Github Pages + Github Actions 自动化部署博客",
+    "uri": "/post/obsidian-hexo-github-pages-github-actions-auto-deploy-blog.html",
+    "date": "2023-07-29 12:43:27",
+    "tags": "",
+    "categories": "DevOps"
+  },
+  {
+    "id": "blog:optimize-obsidian-github-pages-github-actions-auto-deploy-blog",
+    "type": "blog",
+    "title": "2026 年最新！Obsidian + Github Pages + Github Actions 自动化部署博客全攻略",
+    "uri": "/post/optimize-obsidian-github-pages-github-actions-auto-deploy-blog.html",
+    "date": "2026-01-06 03:54:34",
+    "tags": "",
+    "categories": "DevOps"
+  },
+  {
+    "id": "blog:奇思妙想-如何基于NRELECTRON实现跨PC移动端的项目",
+    "type": "blog",
+    "title": "如何基于NR+ELECTRON实现跨PC+移动端的项目",
+    "uri": "/post/奇思妙想-如何基于NRELECTRON实现跨PC移动端的项目.html",
+    "date": "2026-01-07 09:16:55",
+    "tags": "",
+    "categories": "跨平台"
+  },
+  {
+    "id": "blog:总结-2026-年-全新开始吧",
+    "type": "blog",
+    "title": "2026 年 全新开始吧",
+    "uri": "/post/总结-2026-年-全新开始吧.html",
+    "date": "2026-01-09 05:53:57",
+    "tags": "",
+    "categories": "总结"
+  },
+  {
+    "id": "blog:设计模式-单例模式-使用闭包完成单例模式开发",
+    "type": "blog",
+    "title": "单例模式 - 使用闭包完成单例模式开发",
+    "uri": "/post/设计模式-单例模式-使用闭包完成单例模式开发.html",
+    "date": "2023-09-01 06:23:23",
+    "tags": "",
+    "categories": "设计模式"
+  },
+  {
+    "id": "blog:设计模式-序",
+    "type": "blog",
+    "title": "序",
+    "uri": "/post/设计模式-序.html",
+    "date": "2023-09-01 06:23:54",
+    "tags": "",
+    "categories": "设计模式"
+  },
+  {
+    "id": "microblog:microblog-c7724e78-37f9-4f2b-97d5-b0fc416aa64a",
+    "type": "microblog",
+    "title": "随心小记01--2026降温",
+    "uri": "/microblog/microblog-c7724e78-37f9-4f2b-97d5-b0fc416aa64a",
+    "date": "2026-01-20 11:57:20",
+    "tags": "",
+    "categories": "microblog",
+    "description": "好冷啊，真不知道小时候没有羽绒服的时候怎么度过的，我依稀记得2008年的半腿高的大雪，去了姥爷家，那时候雪已经扫不动了，只有铁锹铲出的一条小路，只有铁锹宽的小路。"
+  },
+  {
+    "id": "blog:talk-about-css-selector-priority-calculation-rules",
+    "type": "blog",
+    "title": "一文说透！CSS 选择器优先级计算规则大揭秘",
+    "uri": "/post/talk-about-css-selector-priority-calculation-rules.html",
+    "date": "2022-05-31 19:39:00",
+    "tags": "",
+    "categories": "CSS"
+  },
+  {
+    "id": "blog:Web-标准-Javascript-Speculation-Rules-API-让网页更快的加载",
+    "type": "blog",
+    "title": "让时间快一点，再快一点！",
+    "uri": "/post/Web-标准-Javascript-Speculation-Rules-API-让网页更快的加载.html",
+    "date": "2026-01-12 10:35:16",
+    "tags": "",
+    "categories": "JavaScript"
+  },
+  {
+    "id": "blog:Web-标准-Javascript-test-citation-demo",
+    "type": "blog",
+    "title": "引用功能测试文章",
+    "uri": "/post/Web-标准-Javascript-test-citation-demo.html",
+    "date": "2026-03-06",
+    "tags": [
+      "测试"
+    ],
+    "categories": [
+      "JavaScript"
+    ],
+    "description": "测试各种引用语法的效果"
+  },
+  {
+    "id": "blog:exploration-on-object-order-in-javascript",
+    "type": "blog",
+    "title": "探索 JavaScript Object 顺序：从迷惑到通透，一文读懂",
+    "uri": "/post/exploration-on-object-order-in-javascript.html",
+    "date": "2023-08-18 17:47:53",
+    "tags": "",
+    "categories": "JavaScript"
+  },
+  {
+    "id": "blog:shu-zu-shi-fou-cun-zai-jiao-ji-de-xing-neng-you-hua-wen-ti-z1kwfix",
+    "type": "blog",
+    "title": "数组交集判断的性能优化：从双循环到双指针的多种方法",
+    "uri": "/post/shu-zu-shi-fou-cun-zai-jiao-ji-de-xing-neng-you-hua-wen-ti-z1kwfix.html",
+    "date": "2024-12-31 16:47:50",
+    "tags": "",
+    "categories": "JavaScript"
+  },
+  {
+    "id": "blog:shu-zu-shi-fou-cun-zai-jiao-ji-de-xing-neng-you-hua-wen-ti-z1kwfix",
+    "type": "blog",
+    "title": "数组交集判断的性能优化：从双循环到双指针的多种方法",
+    "uri": "/post/shu-zu-shi-fou-cun-zai-jiao-ji-de-xing-neng-you-hua-wen-ti-z1kwfix.html",
+    "date": "2024-12-31 16:47:50",
+    "tags": "",
+    "categories": "JavaScript"
   },
   {
     "id": "tool:/tool/goto",

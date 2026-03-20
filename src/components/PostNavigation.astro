@@ -31,13 +31,13 @@ const isPrevOnly = !!(prevPost && !nextPost);
 const isNextOnly = !!(nextPost && !prevPost);
 ---
 
-<nav class="post-navigation mt-12 pt-8">
+<nav class="post-navigation mt-10 pt-6 border-t border-slate-200 dark:border-slate-700">
   <div class="flex justify-between items-center">
     <!-- 上一篇 -->
     {prevPost && (
       <div class={isPrevOnly ? 'prev-post mx-auto text-center max-w-md' : 'prev-post text-left max-w-md'}>
         <a href={getPostUrl(prevPost)} 
-           class="no-style group block p-4 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors border-0 shadow-none focus:outline-none focus:ring-0">
+           class="no-style group block p-4 sm:p-5 rounded-xl hover:bg-primary/10 dark:hover:bg-primary/20 transition-colors border-0 shadow-none focus:outline-none focus:ring-0">
           <div class="text-sm text-gray-500 dark:text-gray-400 mb-2 flex items-center">
             <svg class={isPrevOnly ? 'w-4 h-4 mr-1 rotate-180' : 'w-4 h-4 mr-1'} fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
@@ -58,7 +58,7 @@ const isNextOnly = !!(nextPost && !prevPost);
     {nextPost && (
       <div class={isNextOnly ? 'next-post mx-auto text-center max-w-md' : 'next-post text-right max-w-md ml-auto'}>
         <a href={getPostUrl(nextPost)} 
-           class="no-style group block p-4 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors border-0 shadow-none focus:outline-none focus:ring-0">
+           class="no-style group block p-4 sm:p-5 rounded-xl hover:bg-primary/10 dark:hover:bg-primary/20 transition-colors border-0 shadow-none focus:outline-none focus:ring-0">
           <div class="text-sm text-gray-500 dark:text-gray-400 mb-2 flex items-center justify-end">
             下一篇
             <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">

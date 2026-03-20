@@ -28,7 +28,7 @@ const breadcrumbSchema = {
   <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema, null, 2)}></script>
 )}
 
-<nav aria-label="面包屑导航" class="breadcrumb-container">
+<nav aria-label="面包屑导航" class="breadcrumb-container mb-6">
   <ol class="breadcrumb-list flex flex-wrap items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
     {items.map((item, index) => (
       <li class="breadcrumb-item flex items-center">
@@ -53,12 +53,6 @@ const breadcrumbSchema = {
 </nav>
 
 <style>
-  .breadcrumb-container {
-    margin-bottom: 1.5rem;
-    padding-left: 1rem;
-    padding-right: 1rem;
-  }
-  
   .breadcrumb-item:last-child svg {
     display: none;
   }
