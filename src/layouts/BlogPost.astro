@@ -95,11 +95,11 @@ const hasHeadings = /<h[2-6][^>]*>/.test(slotContent);
 
   <body class="min-h-screen flex flex-col">
     <Header sticky={false} />
-    <main class="flex-1 w-full max-w-285 mx-auto px-4 py-12">
+    <main class="flex-1 w-full max-w-285 mx-auto px-4 sm:px-6 py-12">
       <!-- 面包屑导航 -->
       <Breadcrumb items={breadcrumbs} />
       
-      <article class="bg-slate-50 dark:bg-slate-800/30 rounded-xl p-4">
+      <article class="bg-slate-50 dark:bg-slate-800/30 rounded-xl p-6 sm:p-8 lg:p-10">
         <div class="hero-image w-full">
           {
             heroImage && (
@@ -113,11 +113,11 @@ const hasHeadings = /<h[2-6][^>]*>/.test(slotContent);
             )
           }
         </div>
-        <div class="prose w-full max-w-200 mx-auto px-4 text-slate-700 dark:text-slate-300">
-          <div class="title mb-4 py-4 text-center leading-tight">
-            <h1 class="mb-2 text-2xl sm:text-3xl md:text-4xl font-bold leading-tight">{title}</h1>
+        <div class="prose w-full max-w-200 mx-auto text-slate-700 dark:text-slate-300">
+          <div class="title mb-6 py-6 sm:py-10 text-center leading-tight">
+            <h1 class="mb-3 text-2xl sm:text-3xl md:text-4xl font-bold leading-tight">{title}</h1>
 
-            <div class="flex mb-2">
+            <div class="flex mb-3">
               <PostDate
                 date={new Date(date)}
                 updated={updated ? new Date(updated) : undefined}
