@@ -24,9 +24,9 @@ const config: Config = {
       ],
     },
     {
-      name: "AICG",
+      name: "Token Usage",
       href: "/tags/AICG/",
-    },
+    },,
     {
       name: "Tools",
       href: "/tool",
