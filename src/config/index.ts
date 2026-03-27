@@ -25,8 +25,8 @@ const config: Config = {
     },
     {
       name: "Token Usage",
-      href: "/tags/AICG/",
-    },,
+      href: "https://token.onemue.cn",
+    },
     {
       name: "Tools",
       href: "/tool",
