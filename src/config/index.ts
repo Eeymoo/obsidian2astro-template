@@ -24,10 +24,6 @@ const config: Config = {
       ],
     },
     {
-      name: "Token Usage",
-      href: "https://token.onemue.cn",
-    },
-    {
       name: "Tools",
       href: "/tool",
       activePattern: "^/tool",
@@ -39,6 +35,10 @@ const config: Config = {
     {
       name: "Friends",
       href: "/friends",
+    },
+    {
+      name: "Token Usage",
+      href: "https://grafana.onemue.cn/public-dashboards/8dadad8eace744ec8280b69ec8142451",
     },
     // {
     //   name: "donate",
