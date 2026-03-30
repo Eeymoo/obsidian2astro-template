@@ -38,7 +38,7 @@ const config: Config = {
     },
     {
       name: "Token Usage",
-      href: "https://grafana.onemue.cn/public-dashboards/8dadad8eace744ec8280b69ec8142451",
+      href: "https://grafana.onemue.cn/public-dashboards/46ce547ccdcb4df188300e93cc77b613",
     },
     // {
     //   name: "donate",
