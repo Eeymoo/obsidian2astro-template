@@ -29,4 +29,9 @@ export const tools: ToolItem[] = [
     href: '/tool/text-compare',
     description: '对比两段文本或代码的差异，支持多语言语法高亮',
   },
+  {
+    name: 'WebMCP 看板',
+    href: '/tool/webmcp',
+    description: '展示所有 WebMCP 连接，并提供文章内容读取能力',
+  },
 ];
